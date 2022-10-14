@@ -7,6 +7,10 @@ header.masthead {
   background-attachment: scroll;
   background-position: center center;
   background-size: cover;
+  .container {
+    z-index: 100000;
+    position: relative;
+  }
   .intro-text {
     padding-top: 150px;
     padding-bottom: 100px;
