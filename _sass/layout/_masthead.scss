@@ -25,6 +25,11 @@ header.masthead {
       @include heading-font;
     }
   }
+  canvas {
+    position: absolute;
+    top: 0%;
+    right: -2%;
+  }
 }
 @media (min-width: 768px) {
   header.masthead {

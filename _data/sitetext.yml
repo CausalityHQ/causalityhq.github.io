@@ -2,7 +2,7 @@
 # Work based on https://github.com/mmistakes/minimal-mistakes/blob/master/_data/ui-text.yml
 #
 # Configuration: Add to _config.yml
-# locale: "en-US"  [YOUR PREFERRED LOCALE]
+locale: "en-US"
 #
 # How to use:
 # {{ site.data.ui-text[site.locale].<var_name> | default: 'text' }}
@@ -11,8 +11,8 @@
 # -----------------
 en: &DEFAULT_EN
   header:
-    title: 0,5 + 0,7
-    text: RBR Racing
+    title: Cum hoc ergo propter hoc
+    text: Tackle your data with artificial intelligence
     button: Tell Me More
     buttonlink: "#services"
 
