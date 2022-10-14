@@ -7,8 +7,8 @@ header.masthead {
   background-attachment: scroll;
   background-position: center center;
   background-size: cover;
-  .container {
-    z-index: 100000;
+  a {
+    z-index: 10000;
     position: relative;
   }
   .intro-text {
