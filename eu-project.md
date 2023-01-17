@@ -2,7 +2,7 @@
 layout: page
 title: Projekt Unijny
 ---
-<img class="img-fluid d-block mx-auto" src="assets/img/ue-project/logotypy.png" alt="Projekt unijny baner">
+<img class="img-fluid d-block mx-auto" src="assets/img/eu-project/logotypy.png" alt="Projekt unijny baner">
 <div class="col-lg-12 text-center">
 	<h2 class="section-heading text-uppercase">Realizacja Projektu Unijnego</h2>
 </div>
