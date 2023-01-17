@@ -26,4 +26,4 @@ w ramach Działania 1.1: Projekty B+R przedsiębiorstw Poddziałanie 1.1.1 Badan
 </p>
 
 Nr Umowy: POIR.01.01.01-00-0178/22
-Instytucja pośrednicząca: Narodowe Centrum Badań i Rozwoju ([https://www.gov.pl/web/ncbr](https://www.gov.pl/web/ncbr))
+Instytucja pośrednicząca: Narodowe Centrum Badań i Rozwoju (<a href="https://www.gov.pl/web/ncbr" target="_blank">https://www.gov.pl/web/ncbr</a>)
