@@ -18,18 +18,18 @@ en: &DEFAULT_EN
 
   services:
     title: "Services"
-    text: "Lorem ipsum"
+    text: ""
     section: services
     list:
-      - title: "E-Commerce"
-        desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit."
-        icon: fas fa-shopping-cart #find more at https://fontawesome.com/icons
-      - title: "Responsive Design"
-        desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit."
-        icon: fas fa-laptop
-      - title: "Markdown"
-        desc: "Your description here, full **Markdown** support"
-        icon: fab fa-markdown
+      - title: "Machine Learning Services"
+        desc: "Utilising existing and training new models based on your internal data, using methods like transfer learning, active learning and self-supervision to decrease costs and increase the quality of models"
+        icon: fas fa-robot #find more at https://fontawesome.com/icons
+      - title: "Artificial Inteligence Research"
+        desc: "Creating tailored solutions that utilise state-of-the-art machine learning methods in order to solve your real business needs"
+        icon: fas fa-microchip
+      - title: "Software Development"
+        desc: "Building scalable, manageable and extendable software products that will help scale your business and bring it to the next level"
+        icon: fas fa-laptop-code
 
   # portfolio:
   #   title: "Portfolio"
@@ -70,8 +70,8 @@ en: &DEFAULT_EN
 
   about:
     title: "About Us"
-    text: "our story"
-    body: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde. **Markdown** supported."
+    text: "Who we are"
+    body: "We are a group of experienced **machine learning researchers** and **software developers** that are closing the gap between businesses and modern software solutions. Thanks to our services you are able to utilise **state-of-the-art** artificial intelligence methods in your daily work in order to grow your business without pain."
     section: about
 
   clients:
