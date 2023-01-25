@@ -1,6 +1,6 @@
 {% if page.background == "grey" or page.background == "gray" %}
 <script>
-document.getElementById("page-top").className="bg-light";
+  document.getElementById("page-top").className="bg-light";
 </script>
 {% endif %}
 
@@ -10,7 +10,7 @@ document.getElementById("page-top").className="bg-light";
     {% assign sorted = site.blog | sort: "date" | reverse %}
     {% for post in sorted %}
     <div class="card ml-5 mb-5" style="max-width: 350px;">
-      <img src="/{{ post.caption.thumbnail }}" class="card-img-top" alt="{{ post.alt  }}">
+      <img src="/{{ post.caption.thumbnail }}" class="card-img-top" alt="{{ post.alt }}">
       <div class="card-body">
         <h5 class="card-title">{{ post.title }}</h5>
         <h6 class="card-subtitle text-muted mb-2">{{ post.date | date: "%-d %B %Y" }}</h6>

@@ -20,7 +20,7 @@ analytics:
 collections:
   blog:
     output: true
-    permalink: /blog/:title
+    permalink: /:collection/:title
 
 markdown: kramdown
 
