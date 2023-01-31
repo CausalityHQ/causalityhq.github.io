@@ -35,22 +35,19 @@ en: &DEFAULT_EN
     section: about
 
   clients:
-    section: clients
+    section: partners
     max-height: 100px
-    horizontal-scrolling: "" #"yes/no"
+    horizontal-scrolling: "no" #"yes/no"
     list:
-      - title: "envato"
-        url: https://github.com/raviriley/agency-jekyll-theme
-        logo: assets/img/clients/envato.jpg
-      - title: "designmodo"
-        url: https://github.com/raviriley/agency-jekyll-theme
-        logo: assets/img/clients/designmodo.jpg
-      - title: "themeforest"
-        url: https://github.com/raviriley/agency-jekyll-theme
-        logo: assets/img/clients/themeforest.jpg
-      - title: "Creative Market"
-        url: https://github.com/raviriley/agency-jekyll-theme
-        logo: assets/img/clients/creative-market.jpg
+      - title: "grantland"
+        url: https://grantland.pl/
+        logo: assets/img/clients/grantland.png
+      - title: "nvidia"
+        url: https://www.nvidia.com/pl-pl/
+        logo: assets/img/clients/nvidia.png
+      - title: "ncbr"
+        url: https://www.gov.pl/web/ncbr
+        logo: assets/img/clients/ncbr.png
 
   contact:
     title: "Contact Us"
