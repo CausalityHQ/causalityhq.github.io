@@ -1,13 +1,16 @@
 #theme: jekyll-agency
 remote_theme: raviriley/agency-jekyll-theme
 
-url    : "" # the base hostname & protocol for your site, e.g. http://example.com
+url    : "https://causality.pl" # the base hostname & protocol for your site, e.g. http://example.com
 baseurl: "" # the subpath of your site, e.g. /blog
 
 title      : Causality
 email      : jakub.kopyto@causality.pl #this is also the email contact forms will go to
 description: "Causality - machine learning researcher, software development and more"
 author     : Causality
+keywords   : "causality,machine,learning,software,development"
+og:
+  image: /android-chrome-512x512.png
 logo:     #optional, defaults to site title
   path: assets/img/brand/Causality-logos_monster.png
   # height: 60 #height in px, defaults to 52px
