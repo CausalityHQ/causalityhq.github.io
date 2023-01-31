@@ -24,10 +24,11 @@
   <meta name="robots" content="index,follow" />
 
   <meta property="og:image" content="{{ site.url }}{% if page.caption.thumbnail  %}/{{ page.caption.thumbnail }}{% else %}{{ site.og.image }}{% endif %}" />
+  <meta property="og:image:secure_url" content="{{ site.url }}{% if page.caption.thumbnail  %}/{{ page.caption.thumbnail }}{% else %}{{ site.og.image }}{% endif %}" />
   <meta property="og:description" content="{{ site.description }}" />
   <meta property="og:url" content="{{ site.url }}" />
   <meta property="og:title" content="{% if page.title %}{{ page.title | append: " | " | append: site.title }}{% else %}{{ site.title }}{% endif %}" />
-
+  <meta property="og:type" content="website" />
 
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
