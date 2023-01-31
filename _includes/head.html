@@ -23,7 +23,7 @@
   <meta name="keywords" content="{{ site.keywords }}" />
   <meta name="robots" content="index,follow" />
 
-  <meta property="og:image" content="{{ site.url }}/{% if page.image  %}/{{ page.image }}{% else %}{{ site.og.image }}{% endif %}" />
+  <meta property="og:image" content="{{ site.url }}{% if page.caption.thumbnail  %}/{{ page.caption.thumbnail }}{% else %}{{ site.og.image }}{% endif %}" />
   <meta property="og:description" content="{{ site.description }}" />
   <meta property="og:url" content="{{ site.url }}" />
   <meta property="og:title" content="{% if page.title %}{{ page.title | append: " | " | append: site.title }}{% else %}{{ site.title }}{% endif %}" />
