@@ -34,20 +34,20 @@ en: &DEFAULT_EN
     body: "We are a group of experienced **machine learning researchers** and **software developers** that are closing the gap between businesses and modern software solutions. Thanks to our services you are able to utilise **state-of-the-art** artificial intelligence methods in your daily work in order to grow your business without pain."
     section: about
 
-  clients:
+  partners:
     section: partners
     max-height: 100px
     horizontal-scrolling: "no" #"yes/no"
     list:
       - title: "grantland"
         url: https://grantland.pl/
-        logo: assets/img/clients/grantland.png
+        logo: assets/img/partners/grantland.png
       - title: "nvidia"
         url: https://www.nvidia.com/pl-pl/
-        logo: assets/img/clients/nvidia.png
+        logo: assets/img/partners/nvidia.png
       - title: "ncbr"
         url: https://www.gov.pl/web/ncbr
-        logo: assets/img/clients/ncbr.png
+        logo: assets/img/partners/ncbr.png
 
   contact:
     title: "Contact Us"
