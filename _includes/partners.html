@@ -1,0 +1,30 @@
+<!-- Partners -->
+{% if site.locale and site.locale != "" and site.locale != nil %}
+  <section class="py-5" id="{{ site.data.sitetext[site.locale].partners.section | default: "partners" }}">
+    <div class="container">
+      <div class="row" style="justify-content: center;" {% if site.data.sitetext[site.locale].partners.horizontal-scrolling == "yes" %} id="scrolling-partners" {% endif %}>
+	    {% for partner in site.data.sitetext[site.locale].partners.list %}
+        <div class="col-md-3 col-sm-6">
+          <a href="{{ partner.url }}">
+            <img class="img-fluid d-block mx-auto" src="{{ partner.logo }}" alt="{{ partner.title }}" style="max-height: {{ site.data.sitetext[site.locale].partners.max-height | default: "100px" }}">
+          </a>
+        </div>
+	    {% endfor %}
+      </div>
+    </div>
+  </section>
+{% else %}
+<section class="py-5" id="{{ site.data.sitetext.partners.section | default: "partners" }}">
+  <div class="container">
+    <div class="row" style="justify-content: center;" {% if site.data.sitetext.partners.horizontal-scrolling == "yes" %} id="scrolling-partners" {% endif %}>
+    {% for partner in site.data.sitetext.partners.list %}
+      <div class="col-md-3 col-sm-6">
+        <a href="{{ partner.url }}">
+          <img class="img-fluid d-block mx-auto" src="{{ partner.logo }}" alt="{{ partner.title }}" style="max-height: {{ site.data.sitetext.partners.max-height | default: "100px" }}">
+        </a>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
