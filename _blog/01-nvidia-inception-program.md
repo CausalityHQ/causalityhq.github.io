@@ -3,7 +3,7 @@ title: NVIDIA Inception Program
 subtitle: We are very happy to announce that we...
 image: assets/img/blog/01-nvidia-full.png
 alt: Nvidia Inception Program
-date: 31.01.2023
+date: 30.01.2023
 
 caption:
   thumbnail: assets/img/blog/01-nvidia-thumbnail.png
