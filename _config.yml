@@ -6,7 +6,7 @@ baseurl: "" # the subpath of your site, e.g. /blog
 
 title      : Causality
 email      : jakub.kopyto@causality.pl #this is also the email contact forms will go to
-description: "Causality - machine learning researcher, software development and more"
+description: "Causality - machine learning researchers, software developers and more. We are able to help you to tackle your data with Artificial Intelligence. Read more and contact us to find out more"
 author     : Causality
 keywords   : "causality,machine,learning,software,development"
 og:

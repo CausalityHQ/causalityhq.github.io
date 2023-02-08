@@ -34,6 +34,12 @@ en: &DEFAULT_EN
     body: "We are a group of experienced **machine learning researchers** and **software developers** that are closing the gap between businesses and modern software solutions. Thanks to our services you are able to utilise **state-of-the-art** artificial intelligence methods in your daily work in order to grow your business without pain."
     section: about
 
+  latest_post:
+    tile: "Latest Post"
+    text: "Read more about our latest news"
+    body:
+    section: "latest_post"
+
   partners:
     section: partners
     max-height: 100px
