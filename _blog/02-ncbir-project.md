@@ -1,16 +1,25 @@
 ---
-layout: page
-title: Projekt Unijny
+title: Projekt Unijny 
+subtitle: Realizacja projektu unijnego
+image: assets/img/blog/02-ncbr.png
+alt: Realizacja Projektu Unijnego
+date: 01.01.2024
+
+caption:
+  thumbnail: assets/img/blog/02-ncbr.png
+
+layout: blog-post
 ---
+
 <img class="img-fluid d-block mx-auto" src="assets/img/eu-project/logotypy.png" alt="Logotypy projektu NCBiR">
 <div class="col-lg-12 text-center">
-	<h2 class="section-heading text-uppercase">Realizacja Projektu Unijnego</h2>
+  <h2 class="section-heading text-uppercase">Realizacja Projektu Unijnego</h2>
 </div>
 
 Projekt współfinansowany przez Unię Europejską w ramach konkursu 1/1.1.1/2022 - Szybka ścieżka - Innowacje cyfrowe w ramach Działania 1.1: Projekty B+R przedsiębiorstw Poddziałanie 1.1.1 Badania przemysłowe i prace rozwojowe realizowane przez przedsiębiorstwa
 
 <p style="text-align: center;">
-  <strong>CAUSALITY PROSTA SPÓŁKA AKCYJNA</strong> realizuje projekt:
+  <strong>CAUSALITY PROSTA SPÓŁKA AKCYJNA</strong> zrealizowała projekt:
 </p>
 <p style="text-align: center;">
   <strong>
