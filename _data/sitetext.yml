@@ -54,6 +54,9 @@ en: &DEFAULT_EN
       - title: "ncbr"
         url: https://www.gov.pl/web/ncbr
         logo: assets/img/partners/ncbr.png
+      - title: "parp"
+        url: https://www.parp.gov.pl/
+        logo: assets/img/partners/parp.png
 
   contact:
     title: "Contact Us"

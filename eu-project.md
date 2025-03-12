@@ -2,7 +2,7 @@
 layout: page
 title: Projekt Unijny
 ---
-<img class="img-fluid d-block mx-auto" src="assets/img/eu-project/logotypy.jpg" alt="Logotypy projektu PARP">
+<img class="img-fluid d-block mx-auto" src="assets/img/eu-project/logotypy.png" alt="Logotypy projektu PARP">
 <div class="col-lg-12 text-center">
 	<h2 class="section-heading text-uppercase">Realizacja Projektu</h2>
 </div>
