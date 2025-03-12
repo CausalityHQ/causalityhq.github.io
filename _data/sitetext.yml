@@ -57,6 +57,7 @@ en: &DEFAULT_EN
       - title: "parp"
         url: https://www.parp.gov.pl/
         logo: assets/img/partners/parp.png
+        max-height: 60px
 
   contact:
     title: "Contact Us"
