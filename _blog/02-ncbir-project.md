@@ -11,7 +11,7 @@ caption:
 layout: blog-post
 ---
 
-<img class="img-fluid d-block mx-auto" src="assets/img/02-eu-project/logotypy.png" alt="Logotypy projektu NCBiR">
+<img class="img-fluid d-block mx-auto" src="/assets/img/blog/02-eu-project/logotypy.png" alt="Logotypy projektu NCBiR">
 <div class="col-lg-12 text-center">
   <h2 class="section-heading text-uppercase">Realizacja Projektu Unijnego</h2>
 </div>
