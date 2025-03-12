@@ -14,7 +14,7 @@
         {% for post in sorted limit:3 %}
         <div class="card" style="margin: 0 20px; max-width: 300px;">
           <img src="/{{ post.caption.thumbnail }}" class="card-img-top" alt="{{ post.alt }}">
-          <div class="card-body d-flex" style="flex-direction: column;">
+          <div class="card-body" style="display: grid; grid-template-rows: .5fr 1fr 1fr min-content;">
             <h5 class="card-title" style="margin: 0 !important">{{ post.title }}</h5>
             <h6 class="card-subtitle text-muted" style="margin: 0 !important">{{ post.date | date: "%-d %B %Y" }}</h6>
             <p class="card-text" style="margin: 0 !important">{{ post.subtitle }}</p>
