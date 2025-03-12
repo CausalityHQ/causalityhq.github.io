@@ -12,7 +12,7 @@
       <div class="col-lg-8 mx-auto text-center d-flex justify-content-center flex-wrap" style="width: 100%;">
         {% assign sorted = site.blog | sort: "date" | reverse %}
         {% for post in sorted limit:3 %}
-        <div class="card" style="max-width: 350px;">
+        <div class="card" style="margin: 0 20px; max-width: 300px;">
           <img src="/{{ post.caption.thumbnail }}" class="card-img-top" alt="{{ post.alt }}">
           <div class="card-body">
             <h5 class="card-title">{{ post.title }}</h5>
