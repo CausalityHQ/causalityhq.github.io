@@ -5,8 +5,8 @@
       <div class="row" style="justify-content: center;" {% if site.data.sitetext[site.locale].partners.horizontal-scrolling == "yes" %} id="scrolling-partners" {% endif %}>
 	    {% for partner in site.data.sitetext[site.locale].partners.list %}
         <div class="col-md-3 col-sm-6">
-          <a href="{{ partner.url }}">
-            <img class="img-fluid d-block mx-auto" src="{{ partner.logo }}" alt="{{ partner.title }}" style="max-height: {{ site.data.sitetext[site.locale].partners.max-height | default: "100px" }}">
+          <a target="_blank" href="{{ partner.url }}">
+            <img class="img-fluid d-block mx-auto" src="{{ partner.logo }}" alt="{{ partner.title }}" style="max-height: {{ partner.max-height | default: "100px" }}">
           </a>
         </div>
 	    {% endfor %}
