@@ -26,7 +26,7 @@ collections:
     permalink: /:collection/:title
   projects:
     output: true
-    permalink: /:project/:title
+    permalink: /:collection/:title
 
 markdown: kramdown
 
