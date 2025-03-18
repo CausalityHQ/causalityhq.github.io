@@ -8,7 +8,7 @@ date: 01.01.2024
 caption:
   thumbnail: assets/img/blog/02-ncbr.png
 
-layout: blog-post
+layout: projects-post
 ---
 
 <img class="img-fluid d-block mx-auto" src="/assets/img/blog/02-eu-project/logotypy.png" alt="Logotypy projektu NCBiR">
