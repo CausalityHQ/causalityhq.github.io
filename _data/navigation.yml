@@ -17,8 +17,8 @@ en: &DEFAULT_EN
       section: about
     - title: "Contact"
       section: contact
-    - title: "Projects"
-      url: /projects
+    # - title: "Projects"
+    #   url: /projects
     - title: "Blog"
       url: /blog
 en-US:
@@ -40,8 +40,8 @@ es: &DEFAULT_ES
       section: nosotros
     - title: "Contáctenos"
       section: contacto
-    - title: "Projects"
-      url: /projects
+    # - title: "Projects"
+    #   url: /projects
     - title: "Blog"
       url: /blog
 es-ES:
