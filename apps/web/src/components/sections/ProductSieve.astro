@@ -5,6 +5,7 @@ import MonoLabel from '../MonoLabel.astro';
 import Button from '../Button.astro';
 import SpecTable from '../SpecTable.astro';
 import PerimeterDiagram from '../PerimeterDiagram.astro';
+import SieveDemo from '../SieveDemo.astro';
 
 interface Props {
   locale: Locale;
@@ -48,5 +49,10 @@ const t = getContent(locale);
         egressLabel={t.sieve.egressLabel}
       />
     </div>
+  </div>
+
+  {/* Interactive bench test — proof of function (below the two-column block) */}
+  <div class="border-hairline mt-12 border-t pt-10 md:mt-16" data-reveal>
+    <SieveDemo locale={locale} />
   </div>
 </Section>

@@ -24,6 +24,38 @@ export interface ApproachStep {
   body: string;
 }
 
+/** SIEVE interactive demo copy (INTERACTIVE.md §B). */
+export interface SieveDemo {
+  plateTitle: string;
+  badge: string;
+  meter: string;
+  presetsLabel: string;
+  /** 4 query phrases; presets[0] must equal docs[0]. */
+  presets: string[];
+  /** 12 corpus labels (D1..D12). */
+  docs: string[];
+  laneQuery: string;
+  laneEmbed: string;
+  laneSpace: string;
+  btnRun: string;
+  btnRunAria: string;
+  btnReplay: string;
+  btnReset: string;
+  btnResetAria: string;
+  resultsTitle: string;
+  colRank: string;
+  colDoc: string;
+  colScore: string;
+  nearest: string;
+  liveSet: string;
+  liveSearching: string;
+  liveResult: string;
+  figureTitle: string;
+  figureDesc: string;
+  /** Template: {q} {n1} {s1} {n2} {s2} {n3} {s3}. */
+  figcaptionTpl: string;
+}
+
 export interface Content {
   /** BCP-47 lang for <html lang>. */
   lang: 'en' | 'pl';
@@ -110,6 +142,7 @@ export interface Content {
     diagramSummary: string;
     perimeterLabel: string;
     egressLabel: string;
+    demo: SieveDemo;
   };
 
   structura: {

@@ -46,3 +46,33 @@ if (reduceMotion || !('IntersectionObserver' in window)) {
   // reveal it so content can never get stuck invisible.
   window.setTimeout(revealAll, 3000);
 }
+
+// --- Lazy interactive demos (dynamic import on scroll-near) -----------------
+// A separate observer (threshold 0, no unobserve after mount). Each module owns
+// its own reduced-motion handling; the hero also self-skips under reduced motion.
+if ('IntersectionObserver' in window) {
+  const demos: Array<[string, () => Promise<{ mount(el: HTMLElement): void }>]> = [
+    ['[data-demo="hero"]', () => import('./heroField')],
+    ['[data-demo="sieve"]', () => import('./sieveDemo')],
+    ['[data-demo="structura"]', () => import('./structuraDemo')],
+  ];
+  for (const [sel, load] of demos) {
+    const el = document.querySelector<HTMLElement>(sel);
+    if (!el) continue;
+    let mounted = false;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting && !mounted) {
+            mounted = true;
+            load()
+              .then((m) => m.mount(el))
+              .catch(() => {}); // import/mount failure → static fallback stays
+          }
+        }
+      },
+      { rootMargin: '200px 0px' },
+    );
+    io.observe(el);
+  }
+}

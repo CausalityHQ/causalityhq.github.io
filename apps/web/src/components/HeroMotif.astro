@@ -65,12 +65,14 @@ const limeEdges = [
 ];
 ---
 
-<figure class:list={['relative w-full', className]} data-draw>
+<figure class:list={['relative w-full', className]} data-demo="hero">
+  {/* Canvas overlay (mounted lazily by heroField.ts; hidden until .canvas-active) */}
+  <canvas class="hero-canvas" aria-hidden="true"></canvas>
   <svg
     viewBox="0 0 420 380"
     role="img"
     aria-labelledby="hero-motif-title hero-motif-desc"
-    class="h-auto w-full"
+    class="relative h-auto w-full"
   >
     <title id="hero-motif-title">{title}</title>
     <desc id="hero-motif-desc">{desc}</desc>
@@ -94,17 +96,17 @@ const limeEdges = [
     </g>
 
     {/* Ambient hairline web */}
-    <g stroke="#E3E6DE" stroke-width="1">
+    <g class="canvas-layer" stroke="#E3E6DE" stroke-width="1">
       {edges.map((e) => <line x1={e[0]} y1={e[1]} x2={e[2]} y2={e[3]} />)}
     </g>
 
     {/* Ambient nodes */}
-    <g fill="#C9CEC1">
+    <g class="canvas-layer" fill="#C9CEC1">
       {nodes.map((n) => <circle cx={n[0]} cy={n[1]} r="2.4" />)}
     </g>
 
     {/* Lime "line of reasoning" — draws in, final edge last */}
-    <g stroke="#95D600" stroke-width="2" stroke-linecap="round" fill="none">
+    <g class="canvas-layer" stroke="#95D600" stroke-width="2" stroke-linecap="round" fill="none">
       {
         limeEdges.map(([p, q, i]) => (
           <line
@@ -121,7 +123,7 @@ const limeEdges = [
     </g>
 
     {/* Lime nodes (fade in after the draw) */}
-    <g class="draw-fade" fill="#95D600" style="--fade-delay:900ms">
+    <g class="canvas-layer" fill="#95D600">
       <circle cx={A[0]} cy={A[1]} r="3.4"></circle>
       <circle cx={C[0]} cy={C[1]} r="3.4"></circle>
       <circle cx={D[0]} cy={D[1]} r="3.4"></circle>
