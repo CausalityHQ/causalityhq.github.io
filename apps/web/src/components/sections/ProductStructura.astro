@@ -4,7 +4,7 @@ import Section from '../Section.astro';
 import MonoLabel from '../MonoLabel.astro';
 import Button from '../Button.astro';
 import SpecTable from '../SpecTable.astro';
-import PipelineDiagram from '../PipelineDiagram.astro';
+import StructuraDemo from '../StructuraDemo.astro';
 
 interface Props {
   locale: Locale;
@@ -42,12 +42,7 @@ const t = getContent(locale);
   </div>
 
   {/* Full-width pipeline */}
-  <div class="mt-12 md:mt-14">
-    <PipelineDiagram
-      title={t.structura.diagramTitle}
-      desc={t.structura.diagramDesc}
-      summary={t.structura.diagramSummary}
-      stages={t.structura.stages}
-    />
+  <div class="mt-12 md:mt-16" data-reveal>
+    <StructuraDemo locale={locale} />
   </div>
 </Section>

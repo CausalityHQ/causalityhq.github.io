@@ -363,3 +363,23 @@
     transition: opacity 260ms ease;
   }
 }
+
+/* STRUCTURA demo — step reveal. Hiding is gated on `.demo-mounted` so no-JS /
+   no-IntersectionObserver keeps the resolved fallback fully visible. */
+.js [data-demo='structura'].demo-mounted .st-reveal {
+  opacity: 0;
+}
+.js [data-demo='structura'].demo-mounted .st-reveal.is-on {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-demo='structura'].demo-mounted .st-reveal {
+    transform: translateY(6px);
+    transition:
+      opacity 300ms ease,
+      transform 300ms cubic-bezier(0.2, 0.6, 0.2, 1);
+  }
+  .js [data-demo='structura'].demo-mounted .st-reveal.is-on {
+    transform: none;
+  }
+}

@@ -56,6 +56,34 @@ export interface SieveDemo {
   figcaptionTpl: string;
 }
 
+/** STRUCTURA interactive walkthrough copy (INTERACTIVE.md §C). */
+export interface StructuraDemo {
+  label: string;
+  intro: string;
+  statusReady: string;
+  /** "STEP {n} / 5" */
+  stepReadout: string;
+  /** 5 mono step captions. */
+  captions: string[];
+  /** 5 plain-language step sentences for the aria-live region. */
+  sr: string[];
+  /** 6 node labels: supplier, order, product, invoice, shipment, status. */
+  nodes: string[];
+  anchor: string;
+  /** 5 relation labels: supplies, contains, billed-by, ships, status. */
+  rels: string[];
+  browserUrl: string;
+  browserField: string;
+  browserButton: string;
+  browserButtonDone: string;
+  ctrlPrev: string;
+  ctrlNext: string;
+  ctrlPlay: string;
+  ctrlPause: string;
+  ctrlReplay: string;
+  figcaption: string;
+}
+
 export interface Content {
   /** BCP-47 lang for <html lang>. */
   lang: 'en' | 'pl';
@@ -159,7 +187,9 @@ export interface Content {
     diagramTitle: string;
     diagramDesc: string;
     diagramSummary: string;
+    /** Now 5 stages (INTERACTIVE.md §C). */
     stages: string[];
+    demo: StructuraDemo;
   };
 
   about: {
