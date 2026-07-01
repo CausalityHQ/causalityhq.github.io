@@ -1,0 +1,309 @@
+@import 'tailwindcss';
+
+/* Self-hosted fonts (design.md §4). Each @font-face is subset with a
+   unicode-range, so the browser fetches only the subsets a page uses — the
+   Polish diacritics live in latin-ext and load only on /pl/. */
+@import '@fontsource-variable/space-grotesk/wght.css';
+@import '@fontsource-variable/inter/wght.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+
+/* ============================================================================
+   CAUSALITY — Design tokens (see design.md §3–§5)
+   "Datasheet" system: warm off-white blueprint canvas, hairline rules,
+   mono metadata, lime #95D600 as a disciplined accent.
+
+   ┌─────────────────────────────────────────────────────────────────────────┐
+   │ LIME ANTI-DRIFT RULE (design.md §3.4):                                     │
+   │ --color-lime (#95D600) on white is 1.77:1 → it FAILS text contrast.       │
+   │ Lime is NEVER used for body/link/small text or small icons on light.      │
+   │ Text that must read green uses --color-lime-text (#4C6E00, 5.94:1 AA).     │
+   │ Lime touches type ONLY as a fill under --color-ink-on-lime, or on forest.  │
+   └─────────────────────────────────────────────────────────────────────────┘
+============================================================================ */
+
+@theme {
+  /* -- Neutrals & surfaces -- */
+  --color-bg: #fafaf7; /* page canvas (warm off-white paper) */
+  --color-bg-rule: #f2f3ee; /* gutter / faint edge band */
+  --color-surface: #ffffff; /* cards, tables, spec insets */
+  --color-surface-sunk: #f6f7f2; /* zebra rows, inset code, diagram plates */
+  --color-surface-lime-wash: #eef7d6; /* rare "active spec" highlight cell */
+
+  /* -- Ink / text scale -- */
+  --color-ink: #0b0f0a; /* primary text, all headings — 19.3:1 AAA */
+  --color-ink-700: #2a3326; /* strong body, leads — 13.1:1 AAA */
+  --color-muted: #4a5247; /* default supporting body — 8.1:1 AAA */
+  --color-muted-2: #5c6459; /* captions, dense table body — 6.1:1 AA */
+  --color-meta: #5f6659; /* mono datasheet labels — 5.95:1 AA */
+
+  /* -- Borders / hairlines / grid -- */
+  --color-hairline: #e3e6de; /* default 1px card & table rule */
+  --color-border: #d6dacf; /* standard divider / hover edge */
+  --color-border-strong: #c9cec1; /* emphasized frame, active card edge */
+  --color-grid-line: #eceee6; /* faint modular blueprint grid */
+
+  /* -- Lime system -- */
+  --color-lime: #95d600; /* the anchor — graphic/fill only, never text on light */
+  --color-lime-hover: #86c200; /* button hover fill (with ink-on-lime text) */
+  --color-lime-text: #4c6e00; /* ONLY lime-flavored color allowed as text on light */
+  --color-ink-on-lime: #16210e; /* dark text on lime fills — 9.46:1 AAA */
+
+  /* -- Inverted band (forest) -- */
+  --color-forest: #16281c; /* footer + final-CTA band */
+  --color-on-forest: #ffffff; /* text on forest — 15.5:1 AAA */
+  --color-on-forest-muted: #c9d2c0; /* supporting body on forest — 12.4:1 AAA */
+
+  /* -- State & focus -- */
+  --color-focus: #16281c; /* focus ring — never lime-only */
+  --color-error: #a31414; /* form error text/border — 6.9:1 AA */
+
+  /* -- Type families (self-hosted via @fontsource) -- */
+  --font-display: 'Space Grotesk Variable', system-ui, sans-serif;
+  --font-body: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* -- Type scale (design.md §4.2), fluid via clamp -- */
+  --text-display: clamp(2.5rem, 5vw, 3.815rem);
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.02em;
+  --text-h2: clamp(1.9rem, 3.5vw, 2.441rem);
+  --text-h2--line-height: 1.08;
+  --text-h2--letter-spacing: -0.015em;
+  --text-h3: clamp(1.35rem, 2vw, 1.563rem);
+  --text-h3--line-height: 1.15;
+  --text-h3--letter-spacing: -0.01em;
+  --text-h4: 1.25rem;
+  --text-h4--line-height: 1.2;
+  --text-lead: clamp(1.125rem, 1.4vw, 1.25rem);
+  --text-lead--line-height: 1.6;
+  --text-body: 1rem;
+  --text-body--line-height: 1.65;
+  --text-body-sm: 0.875rem;
+  --text-body-sm--line-height: 1.5;
+  --text-meta: 0.75rem;
+  --text-meta--line-height: 1.4;
+  --text-micro: 0.6875rem;
+  --text-micro--line-height: 1.4;
+  --text-stat: clamp(2rem, 4vw, 3rem);
+  --text-stat--line-height: 1;
+
+  /* -- Radius (tight / technical, never pillowy) -- */
+  --radius-sm: 2px; /* chips, tags */
+  --radius-md: 4px; /* cards, buttons, tables */
+
+  /* -- Layout -- */
+  --measure: 66ch;
+}
+
+/* Design system layout tokens not needed as utilities */
+:root {
+  --container: 1200px;
+  --container-bleed: 1320px;
+  --page-pad: clamp(1.5rem, 5vw, 4rem); /* 24 → 48 → 64 */
+  --header-h: 4rem; /* 64px sticky header */
+}
+
+/* ============================================================================
+   BASE
+============================================================================ */
+@layer base {
+  * {
+    min-width: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-ink-700);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    font-weight: 600;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Anchor offset so sticky header never covers focused/linked targets (2.4.11) */
+  :target,
+  [id] {
+    scroll-margin-top: calc(var(--header-h) + 1.5rem);
+  }
+
+  ::selection {
+    background-color: var(--color-lime);
+    color: var(--color-ink-on-lime);
+  }
+
+  /* Visible focus on every interactive element (2.4.13) — never removed, never lime-only */
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+  /* On the forest band, focus ring flips to lime for contrast against dark */
+  .on-forest :focus-visible {
+    outline-color: var(--color-lime);
+  }
+
+  /* Tabular figures for metrics/tables */
+  table,
+  .tnum {
+    font-feature-settings: 'tnum' 1;
+  }
+
+  img,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+}
+
+/* ============================================================================
+   COMPONENT UTILITIES
+============================================================================ */
+@layer components {
+  /* Content container + full-bleed "drawing frame" */
+  .container-page {
+    width: 100%;
+    max-width: var(--container);
+    margin-inline: auto;
+    padding-inline: var(--page-pad);
+  }
+  .container-bleed {
+    width: 100%;
+    max-width: var(--container-bleed);
+    margin-inline: auto;
+    padding-inline: var(--page-pad);
+  }
+
+  /* Long-form prose measure cap */
+  .measure {
+    max-width: var(--measure);
+  }
+
+  /* Mono datasheet label */
+  .mono-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    line-height: 1.4;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-meta);
+  }
+
+  /* Faint modular blueprint grid — decorative, aria-hidden */
+  .blueprint-grid {
+    background-image:
+      linear-gradient(to right, var(--color-grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--color-grid-line) 1px, transparent 1px);
+    background-size: 2rem 2rem;
+    background-position: center top;
+  }
+
+  /* Skip link — first focusable, visible on focus */
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: 0.5rem;
+    z-index: 100;
+    transform: translateY(-150%);
+    transition: transform 150ms ease;
+    background: var(--color-ink);
+    color: var(--color-bg);
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.5rem 0.875rem;
+    border-radius: var(--radius-md);
+  }
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+
+  /* Lime status dot — always paired with a text label */
+  .status-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    background: var(--color-lime);
+    flex: none;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .status-dot--pulse {
+      animation: status-pulse 2s ease-in-out infinite;
+    }
+  }
+  @keyframes status-pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.4;
+    }
+  }
+}
+
+/* ============================================================================
+   MOTION — progressive enhancement (design.md §8)
+   Default state is the FINAL state. Animation is layered on only when motion
+   is allowed AND (for reveals) JS has run. Nothing depends on motion to be seen.
+============================================================================ */
+
+/* Scroll reveal & schematic draw-in. Hiding is gated on BOTH `.js` (so content
+   is fully visible if JS is disabled/fails) AND no-preference (so reduced-motion
+   users get the final state immediately). JS reveals via .is-visible/.is-drawn. */
+@media (prefers-reduced-motion: no-preference) {
+  /* Transform-only reveal: content is ALWAYS full-opacity (so text never fails
+     contrast mid-animation and can never get stuck invisible); it just slides
+     into place as it enters the viewport. */
+  .js [data-reveal] {
+    transform: translateY(12px);
+    transition: transform 380ms cubic-bezier(0.2, 0.6, 0.2, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .js [data-reveal].is-visible {
+    transform: none;
+  }
+
+  .js [data-draw] .draw-path {
+    stroke-dasharray: var(--draw-len, 1);
+    stroke-dashoffset: var(--draw-len, 1);
+    transition: stroke-dashoffset 700ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: var(--draw-delay, 0ms);
+  }
+  .js [data-draw].is-drawn .draw-path {
+    stroke-dashoffset: 0;
+  }
+  .js [data-draw] .draw-fade {
+    opacity: 0;
+    transition: opacity 400ms ease;
+    transition-delay: var(--fade-delay, 500ms);
+  }
+  .js [data-draw].is-drawn .draw-fade {
+    opacity: 1;
+  }
+}

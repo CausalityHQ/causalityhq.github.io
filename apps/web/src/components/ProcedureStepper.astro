@@ -1,0 +1,28 @@
+---
+import type { ApproachStep } from '../i18n/types';
+import MonoLabel from './MonoLabel.astro';
+
+/**
+ * Three-step ruled procedure (design.md §08). Hairline cell dividers via a 1px
+ * gap over a hairline background; mono step numbers; one-line descriptions.
+ */
+interface Props {
+  steps: ApproachStep[];
+}
+const { steps } = Astro.props;
+---
+
+<ol
+  class="border-hairline bg-hairline grid gap-px overflow-hidden rounded-md border md:grid-cols-3"
+  data-reveal
+>
+  {
+    steps.map((s) => (
+      <li class="bg-bg p-6 md:p-7">
+        <MonoLabel class="text-lime-text">{s.n}</MonoLabel>
+        <h3 class="text-h4 text-ink mt-3 font-semibold">{s.title}</h3>
+        <p class="measure text-ink-700 mt-2">{s.body}</p>
+      </li>
+    ))
+  }
+</ol>

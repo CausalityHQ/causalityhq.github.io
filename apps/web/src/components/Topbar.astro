@@ -1,0 +1,73 @@
+---
+import Logo from './Logo.astro';
+import LanguageToggle from './LanguageToggle.astro';
+import Button from './Button.astro';
+import { getContent, BRAND, type Locale } from '../i18n';
+
+/**
+ * Sticky header (design.md §00): 64px, sits flat on --bg, gains only a 1px
+ * hairline bottom border after 80px of scroll (set via data-scrolled by JS —
+ * no shadow, ever). Nav is anchor links with a 3px lime active underline +
+ * aria-current. CTA hides below sm (the hero + final CTA carry it on mobile).
+ */
+interface Props {
+  locale: Locale;
+  activeNav?: string;
+}
+const { locale, activeNav } = Astro.props;
+const t = getContent(locale);
+
+const navItems = [
+  { key: 'services', href: '#services', label: t.nav.services },
+  { key: 'products', href: '#products', label: t.nav.products },
+  { key: 'approach', href: '#approach', label: t.nav.approach },
+  { key: 'about', href: '#about', label: t.nav.about },
+  { key: 'contact', href: '#contact', label: t.nav.contact },
+];
+---
+
+<header
+  id="site-header"
+  class="bg-bg data-[scrolled]:border-hairline sticky top-0 z-50 border-b border-transparent transition-colors duration-200"
+>
+  <div class="container-page flex h-16 items-center justify-between gap-4">
+    <Logo locale={locale} />
+
+    <nav aria-label={t.nav.primaryLabel} class="hidden lg:block">
+      <ul class="flex items-center gap-0.5">
+        {
+          navItems.map((n) => {
+            const active = activeNav === n.key;
+            return (
+              <li>
+                <a
+                  href={n.href}
+                  aria-current={active ? 'true' : undefined}
+                  class:list={[
+                    'text-body-sm relative inline-flex min-h-11 items-center px-3 font-medium transition-colors',
+                    active ? 'text-ink' : 'text-ink-700 hover:text-ink',
+                  ]}
+                >
+                  {n.label}
+                  {active && (
+                    <span
+                      class="bg-lime absolute inset-x-3 bottom-2.5 h-[3px]"
+                      aria-hidden="true"
+                    />
+                  )}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <LanguageToggle locale={locale} />
+      <div class="hidden sm:block">
+        <Button href={BRAND.emailHref} ariaLabel={t.nav.talkToUsAria}>{t.nav.talkToUs}</Button>
+      </div>
+    </div>
+  </div>
+</header>

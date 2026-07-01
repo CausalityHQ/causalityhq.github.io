@@ -1,0 +1,92 @@
+---
+import Logo from './Logo.astro';
+import LanguageToggle from './LanguageToggle.astro';
+import MonoLabel from './MonoLabel.astro';
+import { getContent, BRAND, type Locale } from '../i18n';
+
+/**
+ * Footer / colophon (design.md §10). Continuous with the final-CTA forest band
+ * above it. Nav columns are labelled via aria-labelledby (no extra headings).
+ * On forest, lime is used freely and the focus ring flips to lime (global CSS).
+ */
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = getContent(locale);
+
+const columns = [
+  {
+    id: 'footer-products',
+    title: t.footer.productsTitle,
+    links: [
+      { label: BRAND.productSieve, href: '#sieve' },
+      { label: BRAND.productStructura, href: '#structura' },
+    ],
+  },
+  {
+    id: 'footer-company',
+    title: t.footer.companyTitle,
+    links: [
+      { label: t.nav.services, href: '#services' },
+      { label: t.nav.approach, href: '#approach' },
+      { label: t.nav.about, href: '#about' },
+    ],
+  },
+];
+
+const linkCls =
+  'inline-flex min-h-[2rem] items-center text-body-sm text-on-forest-muted transition-colors hover:text-on-forest';
+---
+
+<footer class="on-forest bg-forest text-on-forest">
+  <div class="container-page py-14 md:py-16">
+    <div class="grid gap-10 md:grid-cols-[1.6fr_1fr_1fr_1.2fr]">
+      <div>
+        <Logo locale={locale} class="text-on-forest" />
+        <p class="text-body-sm text-on-forest-muted mt-4 max-w-[30ch]">{t.footer.tagline}</p>
+        <div class="mt-6">
+          <LanguageToggle locale={locale} tone="forest" />
+        </div>
+      </div>
+
+      {
+        columns.map((col) => (
+          <nav aria-labelledby={col.id}>
+            <MonoLabel as="p" class="text-on-forest-muted" id={col.id}>
+              {col.title}
+            </MonoLabel>
+            <ul class="mt-4 flex flex-col gap-1">
+              {col.links.map((l) => (
+                <li>
+                  <a href={l.href} class={linkCls}>
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))
+      }
+
+      <nav aria-labelledby="footer-contact">
+        <MonoLabel as="p" class="text-on-forest-muted" id="footer-contact">
+          {t.footer.contactTitle}
+        </MonoLabel>
+        <ul class="mt-4 flex flex-col gap-1">
+          <li>
+            <a href={BRAND.emailHref} class={`${linkCls} font-mono`}>{BRAND.email}</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <div
+      class="text-on-forest-muted mt-12 flex flex-col gap-2 border-t border-white/15 pt-6 md:flex-row md:items-center md:justify-between"
+    >
+      <p class="text-body-sm">{t.footer.copyright}</p>
+      <p class="text-micro font-mono tracking-wide">{t.footer.colophon}</p>
+    </div>
+    <p class="text-micro text-on-forest-muted/80 mt-3 font-mono tracking-wide">{BRAND.docRef}</p>
+  </div>
+</footer>

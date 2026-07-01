@@ -1,0 +1,53 @@
+{
+  "name": "causality",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.28.2",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "preview": "turbo run preview",
+    "check": "turbo run check",
+    "lint": "turbo run lint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "a11y": "node scripts/a11y.mjs http://localhost:4321/ http://localhost:4321/pl/",
+    "a11y:ci": "start-server-and-test 'pnpm --filter @causality/web preview --port 4321' http://localhost:4321 'pnpm a11y'",
+    "lighthouse": "lhci autorun",
+    "verify": "pnpm build && pnpm a11y:ci && pnpm lighthouse",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{astro,ts,tsx,js,mjs,cjs,json,md,mdx,css,yaml,yml}": "prettier --write",
+    "*.{astro,ts,tsx,js,mjs,cjs}": "eslint --fix --max-warnings=0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "puppeteer",
+      "sharp"
+    ]
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@lhci/cli": "^0.15.1",
+    "astro-eslint-parser": "^2.1.0",
+    "axe-core": "^4.12.1",
+    "eslint": "^10.6.0",
+    "eslint-plugin-astro": "^2.1.1",
+    "globals": "^17.7.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.8",
+    "prettier": "^3.9.4",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-tailwindcss": "^0.8.0",
+    "puppeteer": "^25.3.0",
+    "start-server-and-test": "^3.0.11",
+    "turbo": "^2.10.2",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.62.1"
+  }
+}

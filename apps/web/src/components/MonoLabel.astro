@@ -1,0 +1,11 @@
+---
+/** Mono datasheet label — uppercase, tracked, --meta colour (design.md §4). */
+interface Props {
+  as?: 'span' | 'p' | 'div' | 'dt' | 'h2';
+  id?: string;
+  class?: string;
+}
+const { as: Tag = 'span', id, class: className }: Props = Astro.props;
+---
+
+<Tag id={id} class:list={['mono-label', className]}><slot /></Tag>

@@ -1,0 +1,25 @@
+---
+import MonoLabel from './MonoLabel.astro';
+
+/**
+ * Section opener: left-margin mono `§NN / LABEL` tag + H2, optional frame line.
+ * `id` becomes the H2 id used by the section's aria-labelledby.
+ */
+interface Props {
+  tag: string;
+  title: string;
+  id: string;
+  frame?: string;
+  tone?: 'light' | 'forest';
+  class?: string;
+}
+const { tag, title, id, frame, tone = 'light', class: className } = Astro.props;
+const titleColor = tone === 'forest' ? 'text-on-forest' : 'text-ink';
+const frameColor = tone === 'forest' ? 'text-on-forest-muted' : 'text-muted';
+---
+
+<div class:list={['flex flex-col', className]} data-reveal>
+  <MonoLabel>{tag}</MonoLabel>
+  <h2 id={id} class:list={['text-h2 mt-3 font-semibold', titleColor]}>{title}</h2>
+  {frame && <p class:list={['measure text-lead mt-4', frameColor]}>{frame}</p>}
+</div>

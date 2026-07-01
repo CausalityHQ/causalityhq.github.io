@@ -1,0 +1,150 @@
+---
+/**
+ * Hero motif (design.md §01 / §08): a semantic vector field whose lime nodes and
+ * edges resolve onto the Causality brain-and-gear mark (drawn faint behind).
+ * The lime "line of reasoning" draws in via stroke-dashoffset, the final edge
+ * arriving last (data-draw → is-drawn, added by the reveal script; reduced-motion
+ * shows the final state). role="img" + <title>/<desc> carry the meaning.
+ */
+interface Props {
+  title: string;
+  desc: string;
+  class?: string;
+}
+const { title, desc, class: className } = Astro.props;
+
+// Mark drawn faint behind the field: mark-space (0..48) → screen via s(x,y).
+const K = 6.2;
+const OX = 61.2;
+const OY = 41.2;
+
+// Ambient (non-lime) nodes.
+const nodes = [
+  [70, 82],
+  [120, 58],
+  [300, 68],
+  [352, 120],
+  [80, 150],
+  [58, 250],
+  [112, 300],
+  [182, 332],
+  [262, 320],
+  [330, 282],
+  [360, 200],
+  [300, 252],
+  [150, 110],
+  [250, 118],
+  [92, 210],
+  [322, 150],
+  [200, 300],
+  [140, 175],
+];
+// Hairline edges — an ambient web feeding toward the lime path.
+const edges = [
+  [120, 58, 150, 110],
+  [300, 68, 322, 150],
+  [80, 150, 92, 210],
+  [150, 110, 210, 116],
+  [250, 118, 210, 116],
+  [330, 282, 300, 252],
+  [112, 300, 200, 300],
+  [92, 210, 140, 175],
+  [352, 120, 322, 150],
+  [262, 320, 200, 300],
+  [58, 250, 92, 210],
+];
+// Lime nodes on the mark + the ordered "line of reasoning" (last edge = focal beat).
+const A = [210, 116]; // top of the fissure
+const B = [210, 190]; // active centre node
+const C = [291, 190]; // gear tooth
+const D = [150, 252]; // lower-left fold
+const limeEdges = [
+  [D, B, 0], // drawn first
+  [A, B, 1],
+  [B, C, 2], // final beat
+];
+---
+
+<figure class:list={['relative w-full', className]} data-draw>
+  <svg
+    viewBox="0 0 420 380"
+    role="img"
+    aria-labelledby="hero-motif-title hero-motif-desc"
+    class="h-auto w-full"
+  >
+    <title id="hero-motif-title">{title}</title>
+    <desc id="hero-motif-desc">{desc}</desc>
+
+    {/* Faint brand mark behind the field */}
+    <g
+      transform={`translate(${OX} ${OY}) scale(${K})`}
+      fill="none"
+      stroke="#E3E6DE"
+      stroke-width="0.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path
+        d="M37 24 41 24 M33.19 33.19 36.02 36.02 M24 37 24 41 M14.81 33.19 11.98 36.02 M11 24 7 24 M14.81 14.81 11.98 11.98 M24 11 24 7 M33.19 14.81 36.02 11.98"
+      ></path>
+      <circle cx="24" cy="24" r="13"></circle>
+      <path d="M24 12 C 21 16 27 20 24 24 C 21 28 27 32 24 35"></path>
+      <path d="M19 16 C 15.5 19 16.5 24 20 26"></path>
+      <path d="M29 16 C 32.5 19 31.5 24 28 26"></path>
+    </g>
+
+    {/* Ambient hairline web */}
+    <g stroke="#E3E6DE" stroke-width="1">
+      {edges.map((e) => <line x1={e[0]} y1={e[1]} x2={e[2]} y2={e[3]} />)}
+    </g>
+
+    {/* Ambient nodes */}
+    <g fill="#C9CEC1">
+      {nodes.map((n) => <circle cx={n[0]} cy={n[1]} r="2.4" />)}
+    </g>
+
+    {/* Lime "line of reasoning" — draws in, final edge last */}
+    <g stroke="#95D600" stroke-width="2" stroke-linecap="round" fill="none">
+      {
+        limeEdges.map(([p, q, i]) => (
+          <line
+            class="draw-path"
+            pathLength="1"
+            x1={(p as number[])[0]}
+            y1={(p as number[])[1]}
+            x2={(q as number[])[0]}
+            y2={(q as number[])[1]}
+            style={`--draw-delay:${180 + (i as number) * 260}ms`}
+          />
+        ))
+      }
+    </g>
+
+    {/* Lime nodes (fade in after the draw) */}
+    <g class="draw-fade" fill="#95D600" style="--fade-delay:900ms">
+      <circle cx={A[0]} cy={A[1]} r="3.4"></circle>
+      <circle cx={C[0]} cy={C[1]} r="3.4"></circle>
+      <circle cx={D[0]} cy={D[1]} r="3.4"></circle>
+      <circle cx={B[0]} cy={B[1]} r="4.6"></circle>
+      <circle cx={B[0]} cy={B[1]} r="8.5" fill="none" stroke="#95D600" stroke-width="1.2"></circle>
+    </g>
+
+    {/* Coordinate annotation on node A */}
+    <g class="draw-fade" style="--fade-delay:1100ms">
+      <line
+        x1={A[0] + 6}
+        y1={A[1] - 4}
+        x2={A[0] + 22}
+        y2={A[1] - 12}
+        stroke="#C9CEC1"
+        stroke-width="1"></line>
+      <text
+        x={A[0] + 26}
+        y={A[1] - 9}
+        fill="#5F6659"
+        style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.02em"
+        >⟨0.83, -0.12⟩</text
+      >
+    </g>
+  </svg>
+</figure>

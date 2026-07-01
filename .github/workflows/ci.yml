@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Types · Lint · Format · Build · A11y · Lighthouse
+    runs-on: ubuntu-latest
+    env:
+      PUPPETEER_SKIP_DOWNLOAD: '0'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Format check (Prettier)
+        run: pnpm format:check
+
+      - name: Lint (ESLint + a11y rules)
+        run: pnpm lint
+
+      - name: Typecheck (astro check)
+        run: pnpm check
+
+      - name: Build (static)
+        run: pnpm build
+
+      - name: Accessibility (pa11y-ci · WCAG2AA · axe + htmlcs)
+        run: pnpm a11y:ci
+
+      - name: Lighthouse (perf/a11y/best-practices/seo = 100)
+        run: pnpm lighthouse

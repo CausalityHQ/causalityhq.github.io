@@ -1,0 +1,63 @@
+---
+/**
+ * Thin schematic line icons, stroke matched to the brand mark (single weight,
+ * rounded joins, currentColor). Decorative — the row heading carries meaning.
+ */
+type IconName = 'chip' | 'research' | 'braces' | 'box';
+interface Props {
+  name: IconName;
+  size?: number;
+  class?: string;
+}
+const { name, size = 22, class: className } = Astro.props;
+---
+
+<svg
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+  class={className}
+>
+  {
+    name === 'chip' && (
+      <g>
+        <rect x="6.5" y="6.5" width="11" height="11" rx="1.5" />
+        <rect x="9.5" y="9.5" width="5" height="5" rx="0.5" />
+        <path d="M9 6.5V4M15 6.5V4M9 20v-2.5M15 20v-2.5M6.5 9H4M6.5 15H4M20 9h-2.5M20 15h-2.5" />
+      </g>
+    )
+  }
+  {
+    name === 'research' && (
+      <g>
+        <circle cx="6" cy="7" r="2" />
+        <circle cx="18" cy="6.5" r="2" />
+        <circle cx="11.5" cy="17.5" r="2" />
+        <path d="M7.7 8.2 10 16M12.6 15.9 16.6 8M7.9 6.7 16 6.6" />
+      </g>
+    )
+  }
+  {
+    name === 'braces' && (
+      <g>
+        <path d="M8.5 4.5C6.9 4.5 7 6.4 7 7.6 7 9.4 5.5 9.6 5 12c.5 2.4 2 2.6 2 4.4 0 1.2-.1 3.1 1.5 3.1" />
+        <path d="M15.5 4.5C17.1 4.5 17 6.4 17 7.6c0 1.8 1.5 2 2 4.4-.5 2.4-2 2.6-2 4.4 0 1.2.1 3.1-1.5 3.1" />
+      </g>
+    )
+  }
+  {
+    name === 'box' && (
+      <g>
+        <path d="M12 3 20 7v10l-8 4-8-4V7l8-4Z" />
+        <path d="M4 7l8 4 8-4M12 11v10" />
+      </g>
+    )
+  }
+</svg>

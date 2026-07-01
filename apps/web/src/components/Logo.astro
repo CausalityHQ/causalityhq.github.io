@@ -1,0 +1,30 @@
+---
+import BrandMark from './BrandMark.astro';
+import { localeHome, type Locale } from '../i18n';
+
+/**
+ * Brand lockup: mark + hairline divider + "Causality" wordmark, echoing the
+ * real logo. Rendered as a home link; the link carries the accessible name so
+ * the SVG stays decorative. Colour is inherited (ink on light, white on forest).
+ */
+interface Props {
+  locale: Locale;
+  class?: string;
+  markSize?: number;
+  accent?: boolean;
+}
+const { locale, class: className, markSize = 30, accent = true } = Astro.props;
+const home = localeHome(locale);
+---
+
+<a
+  href={home}
+  aria-label="Causality"
+  class:list={['group text-ink inline-flex items-center gap-2.5', className]}
+>
+  <BrandMark size={markSize} accent={accent} class="shrink-0" />
+  <span aria-hidden="true" class="h-6 w-px bg-current opacity-20"></span>
+  <span class="font-display text-[1.3rem] leading-none font-bold tracking-[-0.01em] text-current">
+    Causality
+  </span>
+</a>

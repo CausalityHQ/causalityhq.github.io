@@ -1,0 +1,59 @@
+---
+import type { SpecRow } from '../i18n/types';
+
+/**
+ * Accessible specification table (design.md §7): visually-hidden <caption>,
+ * <th scope> row/col headers, zebra rows, tabular figures. The highlighted row
+ * gets the lime wash + a lime status dot (paired with its text — never colour
+ * alone). Cells wrap, so the table reflows to 320px with no horizontal scroll.
+ */
+interface Props {
+  caption: string;
+  headCapability: string;
+  headDetail: string;
+  rows: SpecRow[];
+  class?: string;
+}
+const { caption, headCapability, headDetail, rows, class: className } = Astro.props;
+---
+
+<table
+  class:list={[
+    'border-hairline w-full border-collapse overflow-hidden rounded-md border text-left',
+    className,
+  ]}
+>
+  <caption class="sr-only">{caption}</caption>
+  <thead>
+    <tr class="border-border bg-surface border-b">
+      <th scope="col" class="mono-label px-4 py-3">{headCapability}</th>
+      <th scope="col" class="mono-label px-4 py-3">{headDetail}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {
+      rows.map((r, i) => (
+        <tr
+          class:list={[
+            'border-hairline border-t align-top',
+            r.highlight ? 'bg-surface-lime-wash' : i % 2 === 0 ? 'bg-surface' : 'bg-surface-sunk',
+          ]}
+        >
+          <th scope="row" class="text-body-sm text-ink w-2/5 px-4 py-3 font-semibold">
+            {r.capability}
+          </th>
+          <td class="text-body-sm text-ink-700 px-4 py-3">
+            {r.highlight ? (
+              <span class="flex items-start gap-2">
+                <span class="status-dot mt-[0.4rem]" aria-hidden="true" />
+                <span class="text-ink font-medium">{r.detail}</span>
+              </span>
+            ) : (
+              r.detail
+            )}
+          </td>
+        </tr>
+      ))
+    }
+  </tbody>
+</table>

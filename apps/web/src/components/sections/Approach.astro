@@ -1,0 +1,19 @@
+---
+import { getContent, type Locale } from '../../i18n';
+import Section from '../Section.astro';
+import SectionHeader from '../SectionHeader.astro';
+import ProcedureStepper from '../ProcedureStepper.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = getContent(locale);
+---
+
+<Section id="approach" labelledby="approach-h2">
+  <SectionHeader tag={t.approach.tag} title={t.approach.h2} id="approach-h2" />
+  <div class="mt-10 md:mt-12">
+    <ProcedureStepper steps={t.approach.steps} />
+  </div>
+</Section>

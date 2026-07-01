@@ -1,0 +1,43 @@
+---
+import { getContent, BRAND, type Locale } from '../../i18n';
+import MonoLabel from '../MonoLabel.astro';
+import Button from '../Button.astro';
+import CornerTicks from '../CornerTicks.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = getContent(locale);
+---
+
+<section
+  id="contact"
+  aria-labelledby="cta-h2"
+  class="on-forest bg-forest text-on-forest relative overflow-hidden"
+>
+  <div class="container-page relative py-20 md:py-28">
+    <div class="relative isolate max-w-2xl px-1 py-2 md:px-4">
+      <CornerTicks color="border-white/20" />
+
+      <MonoLabel class="text-lime">{t.finalCta.tag}</MonoLabel>
+      <h2 id="cta-h2" class="text-h2 text-on-forest mt-4 font-semibold">{t.finalCta.h2}</h2>
+      <span class="bg-lime mt-4 block h-[3px] w-16" aria-hidden="true"></span>
+      <p class="text-lead text-on-forest-muted mt-5 max-w-xl">{t.finalCta.sub}</p>
+
+      <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+        <Button href={BRAND.emailHref} ariaLabel={t.nav.talkToUsAria}
+          >{t.finalCta.ctaPrimary}</Button
+        >
+        <a
+          href={BRAND.emailHref}
+          class="text-body-sm text-on-forest hover:decoration-lime font-mono underline decoration-white/30 underline-offset-4 transition-colors"
+        >
+          {BRAND.email}
+        </a>
+      </div>
+
+      <p class="mono-label text-on-forest-muted mt-7">{t.finalCta.reassurance}</p>
+    </div>
+  </div>
+</section>

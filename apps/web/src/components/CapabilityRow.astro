@@ -1,0 +1,45 @@
+---
+import type { ServiceItem } from '../i18n/types';
+import MonoLabel from './MonoLabel.astro';
+import SchematicIcon from './SchematicIcon.astro';
+
+/**
+ * Editorial capability row (design.md §03): mono ref, schematic icon, H3 title,
+ * one-line summary, mono keyword chips, and a lime → glyph that nudges on hover.
+ * The primary row carries a 3px lime left-rule.
+ */
+interface Props {
+  item: ServiceItem;
+  icon: 'chip' | 'research' | 'braces' | 'box';
+}
+const { item, icon } = Astro.props;
+---
+
+<div
+  class:list={[
+    'group border-hairline relative grid grid-cols-1 gap-y-3 border-t py-6 md:grid-cols-[8rem_1fr_2rem] md:items-baseline md:gap-x-6 md:py-7',
+    item.primary && 'border-l-lime border-l-[3px] pl-4 md:pl-6',
+  ]}
+  data-reveal
+>
+  <MonoLabel class="md:pt-1">{item.ref}</MonoLabel>
+
+  <div class="max-w-[54ch]">
+    <h3 class="text-h4 text-ink flex items-center gap-2.5 font-semibold">
+      <SchematicIcon name={icon} class="text-ink-700 shrink-0" />
+      {item.title}
+    </h3>
+    <p class="text-ink-700 mt-2">{item.summary}</p>
+    <ul class="mt-3 flex flex-wrap gap-2">
+      {
+        item.keys.map((k) => (
+          <li class="mono-label border-hairline bg-surface rounded-sm border px-2 py-1">{k}</li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <span class="text-lime-text hidden md:flex md:justify-end" aria-hidden="true">
+    <span class="transition-transform duration-150 group-hover:translate-x-[3px]">→</span>
+  </span>
+</div>

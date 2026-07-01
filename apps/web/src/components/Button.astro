@@ -1,0 +1,46 @@
+---
+/**
+ * Button / CTA (design.md §7). Renders <a> when `href` is set, else <button>.
+ * primary   → lime fill + ink-on-lime text (9.46:1 AAA), hover lime-hover.
+ * secondary → hairline border, ink text, border darkens on hover.
+ * Target ≥ 44px. Focus ring comes from the global :focus-visible rule.
+ */
+interface Props {
+  variant?: 'primary' | 'secondary';
+  href?: string;
+  type?: 'button' | 'submit';
+  class?: string;
+  ariaLabel?: string;
+  rel?: string;
+  id?: string;
+}
+const {
+  variant = 'primary',
+  href,
+  type = 'button',
+  class: className,
+  ariaLabel,
+  rel,
+  id,
+} = Astro.props;
+
+const base =
+  'inline-flex items-center justify-center gap-2 min-h-11 px-5 rounded-md font-body text-[0.95rem] font-medium leading-none transition-colors duration-150 select-none active:translate-y-px';
+const variants = {
+  primary: 'bg-lime text-ink-on-lime hover:bg-lime-hover',
+  secondary: 'border border-border text-ink bg-transparent hover:border-border-strong',
+};
+const cls = [base, variants[variant], className].filter(Boolean).join(' ');
+---
+
+{
+  href ? (
+    <a {id} {href} {rel} class={cls} aria-label={ariaLabel}>
+      <slot />
+    </a>
+  ) : (
+    <button {id} {type} class={cls} aria-label={ariaLabel}>
+      <slot />
+    </button>
+  )
+}

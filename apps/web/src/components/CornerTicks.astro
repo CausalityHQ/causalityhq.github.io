@@ -1,0 +1,20 @@
+---
+/**
+ * L-shaped registration marks at the four corners of a framed block
+ * (drafting-paper motif, design.md §5.3). Purely decorative. The parent must be
+ * `relative`. Colour inherits via currentColor of the tick borders.
+ */
+interface Props {
+  class?: string;
+  color?: string;
+}
+const { class: className, color = 'border-border' } = Astro.props;
+const arm = 'absolute h-3 w-3';
+---
+
+<div class:list={['pointer-events-none absolute inset-0 -z-10', className]} aria-hidden="true">
+  <span class:list={[arm, 'top-0 left-0 border-t border-l', color]}></span>
+  <span class:list={[arm, 'top-0 right-0 border-t border-r', color]}></span>
+  <span class:list={[arm, 'bottom-0 left-0 border-b border-l', color]}></span>
+  <span class:list={[arm, 'right-0 bottom-0 border-r border-b', color]}></span>
+</div>

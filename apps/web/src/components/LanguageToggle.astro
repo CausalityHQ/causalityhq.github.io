@@ -1,0 +1,51 @@
+---
+import { LOCALES, localeHome, getContent, type Locale } from '../i18n';
+
+/**
+ * Mono segmented [ EN | PL ] switcher. Real <a hreflang> links to each locale's
+ * home; the active locale gets aria-current + an inked fill (not colour-only).
+ */
+interface Props {
+  locale: Locale;
+  tone?: 'light' | 'forest';
+  class?: string;
+}
+const { locale, tone = 'light', class: className } = Astro.props;
+const t = getContent(locale);
+
+const frame = tone === 'forest' ? 'border-white/25' : 'border-border';
+const activeCls = tone === 'forest' ? 'bg-lime text-ink-on-lime' : 'bg-ink text-bg';
+const idleCls =
+  tone === 'forest' ? 'text-on-forest-muted hover:text-on-forest' : 'text-meta hover:text-ink';
+---
+
+<div
+  role="group"
+  aria-label={t.nav.langLabel}
+  class:list={[
+    'text-meta inline-flex items-stretch overflow-hidden rounded-md border font-mono',
+    frame,
+    className,
+  ]}
+>
+  {
+    LOCALES.map((l, i) => {
+      const active = l === locale;
+      return (
+        <a
+          href={localeHome(l)}
+          hreflang={l}
+          lang={l}
+          aria-current={active ? 'true' : undefined}
+          class:list={[
+            'inline-flex min-h-11 items-center px-3 tracking-wider uppercase transition-colors',
+            i > 0 && `border-l ${frame}`,
+            active ? activeCls : idleCls,
+          ]}
+        >
+          {l}
+        </a>
+      );
+    })
+  }
+</div>

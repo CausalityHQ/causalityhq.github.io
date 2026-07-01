@@ -1,0 +1,52 @@
+---
+import { getContent, BRAND, type Locale } from '../../i18n';
+import Section from '../Section.astro';
+import MonoLabel from '../MonoLabel.astro';
+import Button from '../Button.astro';
+import SpecTable from '../SpecTable.astro';
+import PerimeterDiagram from '../PerimeterDiagram.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = getContent(locale);
+---
+
+<Section id="sieve" labelledby="sieve-h3">
+  <div class="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-14">
+    {/* Documentation */}
+    <div data-reveal>
+      <MonoLabel>{t.sieve.ref}</MonoLabel>
+      <p class="font-display text-ink mt-3 text-[1.25rem] font-bold tracking-[0.06em] uppercase">
+        {t.sieve.name}
+      </p>
+      <h3 id="sieve-h3" class="text-h3 text-ink mt-2 font-semibold">{t.sieve.h3}</h3>
+      <p class="measure text-ink-700 mt-4">{t.sieve.body}</p>
+
+      <div class="mt-7">
+        <SpecTable
+          caption={t.sieve.specCaption}
+          headCapability={t.sieve.specHeadCapability}
+          headDetail={t.sieve.specHeadDetail}
+          rows={t.sieve.specs}
+        />
+      </div>
+
+      <div class="mt-7">
+        <Button href={BRAND.emailHrefSieve} ariaLabel={t.sieve.ctaAria}>{t.sieve.cta}</Button>
+      </div>
+    </div>
+
+    {/* On-prem architecture diagram */}
+    <div class="lg:pt-2" data-reveal style="--reveal-delay:120ms">
+      <PerimeterDiagram
+        title={t.sieve.diagramTitle}
+        desc={t.sieve.diagramDesc}
+        summary={t.sieve.diagramSummary}
+        perimeterLabel={t.sieve.perimeterLabel}
+        egressLabel={t.sieve.egressLabel}
+      />
+    </div>
+  </div>
+</Section>

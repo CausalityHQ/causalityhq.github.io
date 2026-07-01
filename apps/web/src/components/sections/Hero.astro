@@ -1,0 +1,84 @@
+---
+import { getContent, BRAND, type Locale } from '../../i18n';
+import MonoLabel from '../MonoLabel.astro';
+import Button from '../Button.astro';
+import HeroMotif from '../HeroMotif.astro';
+import StatusDot from '../StatusDot.astro';
+import CornerTicks from '../CornerTicks.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = getContent(locale);
+
+const specRows = [
+  ['FOCUS', t.hero.spec.focus],
+  ['MODE', t.hero.spec.mode],
+  ['DEPLOY', t.hero.spec.deploy],
+  ['BASED', t.hero.spec.based],
+];
+---
+
+<section id="hero" aria-labelledby="hero-h1" class="relative isolate overflow-hidden">
+  <div
+    class="blueprint-grid pointer-events-none absolute inset-0 -z-10 opacity-70"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="container-page relative">
+    <div class="relative isolate px-1 py-16 md:px-6 md:py-24">
+      <CornerTicks color="border-border-strong" />
+
+      <div class="grid items-center gap-x-10 gap-y-12 lg:grid-cols-12">
+        {/* Left — thesis */}
+        <div class="lg:col-span-7">
+          <MonoLabel data-reveal>{t.hero.eyebrow}</MonoLabel>
+          <h1
+            id="hero-h1"
+            class="text-display text-ink mt-4"
+            data-reveal
+            style="--reveal-delay:60ms"
+          >
+            {t.hero.h1}
+          </h1>
+          <p class="measure text-lead text-ink-700 mt-6" data-reveal style="--reveal-delay:120ms">
+            {t.hero.lead}
+          </p>
+          <div class="mt-8 flex flex-wrap gap-3" data-reveal style="--reveal-delay:180ms">
+            <Button href={BRAND.emailHref} ariaLabel={t.nav.talkToUsAria}
+              >{t.hero.ctaPrimary}</Button
+            >
+            <Button variant="secondary" href="#products">
+              {t.hero.ctaSecondary}
+              <span aria-hidden="true">↓</span>
+            </Button>
+          </div>
+        </div>
+
+        {/* Right — motif + spec card */}
+        <div class="flex flex-col gap-5 lg:col-span-5" data-reveal style="--reveal-delay:150ms">
+          <HeroMotif title={t.hero.motifTitle} desc={t.hero.motifDesc} />
+
+          <div class="border-hairline bg-surface rounded-md border p-5">
+            <dl class="text-meta grid grid-cols-[auto_1fr] gap-x-5 gap-y-2.5 font-mono">
+              {
+                specRows.map(([k, v]) => (
+                  <>
+                    <dt class="text-meta tracking-wider uppercase">{k}</dt>
+                    <dd class="text-ink">{v}</dd>
+                  </>
+                ))
+              }
+              <dt class="text-meta tracking-wider uppercase">{t.hero.spec.statusLabel}</dt>
+              <dd>
+                <StatusDot label={t.hero.spec.statusValue} labelClass="text-ink" />
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

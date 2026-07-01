@@ -1,0 +1,32 @@
+---
+/**
+ * Standard section chrome: full-width top hairline, container, vertical rhythm
+ * (64px mobile / 96px desktop — design.md §5.1). `tone="forest"` swaps to the
+ * inverted band and drops the hairline.
+ */
+interface Props {
+  id?: string;
+  labelledby?: string;
+  tone?: 'light' | 'forest';
+  pad?: 'default' | 'tight';
+  class?: string;
+  innerClass?: string;
+}
+const {
+  id,
+  labelledby,
+  tone = 'light',
+  pad = 'default',
+  class: className,
+  innerClass,
+} = Astro.props;
+const toneCls =
+  tone === 'forest' ? 'bg-forest text-on-forest on-forest' : 'border-t border-hairline';
+const padCls = pad === 'tight' ? 'py-10 md:py-14' : 'py-16 md:py-24';
+---
+
+<section id={id} aria-labelledby={labelledby} class:list={[toneCls, className]}>
+  <div class:list={['container-page', padCls, innerClass]}>
+    <slot />
+  </div>
+</section>
