@@ -244,4 +244,17 @@ export function mount(figure: HTMLElement): void {
     if (!running) draw();
   });
   ro.observe(canvas);
+
+  // Teardown on bfcache/navigation so no observers or rAF leak (best-practices).
+  window.addEventListener(
+    'pagehide',
+    () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = 0;
+      running = false;
+      io.disconnect();
+      ro.disconnect();
+    },
+    { once: true },
+  );
 }

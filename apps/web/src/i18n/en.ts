@@ -238,6 +238,7 @@ export const en: Content = {
       ctrlPlay: 'Play walkthrough',
       ctrlPause: 'Pause walkthrough',
       ctrlReplay: 'Replay walkthrough from start',
+      hintKeyboard: 'Use arrow keys to step; the Play button toggles playback.',
       figcaption:
         'How it flows: unstructured multimodal input is extracted into structured fields and relations, assembled into a queryable knowledge base, and handed to custom agents that read it, update it, and act on the web to automate daily work. The scenario shown is an illustrative example.',
     },

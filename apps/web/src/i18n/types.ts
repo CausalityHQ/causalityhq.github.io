@@ -81,6 +81,7 @@ export interface StructuraDemo {
   ctrlPlay: string;
   ctrlPause: string;
   ctrlReplay: string;
+  hintKeyboard: string;
   figcaption: string;
 }
 

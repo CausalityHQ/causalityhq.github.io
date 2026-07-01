@@ -249,6 +249,8 @@ export const pl: Content = {
       ctrlPlay: 'Odtwórz przewodnik',
       ctrlPause: 'Wstrzymaj przewodnik',
       ctrlReplay: 'Odtwórz przewodnik od początku',
+      hintKeyboard:
+        'Użyj strzałek, aby przechodzić po krokach; przycisk Odtwórz przełącza odtwarzanie.',
       figcaption:
         'Jak to przebiega: nieustrukturyzowane dane multimodalne są wydobywane do ustrukturyzowanych pól i relacji, składane w przeszukiwalną bazę wiedzy i przekazywane niestandardowym agentom, którzy ją czytają, aktualizują i działają w sieci, automatyzując codzienną pracę. Pokazany scenariusz jest przykładem ilustracyjnym.',
     },

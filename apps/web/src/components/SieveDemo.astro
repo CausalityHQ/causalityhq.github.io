@@ -76,6 +76,7 @@ const fig = d.figcaptionTpl
               aria-checked={i === 0 ? 'true' : 'false'}
               tabindex={i === 0 ? 0 : -1}
               data-preset={i}
+              data-active={i === 0 ? '' : undefined}
               class="border-border text-body-sm text-ink data-[active]:border-b-lime hover:border-border-strong min-h-11 rounded-md border px-3 font-medium transition-colors data-[active]:border-b-[3px]"
             >
               {phrase}
@@ -165,7 +166,7 @@ const fig = d.figcaptionTpl
         {/* documents */}
         <g data-sieve-docs>
           {
-            CORPUS.map((c, i) => {
+            CORPUS.map((_c, i) => {
               const rank = nnRank.get(i);
               const isNn = rank !== undefined;
               return (
