@@ -1,30 +1,34 @@
 ---
-import BrandMark from './BrandMark.astro';
+import { Image } from 'astro:assets';
 import { localeHome, type Locale } from '../i18n';
+import blackLogo from '../assets/brand/causality-wordmark-black.png';
+import whiteLogo from '../assets/brand/causality-wordmark-white.png';
 
 /**
- * Brand lockup: mark + hairline divider + "Causality" wordmark, echoing the
- * real logo. Rendered as a home link; the link carries the accessible name so
- * the SVG stays decorative. Colour is inherited (ink on light, white on forest).
+ * Brand lockup — the official Causality logo, recoloured ink on light surfaces
+ * and white on the forest band. Rendered as a home link; the image alt supplies
+ * the accessible name. Explicit width/height (from the 858×215 source) → no CLS;
+ * astro:assets emits an optimised, retina (1x/2x) asset.
  */
 interface Props {
   locale: Locale;
+  variant?: 'ink' | 'onForest';
+  height?: number;
   class?: string;
-  markSize?: number;
-  accent?: boolean;
 }
-const { locale, class: className, markSize = 30, accent = true } = Astro.props;
+const { locale, variant = 'ink', height = 30, class: className } = Astro.props;
 const home = localeHome(locale);
+const src = variant === 'onForest' ? whiteLogo : blackLogo;
+const width = Math.round(height * (858 / 215));
 ---
 
-<a
-  href={home}
-  aria-label="Causality"
-  class:list={['group text-ink inline-flex items-center gap-2.5', className]}
->
-  <BrandMark size={markSize} accent={accent} class="shrink-0" />
-  <span aria-hidden="true" class="h-6 w-px bg-current opacity-20"></span>
-  <span class="font-display text-[1.3rem] leading-none font-bold tracking-[-0.01em] text-current">
-    Causality
-  </span>
+<a href={home} class:list={['inline-flex items-center', className]}>
+  <Image
+    src={src}
+    alt="Causality"
+    width={width}
+    height={height}
+    densities={[1, 2]}
+    loading="eager"
+  />
 </a>

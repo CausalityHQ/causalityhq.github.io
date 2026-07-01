@@ -27,6 +27,22 @@ const TICK = '#D6DACF';
 const LIME = '#95D600';
 const INK = '#0B0F0A';
 
+/**
+ * Recolour the flat official lockup (lime on transparent) to a solid `hex`,
+ * preserving its exact alpha shape. Used to produce the ink (light bg) and
+ * white (forest bg) on-page logos from the real brand asset.
+ */
+async function recolorLogo(hex, outPath) {
+  const img = sharp(logoPath).ensureAlpha();
+  const meta = await img.metadata();
+  const { width, height } = meta;
+  const alpha = await img.clone().extractChannel('alpha').raw().toBuffer();
+  await sharp({ create: { width, height, channels: 3, background: hex } })
+    .joinChannel(alpha, { raw: { width, height, channels: 1 } })
+    .png()
+    .toFile(outPath);
+}
+
 /** L-shaped registration tick at (x,y), `len` long, pointing into `dir`. */
 function tick(x, y, len, dx, dy) {
   return `<path d="M${x + dx * len} ${y} L${x} ${y} L${x} ${y + dy * len}" stroke="${TICK}" stroke-width="1.5" fill="none" />`;
@@ -59,6 +75,11 @@ function ogBackground(w, h) {
 
 async function main() {
   await mkdir(resolve(pub, 'og'), { recursive: true });
+
+  // --- On-page logos: real lockup recoloured ink (light) + white (forest) ---
+  const brand = resolve(root, 'src/assets/brand');
+  await recolorLogo(INK, resolve(brand, 'causality-wordmark-black.png'));
+  await recolorLogo('#FFFFFF', resolve(brand, 'causality-wordmark-white.png'));
 
   // --- OG card: background + centered official lockup ---
   const W = 1200;

@@ -4,10 +4,10 @@ export const pl: Content = {
   lang: 'pl',
 
   meta: {
-    title: 'Causality — Stosowana AI, oprogramowanie klasy badawczej',
+    title: 'Causality — stosowana AI i oprogramowanie klasy badawczej',
     description:
-      'Badacze uczenia maszynowego i inżynierowie oprogramowania, którzy wdrażają najnowocześniejszą AI w Twojej firmie. SIEVE — wyszukiwanie semantyczne on-premise; STRUCTURA — ekstrakcja danych i agenci.',
-    ogTitle: 'Causality — Stosowana AI, oprogramowanie klasy badawczej',
+      'Badacze uczenia maszynowego i inżynierowie oprogramowania, którzy wdrażają najnowocześniejszą AI w Twojej firmie. SIEVE — wyszukiwanie semantyczne on-premise; STRUCTURA — ekstrakcja danych i agenci AI.',
+    ogTitle: 'Causality — stosowana AI i oprogramowanie klasy badawczej',
     ogDescription:
       'Badacze ML i inżynierowie oprogramowania wdrażający najnowocześniejszą AI — z opcją on-premise.',
     ogLocale: 'pl',
@@ -29,8 +29,8 @@ export const pl: Content = {
 
   hero: {
     eyebrow: 'STOSOWANA AI · OPROGRAMOWANIE KLASY BADAWCZEJ',
-    h1: 'Zamknij lukę między Twoją firmą a nowoczesną AI.',
-    lead: 'Jesteśmy badaczami uczenia maszynowego i inżynierami oprogramowania. Wdrażamy najnowocześniejszą AI w Twojej codziennej pracy — abyś rozwijał firmę bez bólu.',
+    h1: 'Zniweluj dystans między Twoją firmą a nowoczesną AI.',
+    lead: 'Jesteśmy badaczami uczenia maszynowego i inżynierami oprogramowania. Wdrażamy najnowocześniejszą AI w Twojej codziennej pracy, aby Twoja firma rosła — bez zbędnych komplikacji.',
     ctaPrimary: 'Porozmawiajmy',
     ctaSecondary: 'Zobacz produkty',
     motifTitle:
@@ -40,7 +40,7 @@ export const pl: Content = {
     spec: {
       focus: 'Stosowana AI',
       mode: 'Usługi + Produkty',
-      deploy: 'Chmura lub On-prem',
+      deploy: 'Chmura lub on-premise',
       based: 'UE',
       statusLabel: 'STATUS',
       statusValue: 'DOSTĘPNI',
@@ -49,8 +49,8 @@ export const pl: Content = {
 
   trust: {
     label: 'POZYCJA',
-    line: 'AI klasy badawczej, stworzona, by działać wewnątrz Twojej firmy.',
-    chips: ['SIEDZIBA W UE', 'WSPARCIE ON-PREM', 'OPARTE NA BADANIACH', 'USŁUGI + PRODUKTY'],
+    line: 'AI klasy badawczej, zbudowana tak, by działać wewnątrz Twojej firmy.',
+    chips: ['SIEDZIBA W UE', 'OPCJA ON-PREM', 'PODEJŚCIE BADAWCZE', 'USŁUGI + PRODUKTY'],
   },
 
   services: {
@@ -60,7 +60,7 @@ export const pl: Content = {
       {
         ref: 'SVC-01',
         title: 'Dedykowane oprogramowanie AI',
-        summary: 'Najnowocześniejsze metody, wbudowane w Twój produkt i procesy.',
+        summary: 'Najnowocześniejsze metody wbudowane w Twój produkt i procesy.',
         keys: ['modele na miarę', 'integracja', 'klasa produkcyjna'],
         primary: true,
       },
@@ -68,19 +68,20 @@ export const pl: Content = {
         ref: 'SVC-02',
         title: 'Badania nad AI',
         summary:
-          'Rygor publikacyjny, wycelowany w Twoje najtrudniejsze i najbardziej specyficzne problemy.',
+          'Rygor naukowy skierowany na Twoje najtrudniejsze, najbardziej specyficzne problemy.',
         keys: ['ewaluacja', 'nowe metody', 'benchmarking'],
       },
       {
         ref: 'SVC-03',
         title: 'Rozwój oprogramowania',
-        summary: 'Niezawodne, łatwe w utrzymaniu systemy wokół modeli — nie notatniki.',
+        summary: 'Niezawodne, łatwe w utrzymaniu systemy wokół modeli — a nie notebooki.',
         keys: ['API', 'pipeline’y', 'MLOps'],
       },
       {
         ref: 'SVC-04',
         title: 'Gotowe produkty',
-        summary: 'SIEVE i STRUCTURA — najnowocześniejsza AI, której zespół użyje już dziś.',
+        summary:
+          'SIEVE i STRUCTURA — najnowocześniejsza AI, z której Twój zespół skorzysta już dziś.',
         keys: ['SIEVE', 'STRUCTURA', 'on-prem'],
       },
     ],
@@ -90,26 +91,26 @@ export const pl: Content = {
     tag: '§04 / PRODUKTY',
     h2: 'Dwa produkty, udokumentowane.',
     frame:
-      'Najnowocześniejsze metody, spakowane tak, by Twój zespół mógł ich użyć już dziś. Poniżej: co robią, ich specyfikacje i sposób wdrożenia.',
+      'Najnowocześniejsze metody przygotowane tak, by Twój zespół mógł z nich skorzystać już dziś. Poniżej: co robi każdy z nich, jego specyfikacja i sposób wdrożenia.',
   },
 
   sieve: {
     ref: 'PRD/SIEVE',
     name: 'SIEVE',
     h3: 'Wyszukiwanie semantyczne i rozumienie danych.',
-    body: 'SIEVE przeszukuje i rozumie Twoje dane według znaczenia, a nie słów kluczowych, dzięki naszym autorskim przestrzeniom wektorowym. Indeksuje tekst, dokumenty i treści multimodalne w przestrzeni semantycznej, w której właściwą odpowiedzią jest najbliższy sąsiad.',
+    body: 'SIEVE przeszukuje i rozumie Twoje dane według znaczenia, a nie słów kluczowych — dzięki naszym autorskim przestrzeniom wektorowym. Indeksuje tekst, dokumenty i treści multimodalne w przestrzeni semantycznej, w której właściwą odpowiedzią jest najbliższy sąsiad.',
     specCaption: 'SIEVE — specyfikacja możliwości',
     specHeadCapability: 'MOŻLIWOŚĆ',
     specHeadDetail: 'SZCZEGÓŁY',
     specs: [
       {
         capability: 'Wyszukiwanie semantyczne',
-        detail: 'Zapytania wg znaczenia; wyszukiwanie najbliższego sąsiada',
+        detail: 'Zapytania według znaczenia; wyszukiwanie najbliższego sąsiada',
       },
       { capability: 'Indeksowanie multimodalne', detail: 'Tekst, dokumenty, obrazy i więcej' },
       {
         capability: 'Przestrzenie wektorowe',
-        detail: 'Autorskie osadzenia, dostrojone do Twojej domeny',
+        detail: 'Autorskie osadzenia dostrojone do Twojej domeny',
       },
       {
         capability: 'Wdrożenie',
@@ -121,9 +122,9 @@ export const pl: Content = {
     ctaAria: 'Zapytaj nas o SIEVE — napisz na hello@causality.pl',
     diagramTitle: 'Architektura on-premise SIEVE — dane nigdy nie opuszczają perymetru klienta',
     diagramDesc:
-      'Schemat. Przerywana granica perymetru klienta obejmuje magazyn danych i SIEVE. Wektor zapytania trafia do najbliższego sąsiada wewnątrz perymetru. Strzałka próbująca opuścić perymetr jest zablokowana i oznaczona BRAK EKSPORTU DANYCH.',
+      'Schemat. Przerywana granica perymetru klienta obejmuje magazyn danych i SIEVE. Wektor zapytania trafia do najbliższego sąsiada wewnątrz perymetru. Strzałka próbująca opuścić perymetr zostaje zablokowana i oznaczona jako BRAK EKSPORTU DANYCH.',
     diagramSummary:
-      'Jak się wdraża: SIEVE działa w całości wewnątrz Twojej infrastruktury. Magazyn danych i indeks semantyczny znajdują się w perymetrze klienta; zapytania rozwiązują się na miejscu. Nic nie przekracza granicy — nie ma eksportu danych.',
+      'Jak przebiega wdrożenie: SIEVE działa w całości wewnątrz Twojej infrastruktury. Magazyn danych i indeks semantyczny znajdują się w perymetrze klienta, a zapytania rozwiązywane są na miejscu. Nic nie przekracza granicy — nie ma eksportu danych.',
     perimeterLabel: 'PERYMETR KLIENTA',
     egressLabel: 'BRAK EKSPORTU DANYCH',
   },
@@ -132,17 +133,17 @@ export const pl: Content = {
     ref: 'PRD/STRUCTURA',
     name: 'STRUCTURA',
     h3: 'Ustrukturyzowana ekstrakcja, bazy wiedzy i agenci.',
-    body: 'STRUCTURA zamienia nieustrukturyzowane, multimodalne dane w ustrukturyzowaną bazę wiedzy — a następnie uruchamia dedykowanych agentów, którzy wykorzystują tę wiedzę, by podejmować działania w sieci i automatyzować codzienną pracę.',
+    body: 'STRUCTURA zamienia nieustrukturyzowane, multimodalne dane w uporządkowaną bazę wiedzy, a następnie uruchamia dedykowanych agentów, którzy wykorzystują tę wiedzę, by działać w sieci i automatyzować codzienną pracę.',
     specCaption: 'STRUCTURA — specyfikacja możliwości',
     specHeadCapability: 'MOŻLIWOŚĆ',
     specHeadDetail: 'SZCZEGÓŁY',
     specs: [
       { capability: 'Wejście', detail: 'Nieustrukturyzowane, multimodalne dane' },
-      { capability: 'Ekstrakcja', detail: 'Ustrukturyzowane pola, encje, relacje' },
+      { capability: 'Ekstrakcja', detail: 'Uporządkowane pola, encje i relacje' },
       { capability: 'Baza wiedzy', detail: 'Przeszukiwalna, połączona z przestrzeniami SIEVE' },
       {
         capability: 'Agenci / automatyzacja',
-        detail: 'Dedykowani agenci działają w sieci, automatyzują procesy',
+        detail: 'Dedykowani agenci działają w sieci i automatyzują procesy',
         highlight: true,
       },
     ],
@@ -152,7 +153,7 @@ export const pl: Content = {
     diagramDesc:
       'Pipeline od lewej do prawej. Rozproszone symbole dokumentów, obrazów i dźwięku układają się w uporządkowany graf wiedzy, który trafia do węzła agenta podejmującego działania w sieci.',
     diagramSummary:
-      'Jak przebiega: nieustrukturyzowane dane multimodalne są ekstrahowane do pól i relacji, składane w przeszukiwalną bazę wiedzy i przekazywane dedykowanym agentom, którzy działają w sieci, automatyzując codzienną pracę.',
+      'Jak to działa: nieustrukturyzowane dane multimodalne są ekstrahowane do pól i relacji, składane w przeszukiwalną bazę wiedzy i przekazywane dedykowanym agentom, którzy działają w sieci, automatyzując codzienną pracę.',
     stages: [
       'Nieustrukturyzowane dane multimodalne',
       'Ekstrakcja',
@@ -164,7 +165,7 @@ export const pl: Content = {
   about: {
     tag: '§07 / O NAS',
     h2: 'Zespół badaczy i inżynierów.',
-    body: 'Jesteśmy grupą doświadczonych badaczy uczenia maszynowego i deweloperów oprogramowania, którzy zamykają lukę między biznesem a nowoczesnymi rozwiązaniami. Nasze usługi pozwalają wykorzystać najnowocześniejszą AI w codziennej pracy, by rozwijać firmę — bez bólu.',
+    body: 'Jesteśmy zespołem doświadczonych badaczy uczenia maszynowego i inżynierów oprogramowania, którzy niwelują dystans między biznesem a nowoczesnymi rozwiązaniami. Dzięki naszym usługom wykorzystasz najnowocześniejszą AI w codziennej pracy i rozwiniesz firmę — bez zbędnych komplikacji.',
     roster: ['Badania', 'Inżynieria ML', 'Oprogramowanie', 'Produkt'],
   },
 
@@ -175,17 +176,17 @@ export const pl: Content = {
       {
         n: '01',
         title: 'Analiza i badania',
-        body: 'Poznajemy Twoje dane i problem, i uczciwie mówimy, czy AI to właściwe narzędzie.',
+        body: 'Poznajemy Twoje dane i problem, po czym uczciwie mówimy, czy AI to właściwe narzędzie.',
       },
       {
         n: '02',
         title: 'Budowa',
-        body: 'System na miarę lub jeden z naszych produktów — zbudowany do wdrożenia, nie na pokaz.',
+        body: 'System szyty na miarę lub jeden z naszych produktów — gotowy do wdrożenia, nie na pokaz.',
       },
       {
         n: '03',
         title: 'Wdrożenie i wsparcie',
-        body: 'Chmura lub w pełni on-premise. Należy do Ciebie; my je wspieramy.',
+        body: 'Chmura lub w pełni on-premise. System należy do Ciebie — my go utrzymujemy.',
       },
     ],
   },
@@ -193,7 +194,7 @@ export const pl: Content = {
   finalCta: {
     tag: '§09 / KONTAKT',
     h2: 'Porozmawiajmy o Twoich danych.',
-    sub: 'Opisz nam problem. Uczciwie powiemy, czy AI to właściwe narzędzie — i jak zachować kontrolę nad danymi.',
+    sub: 'Opisz nam swój problem. Uczciwie powiemy, czy AI to właściwe narzędzie — i jak zachować kontrolę nad danymi.',
     ctaPrimary: 'Porozmawiajmy',
     reassurance: 'JEDEN E-MAIL. ODPOWIADA PRAWDZIWY INŻYNIER.',
   },
