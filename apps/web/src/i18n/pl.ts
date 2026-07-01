@@ -205,6 +205,5 @@ export const pl: Content = {
     companyTitle: 'Firma',
     contactTitle: 'Kontakt',
     copyright: '© 2026 Causality. Wszelkie prawa zastrzeżone.',
-    colophon: 'Złożone krojami Space Grotesk, Inter i IBM Plex Mono. Zbudowane w Astro.',
   },
 };

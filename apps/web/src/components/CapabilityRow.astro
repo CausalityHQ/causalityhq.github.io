@@ -16,12 +16,16 @@ const { item, icon } = Astro.props;
 ---
 
 <div
-  class:list={[
-    'group border-hairline relative grid grid-cols-1 gap-y-3 border-t py-6 md:grid-cols-[8rem_1fr_2rem] md:items-baseline md:gap-x-6 md:py-7',
-    item.primary && 'border-l-lime border-l-[3px] pl-4 md:pl-6',
-  ]}
+  class="group border-hairline relative grid grid-cols-1 gap-y-3 border-t py-6 md:grid-cols-[8rem_1fr_2rem] md:items-baseline md:gap-x-6 md:py-7"
   data-reveal
 >
+  {/* Primary accent — a lime bar in the left margin, so it never shifts content */}
+  {
+    item.primary && (
+      <span class="bg-lime absolute top-0 -left-4 h-full w-[3px] md:-left-6" aria-hidden="true" />
+    )
+  }
+
   <MonoLabel class="md:pt-1">{item.ref}</MonoLabel>
 
   <div class="max-w-[54ch]">

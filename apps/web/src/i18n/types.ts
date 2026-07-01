@@ -156,6 +156,5 @@ export interface Content {
     companyTitle: string;
     contactTitle: string;
     copyright: string;
-    colophon: string;
   };
 }

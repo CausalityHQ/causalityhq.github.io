@@ -196,6 +196,5 @@ export const en: Content = {
     companyTitle: 'Company',
     contactTitle: 'Contact',
     copyright: '© 2026 Causality. All rights reserved.',
-    colophon: 'Set in Space Grotesk, Inter & IBM Plex Mono. Built with Astro.',
   },
 };
