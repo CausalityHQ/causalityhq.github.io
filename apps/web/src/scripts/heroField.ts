@@ -1,16 +1,34 @@
 /**
- * Hero moving-graph (INTERACTIVE.md §A). A lazy Canvas 2D overlay that hard-swaps
- * over the server-rendered HeroMotif SVG, replays the lime "line of reasoning"
- * draw-in once, then goes STILL — the only ongoing motion is a ≤6px pointer probe
- * on fine pointers. rAF parks itself when idle / off-screen / tab-hidden.
- * Under reduced motion it never mounts (the SVG is the whole experience).
- *
- * Coordinates are in the shipped 420×380 HeroMotif space.
+ * Hero "semantic constellation" (INTERACTIVE.md §A, evolved).
+ * A lazy Canvas 2D overlay over the server-rendered HeroMotif SVG:
+ *   - ambient nodes drift perpetually and gently bounce inside the frame;
+ *   - hairline links appear between nearby nodes (a living network);
+ *   - four lime "mark" nodes stay fixed and their lime edges draw in once,
+ *     evoking the brain-and-gear brand mark (the faint SVG mark shows through);
+ *   - the pointer attracts nearby nodes and draws live lime connections to them.
+ * Perpetual while on-screen; parks rAF off-screen / tab-hidden. Reduced-motion
+ * never mounts → the static SVG (fully resolved) is the whole experience.
  */
-type Pt = [number, number];
+const VBW = 420;
+const VBH = 380;
+const PAD = 16;
+const N = 30; // ambient nodes
+const LINK = 74; // link distance (VB units)
+const MOUSE_R = 100; // pointer influence radius
 
-// 18 ambient nodes + A at index 18 (A is a fixed lime endpoint of the web).
-const AMBIENT: Pt[] = [
+type Pt = [number, number];
+const A: Pt = [210, 116];
+const B: Pt = [210, 190];
+const C: Pt = [291, 190];
+const D: Pt = [150, 252];
+const MARK: Pt[] = [A, B, C, D];
+const MARK_EDGES: [Pt, Pt, number][] = [
+  [D, B, 0],
+  [A, B, 220],
+  [B, C, 440],
+];
+// deterministic-ish seed positions (some near the mark, rest scattered)
+const SEED: Pt[] = [
   [70, 82],
   [120, 58],
   [300, 68],
@@ -29,32 +47,19 @@ const AMBIENT: Pt[] = [
   [322, 150],
   [200, 300],
   [140, 175],
+  [40, 120],
+  [390, 300],
+  [250, 60],
+  [180, 230],
+  [330, 340],
+  [60, 330],
+  [280, 220],
+  [110, 250],
+  [230, 160],
+  [360, 60],
+  [90, 60],
+  [200, 90],
 ];
-const A: Pt = [210, 116];
-const B: Pt = [210, 190];
-const C: Pt = [291, 190];
-const D: Pt = [150, 252];
-// Web edges as index pairs into positions (0..17 ambient, 18 = A).
-const EDGES: [number, number][] = [
-  [1, 12],
-  [2, 15],
-  [4, 14],
-  [12, 18],
-  [13, 18],
-  [9, 11],
-  [6, 16],
-  [14, 17],
-  [3, 15],
-  [8, 16],
-  [5, 14],
-];
-// Lime edges (from, to, start-delay ms); each draws over 700ms.
-const LIME: [Pt, Pt, number][] = [
-  [D, B, 180],
-  [A, B, 440],
-  [B, C, 700],
-];
-const VB = 420;
 const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
 
 export function mount(figure: HTMLElement): void {
@@ -63,16 +68,20 @@ export function mount(figure: HTMLElement): void {
   const ctx = canvas?.getContext('2d');
   if (!canvas || !ctx) return;
 
-  const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  const base: Pt[] = [...AMBIENT.map((p) => [p[0], p[1]] as Pt), [A[0], A[1]]];
-  const disp: Pt[] = base.map(() => [0, 0]); // probe displacement (lerped)
-  const targ: Pt[] = base.map(() => [0, 0]);
-  const drift: Pt[] = base.map(() => [0, 0]); // gentle perpetual float (ambient nodes)
-  // deterministic per-node phase/amplitude so dots float out of sync
-  const phase = AMBIENT.map((_, i) => i * 0.7);
-  const amp = AMBIENT.map((_, i) => 1.5 + (i % 3) * 0.5);
-  let scale = 1;
+  const px = new Float32Array(N);
+  const py = new Float32Array(N);
+  const vx = new Float32Array(N);
+  const vy = new Float32Array(N);
+  for (let i = 0; i < N; i++) {
+    const s = SEED[i % SEED.length];
+    px[i] = s[0];
+    py[i] = s[1];
+    // small varied velocities (deterministic from index)
+    vx[i] = Math.cos(i * 1.7) * 0.14;
+    vy[i] = Math.sin(i * 2.3) * 0.14;
+  }
 
+  let scale = 1;
   const resize = () => {
     const w = canvas.clientWidth;
     const h = canvas.clientHeight;
@@ -81,112 +90,158 @@ export function mount(figure: HTMLElement): void {
     canvas.width = Math.round(w * dpr);
     canvas.height = Math.round(h * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    scale = w / VB;
+    scale = w / VBW;
   };
   resize();
-  figure.classList.add('canvas-active'); // hard swap: hide SVG layers, show canvas
+  figure.classList.add('canvas-active');
 
-  const pos = (i: number): Pt => [
-    base[i][0] + disp[i][0] + drift[i][0],
-    base[i][1] + disp[i][1] + drift[i][1],
-  ];
-  const dot = (p: Pt, r: number) => {
-    ctx.beginPath();
-    ctx.arc(p[0] * scale, p[1] * scale, r * scale, 0, Math.PI * 2);
-    ctx.fill();
-  };
-
-  const startTime = performance.now();
-  let elapsed = 0;
+  const t0 = performance.now();
   let pointer: Pt | null = null;
-  let probeActive = false;
   let running = false;
   let visible = true;
   let raf = 0;
 
-  const draw = () => {
-    ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-    // ambient web
-    ctx.strokeStyle = '#E3E6DE';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    for (const [a, b] of EDGES) {
-      const pa = pos(a);
-      const pb = pos(b);
-      ctx.moveTo(pa[0] * scale, pa[1] * scale);
-      ctx.lineTo(pb[0] * scale, pb[1] * scale);
+  const step = (elapsed: number) => {
+    const mx = pointer ? pointer[0] : 0;
+    const my = pointer ? pointer[1] : 0;
+    for (let i = 0; i < N; i++) {
+      // pointer attraction (gentle spring toward cursor within radius)
+      if (pointer) {
+        const dx = mx - px[i];
+        const dy = my - py[i];
+        const d = Math.hypot(dx, dy);
+        if (d < MOUSE_R && d > 0.5) {
+          const f = (1 - d / MOUSE_R) * 0.06;
+          vx[i] += (dx / d) * f;
+          vy[i] += (dy / d) * f;
+        }
+      }
+      // drift + damping (keeps a calm baseline speed)
+      vx[i] *= 0.96;
+      vy[i] *= 0.96;
+      const sp = Math.hypot(vx[i], vy[i]);
+      const min = 0.09;
+      if (sp < min) {
+        // nudge back toward a gentle wander
+        vx[i] += Math.cos(elapsed * 0.0004 + i) * 0.02;
+        vy[i] += Math.sin(elapsed * 0.0004 + i * 1.4) * 0.02;
+      }
+      px[i] += vx[i];
+      py[i] += vy[i];
+      // bounce inside the frame
+      if (px[i] < PAD) {
+        px[i] = PAD;
+        vx[i] = Math.abs(vx[i]);
+      } else if (px[i] > VBW - PAD) {
+        px[i] = VBW - PAD;
+        vx[i] = -Math.abs(vx[i]);
+      }
+      if (py[i] < PAD) {
+        py[i] = PAD;
+        vy[i] = Math.abs(vy[i]);
+      } else if (py[i] > VBH - PAD) {
+        py[i] = VBH - PAD;
+        vy[i] = -Math.abs(vy[i]);
+      }
     }
-    ctx.stroke();
-    // ambient dots
-    ctx.fillStyle = '#C9CEC1';
-    for (let i = 0; i < 18; i++) dot(pos(i), 2.4);
-    // lime edges (drawn fraction)
+  };
+
+  const draw = (elapsed: number) => {
+    const S = scale;
+    ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+
+    // constellation links between nearby ambient nodes
+    ctx.lineWidth = 1;
+    for (let i = 0; i < N; i++) {
+      for (let j = i + 1; j < N; j++) {
+        const dx = px[i] - px[j];
+        const dy = py[i] - py[j];
+        const d2 = dx * dx + dy * dy;
+        if (d2 < LINK * LINK) {
+          const a = (1 - Math.sqrt(d2) / LINK) * 0.5;
+          ctx.strokeStyle = `rgba(180,186,171,${a.toFixed(3)})`;
+          ctx.beginPath();
+          ctx.moveTo(px[i] * S, py[i] * S);
+          ctx.lineTo(px[j] * S, py[j] * S);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // pointer: live lime links to nearby nodes + cursor node
+    if (pointer) {
+      ctx.lineWidth = 1.4;
+      for (let i = 0; i < N; i++) {
+        const dx = pointer[0] - px[i];
+        const dy = pointer[1] - py[i];
+        const d = Math.hypot(dx, dy);
+        if (d < MOUSE_R) {
+          const a = (1 - d / MOUSE_R) * 0.9;
+          ctx.strokeStyle = `rgba(149,214,0,${a.toFixed(3)})`;
+          ctx.beginPath();
+          ctx.moveTo(pointer[0] * S, pointer[1] * S);
+          ctx.lineTo(px[i] * S, py[i] * S);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // ambient dots (slightly larger + darker near the pointer)
+    for (let i = 0; i < N; i++) {
+      let r = 2.3;
+      if (pointer) {
+        const d = Math.hypot(pointer[0] - px[i], pointer[1] - py[i]);
+        if (d < MOUSE_R) r = 2.3 + (1 - d / MOUSE_R) * 1.8;
+      }
+      ctx.fillStyle = '#C9CEC1';
+      ctx.beginPath();
+      ctx.arc(px[i] * S, py[i] * S, r * S, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // lime mark edges (draw in once, then persist)
     ctx.strokeStyle = '#95D600';
     ctx.lineWidth = 2;
     ctx.lineCap = 'round';
-    for (const [p, q, delay] of LIME) {
+    for (const [p, qq, delay] of MARK_EDGES) {
       const f = easeOut(Math.max(0, Math.min(1, (elapsed - delay) / 700)));
       if (f <= 0) continue;
       ctx.beginPath();
-      ctx.moveTo(p[0] * scale, p[1] * scale);
-      ctx.lineTo((p[0] + (q[0] - p[0]) * f) * scale, (p[1] + (q[1] - p[1]) * f) * scale);
+      ctx.moveTo(p[0] * S, p[1] * S);
+      ctx.lineTo((p[0] + (qq[0] - p[0]) * f) * S, (p[1] + (qq[1] - p[1]) * f) * S);
       ctx.stroke();
     }
-    // lime nodes (C scales 0.85→1 as the single accent when B→C completes)
-    const cs = 0.85 + 0.15 * easeOut(Math.max(0, Math.min(1, (elapsed - 1400) / 260)));
+
+    // fixed lime mark nodes (the brain-and-gear anchors)
+    const cs = 0.85 + 0.15 * easeOut(Math.max(0, Math.min(1, (elapsed - 1140) / 260)));
     ctx.fillStyle = '#95D600';
-    dot(A, 3.4);
-    dot(D, 3.4);
-    dot(C, 3.4 * cs);
-    dot(B, 4.6);
+    for (const m of MARK) {
+      const r = m === B ? 4.6 : m === C ? 3.4 * cs : 3.4;
+      ctx.beginPath();
+      ctx.arc(m[0] * S, m[1] * S, r * S, 0, Math.PI * 2);
+      ctx.fill();
+    }
     ctx.strokeStyle = '#95D600';
     ctx.lineWidth = 1.2;
     ctx.beginPath();
-    ctx.arc(B[0] * scale, B[1] * scale, 8.5 * scale, 0, Math.PI * 2);
+    ctx.arc(B[0] * S, B[1] * S, 8.5 * S, 0, Math.PI * 2);
     ctx.stroke();
-  };
 
-  const computeTargets = () => {
-    for (let i = 0; i < 19; i++) {
-      targ[i][0] = 0;
-      targ[i][1] = 0;
-    }
-    if (!probeActive || !pointer) return;
-    // nearest 6 ambient nodes drift ≤6px toward the pointer
-    const d = AMBIENT.map(
-      (p, i) => [i, (p[0] - pointer![0]) ** 2 + (p[1] - pointer![1]) ** 2] as [number, number],
-    ).sort((a, b) => a[1] - b[1]);
-    for (let n = 0; n < 6; n++) {
-      const i = d[n][0];
-      const vx = pointer[0] - base[i][0];
-      const vy = pointer[1] - base[i][1];
-      const m = Math.hypot(vx, vy) || 1;
-      const cap = Math.min(6, m);
-      targ[i][0] = (vx / m) * cap;
-      targ[i][1] = (vy / m) * cap;
+    // cursor node
+    if (pointer) {
+      ctx.fillStyle = '#95D600';
+      ctx.beginPath();
+      ctx.arc(pointer[0] * S, pointer[1] * S, 3 * S, 0, Math.PI * 2);
+      ctx.fill();
     }
   };
 
   const loop = (now: number) => {
-    elapsed = now - startTime;
-    // gentle perpetual float for the ambient dots (the "floating dots")
-    for (let i = 0; i < 18; i++) {
-      drift[i][0] = Math.sin(now * 0.00042 + phase[i]) * amp[i];
-      drift[i][1] = Math.cos(now * 0.00035 + phase[i] * 1.3) * amp[i] * 0.8;
-    }
-    if (fine) {
-      computeTargets();
-      for (let i = 0; i < 19; i++) {
-        disp[i][0] += (targ[i][0] - disp[i][0]) * 0.08;
-        disp[i][1] += (targ[i][1] - disp[i][1]) * 0.08;
-      }
-    }
-    draw();
-    // Perpetual while on-screen (user asked for floating motion); parks off-screen
-    // and when the tab is hidden (perf/battery).
-    if (visible && !document.hidden) {
-      raf = requestAnimationFrame(loop);
-    } else {
+    const elapsed = now - t0;
+    step(elapsed);
+    draw(elapsed);
+    if (visible && !document.hidden) raf = requestAnimationFrame(loop);
+    else {
       running = false;
       raf = 0;
     }
@@ -196,23 +251,17 @@ export function mount(figure: HTMLElement): void {
     running = true;
     raf = requestAnimationFrame(loop);
   };
-  ensure(); // play the one-shot draw-in
+  ensure();
 
-  // --- pointer probe (fine pointers only) ---
-  if (fine) {
-    figure.addEventListener('pointermove', (e) => {
-      const r = canvas.getBoundingClientRect();
-      pointer = [(e.clientX - r.left) / scale, (e.clientY - r.top) / scale];
-      probeActive = true;
-      ensure();
-    });
-    figure.addEventListener('pointerleave', () => {
-      probeActive = false;
-      ensure();
-    });
-  }
+  figure.addEventListener('pointermove', (e) => {
+    const r = canvas.getBoundingClientRect();
+    pointer = [(e.clientX - r.left) / scale, (e.clientY - r.top) / scale];
+    ensure();
+  });
+  figure.addEventListener('pointerleave', () => {
+    pointer = null;
+  });
 
-  // --- park when off-screen / tab hidden ---
   const io = new IntersectionObserver(
     (entries) => {
       for (const e of entries) {
@@ -221,9 +270,7 @@ export function mount(figure: HTMLElement): void {
           cancelAnimationFrame(raf);
           running = false;
           raf = 0;
-        } else if (visible) {
-          ensure();
-        }
+        } else if (visible) ensure();
       }
     },
     { threshold: 0 },
@@ -234,18 +281,14 @@ export function mount(figure: HTMLElement): void {
       cancelAnimationFrame(raf);
       running = false;
       raf = 0;
-    } else if (!document.hidden) {
-      ensure();
-    }
+    } else if (!document.hidden) ensure();
   });
-
   const ro = new ResizeObserver(() => {
     resize();
-    if (!running) draw();
+    if (!running) draw(performance.now() - t0);
   });
   ro.observe(canvas);
 
-  // Teardown on bfcache/navigation so no observers or rAF leak (best-practices).
   window.addEventListener(
     'pagehide',
     () => {
