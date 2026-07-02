@@ -307,7 +307,7 @@ export const pl: Content = {
     h2: 'Zespół inżynierów i badaczy.',
     body: 'Jesteśmy zespołem doświadczonych inżynierów oprogramowania oraz badaczy uczenia maszynowego. Zmniejszamy lukę technologiczną między biznesem a nowoczesnym IT. Z nami zaimplementujesz rozwiązania State-of-the-Art w swoje codzienne procesy i rozwiniesz organizację, unikając długu technologicznego.',
     roster: ['Research', 'ML Engineering', 'Software Engineering', 'Produkt'],
-    teamLabel: 'ZESPÓŁ',
+    teamLabel: 'Liderzy badań',
     team: [
       {
         name: 'Roman Bartusiak',

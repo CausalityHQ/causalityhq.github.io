@@ -285,7 +285,7 @@ export const en: Content = {
     h2: 'A team of researchers and engineers.',
     body: 'We are a group of experienced machine-learning researchers and software developers closing the gap between businesses and modern software solutions. Our services let you use state-of-the-art AI in daily work to grow the business — without pain.',
     roster: ['Research', 'ML Engineering', 'Software', 'Product'],
-    teamLabel: 'TEAM',
+    teamLabel: 'Research leaders',
     team: [
       {
         name: 'Roman Bartusiak',
