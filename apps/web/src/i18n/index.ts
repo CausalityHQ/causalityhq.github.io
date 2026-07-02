@@ -26,10 +26,11 @@ export function localeUrl(locale: Locale): string {
 /** The other locale (for the language toggle on a two-locale site). */
 export const OTHER_LOCALE: Record<Locale, Locale> = { en: 'pl', pl: 'en' };
 
-/** hreflang alternates for every locale + x-default. */
-export function hreflangAlternates(): { hreflang: string; href: string }[] {
+/** hreflang alternates for every locale + x-default. `path` (e.g. 'eu-project/')
+ * is appended to each locale root for non-home pages. */
+export function hreflangAlternates(path = ''): { hreflang: string; href: string }[] {
   return [
-    ...LOCALES.map((l) => ({ hreflang: l, href: localeUrl(l) })),
-    { hreflang: 'x-default', href: localeUrl(DEFAULT_LOCALE) },
+    ...LOCALES.map((l) => ({ hreflang: l, href: `${localeUrl(l)}${path}` })),
+    { hreflang: 'x-default', href: `${localeUrl(DEFAULT_LOCALE)}${path}` },
   ];
 }

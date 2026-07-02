@@ -21,10 +21,12 @@ export const en: Content = {
     about: 'About',
     contact: 'Contact',
     talkToUs: 'Talk to us',
+    euProjects: 'EU projects',
+    oss: 'Open source',
     primaryLabel: 'Primary',
     skipToContent: 'Skip to content',
     langLabel: 'Language',
-    talkToUsAria: 'Talk to us — email hello@causality.pl',
+    talkToUsAria: 'Talk to us — email research@causality.pl',
   },
 
   hero: {
@@ -90,9 +92,16 @@ export const en: Content = {
 
   productsIntro: {
     tag: '§04 / PRODUCTS',
-    h2: 'Two products, documented.',
+    h2: 'Production-grade AI, ready on day one.',
     frame:
-      'State-of-the-art methods, packaged so your team can use them today. Below: what each does, its specifications, and how it deploys.',
+      'SIEVE and STRUCTURA put state-of-the-art AI in your team’s hands today — search that understands meaning, and agents that turn your data into action. Deploy in the cloud or fully on your own infrastructure.',
+  },
+
+  ingest: {
+    label: 'SOURCES',
+    types: ['Documents', 'Systems & databases', 'Images', 'Recordings'],
+    email: 'Forward an email',
+    note: 'Bring in data from anywhere — files, business systems, photos, audio. Or simply forward an email to your Causality inbox, and it’s ready to use in seconds.',
   },
 
   sieve: {
@@ -114,7 +123,7 @@ export const en: Content = {
       },
     ],
     cta: 'Talk to us about SIEVE',
-    ctaAria: 'Talk to us about SIEVE — email hello@causality.pl',
+    ctaAria: 'Talk to us about SIEVE — email research@causality.pl',
     diagramTitle: 'SIEVE on-premise architecture — data never leaves the customer perimeter',
     diagramDesc:
       'A schematic. A dashed customer-perimeter boundary encloses the data store and SIEVE. A query vector snaps to its nearest neighbour inside the perimeter. An arrow attempting to leave the perimeter is blocked and labelled NO DATA EGRESS.',
@@ -134,10 +143,11 @@ export const en: Content = {
       narrateIdle:
         'Pick a sample query, then press Run — SIEVE finds the closest documents by meaning.',
       steps: [
+        'Feed it everything — documents, business systems, images, recordings. Forward an email and it’s searchable in seconds.',
         'Ask a question the way you’d say it out loud — no keywords, no special syntax.',
-        'SIEVE reads it for meaning and places it on a map of your documents by topic.',
-        'It instantly surfaces the closest matches — even when the exact words differ.',
-        'And it all runs inside your own systems — your data never leaves.',
+        'SIEVE reads it for meaning and places it on the same map as your data.',
+        'The closest documents light up — even when they don’t share a single word.',
+        'You get a ranked shortlist, most relevant first — and nothing ever leaves your systems.',
       ],
       presets: [
         'on-prem vector database',
@@ -202,7 +212,7 @@ export const en: Content = {
       },
     ],
     cta: 'Talk to us about STRUCTURA',
-    ctaAria: 'Talk to us about STRUCTURA — email hello@causality.pl',
+    ctaAria: 'Talk to us about STRUCTURA — email research@causality.pl',
     diagramTitle: 'STRUCTURA pipeline — from unstructured data to agents that act',
     diagramDesc:
       'A left-to-right pipeline. Scattered document, image, and audio glyphs resolve into an ordered knowledge graph, which flows to an agent node that takes actions on the web.',
@@ -218,22 +228,22 @@ export const en: Content = {
     demo: {
       label: 'STRUCTURA · INTERACTIVE WALKTHROUGH',
       intro:
-        'An example: step through it — three messy sources become a knowledge graph, and an agent reads it, updates it, and acts.',
+        'An example that runs on its own: emails arrive over time, the agent keeps your knowledge base up to date, waits for what’s missing, and acts on the web when everything lines up.',
       statusReady: 'READY · press Play or step through',
       stepReadout: 'STEP {n} / 5',
       captions: [
-        'INPUT · 3 sources · PO.pdf, pallet.jpg, vm.m4a',
-        'EXTRACT · 7 fields · 3 entities · 2 relations',
-        'KNOWLEDGE BASE · 5 nodes · 5 relations · queryable',
-        'AGENT · read Order→Invoice · wrote status=DUE',
-        'ACTION · typed INV-2231 · clicked Schedule → SCHEDULED',
+        'INGEST · any source · file · system · photo · email',
+        'EMAIL 1 · order confirmed · +Order +Product +Shipment',
+        'AGENT · watching · awaiting the matching invoice',
+        'EMAIL 2 · invoice INV-2231 · matched → Order · status DUE',
+        'ACTION · portal · typed INV-2231 · Schedule → SCHEDULED',
       ],
       sr: [
-        'Step 1 of 5. Three unstructured sources arrive: a purchase-order PDF, a photo of a pallet, and a voicemail clip.',
-        'Step 2 of 5. STRUCTURA extracts seven structured fields — supplier, order, product, quantity, amount, invoice, shipment.',
-        'Step 3 of 5. The fields assemble into a queryable knowledge graph of five connected entities.',
-        'Step 4 of 5. The agent reads from Order to Invoice, finds invoice INV-2231 is unpaid and now due, and writes a new status DUE into the knowledge base.',
-        'Step 5 of 5. Using what it learned, the agent enters invoice INV-2231 into the payment form and clicks Schedule. The payment is now scheduled. This is an illustrative example, not a live transaction.',
+        'Step 1 of 5. Data flows in from any source — files, business systems, photos, recordings, or a simply forwarded email. Everything lands in one place, ready to use.',
+        'Step 2 of 5. A first email arrives: Acme confirms order PO-4471. STRUCTURA reads it and records the order, product and shipment in your knowledge base.',
+        'Step 3 of 5. There’s nothing to pay yet, so the agent keeps watching — waiting for the matching invoice to arrive.',
+        'Step 4 of 5. A second email lands with invoice INV-2231. The agent matches it to the order, confirms the amounts line up, and marks it Due in the knowledge base.',
+        'Step 5 of 5. Now everything reconciles, so the agent opens the payment portal, enters invoice INV-2231 and schedules the payment — closing the loop end to end. This is an illustrative example, not a live transaction.',
       ],
       nodes: [
         'Supplier · Acme Foods',
@@ -260,8 +270,13 @@ export const en: Content = {
       laneAction: 'AGENT ACTION',
       agentLabel: 'AGENT',
       extractChips: ['Supplier', 'Order', 'Quantity', 'Amount', 'Invoice'],
+      inboxLabel: 'INBOX',
+      emails: ['Fwd: Order confirmation — Acme Foods', 'Fwd: Invoice INV-2231 — Acme Foods'],
+      waitNote: 'Watching — waiting for the matching invoice',
+      agentWatch: 'watching',
+      agentAct: 'acting on the web',
       figcaption:
-        'How it flows: unstructured multimodal input is extracted into structured fields and relations, assembled into a queryable knowledge base, and handed to custom agents that read it, update it, and act on the web to automate daily work. The scenario shown is an illustrative example.',
+        'How it flows: emails and other sources arrive over time; STRUCTURA keeps a queryable knowledge base up to date, and a custom agent watches for what’s missing, reconciles it, and acts on the web to automate daily work. The scenario shown is an illustrative example.',
     },
   },
 
@@ -308,5 +323,93 @@ export const en: Content = {
     companyTitle: 'Company',
     contactTitle: 'Contact',
     copyright: '© 2026 Causality. All rights reserved.',
+  },
+
+  eu: {
+    metaTitle: 'EU-funded projects — Causality',
+    metaDescription:
+      'Research and development projects carried out by Causality with co-financing from the European Union — programmes, project numbers and funding amounts.',
+    tag: '§ EU FUNDING',
+    h1: 'EU-funded projects',
+    intro:
+      'Causality carries out research and development co-financed by the European Union. Details of our ongoing and completed EU projects are set out below.',
+    coFunded: 'Co-funded by the European Union',
+    disclosure: 'Project co-financed by the European Union.',
+    backHome: 'Back to home',
+    beneficiaryLabel: 'Beneficiary',
+    programmeLabel: 'Programme',
+    actionLabel: 'Action',
+    numberLabel: 'Project number',
+    institutionLabel: 'Implementing authority',
+    valueLabel: 'Project value',
+    euFundingLabel: 'EU funding',
+    cofinancingLabel: 'EU co-financing',
+    scopeLabel: 'Scope',
+    projects: [
+      {
+        title:
+          'Developing a flexible, general-purpose method for generating high-quality, reliable text and image data to build commercial machine-learning solutions',
+        paragraphs: [
+          'CAUSALITY PROSTA SPÓŁKA AKCYJNA has received EU funding for the project “Development of a flexible and universal method for generating high-quality, reliable text and image data for building commercial machine-learning solutions”, under the European Funds for a Modern Economy 2021–2027 programme, Priority: Support for entrepreneurs, Action: SMART Path, no. FENG.01.01-IP.02-2364/23.',
+          'The project sets out to develop a flexible, general-purpose method for generating high-quality, reliable text and image data for building commercial machine-learning (ML) solutions.',
+        ],
+        tasksIntro: 'The solution is delivered through four research tasks:',
+        tasks: [
+          'Developing generative models that produce synthetic text data from user-supplied patterns, preserving semantic correctness and minimising hallucination (industrial research).',
+          'Integrating the text-generation solution into a complete, microservice-based architecture (development work).',
+          'Developing generative models that produce synthetic visual data (images) from user-supplied patterns, preserving semantic correctness and minimising hallucination (industrial research).',
+          'Integrating the visual-data-generation solution into a complete, microservice-based architecture (development work).',
+        ],
+        paragraphsAfter: [
+          'The result of the project will take the form of a web platform with an API, brought to market by Causality. It will first be offered to companies building artificial-intelligence (AI) software, including ML, letting them broaden their customer base and speed up development of such software. Its general-purpose nature makes it applicable to any industry, and it is especially useful in areas that demand very high accuracy (e.g. medicine, finance, industry) and where training data is scarce or of poor quality.',
+          'The approach taken to synthetic-data generation will provide a competitive advantage by ensuring higher quality and reliability of the generated data.',
+        ],
+        beneficiary: 'CAUSALITY PROSTA SPÓŁKA AKCYJNA',
+        programme: 'Fundusze Europejskie dla Nowoczesnej Gospodarki 2021–2027',
+        action: 'Priorytet: Wsparcie dla przedsiębiorców · Działanie: Ścieżka SMART',
+        number: 'FENG.01.01-IP.02-2364/23',
+        value: '10 052 632,00 PLN',
+        funding: '7 223 363,75 PLN',
+        fundingKind: 'eu',
+      },
+      {
+        title: 'A semantic search and data-exploration engine accessible to business users',
+        paragraphs: [
+          'CAUSALITY PROSTA SPÓŁKA AKCYJNA carried out the project “A semantic search and data-exploration engine accessible to business users” under Action 1.1: R&D projects of enterprises, Sub-action 1.1.1 — industrial research and development work carried out by enterprises — of the Smart Growth Operational Programme 2014–2020.',
+          'The project was co-financed by the European Union under call 1/1.1.1/2022 — Fast Track — Digital Innovations.',
+        ],
+        beneficiary: 'CAUSALITY PROSTA SPÓŁKA AKCYJNA',
+        programme: 'Program Operacyjny Inteligentny Rozwój 2014–2020',
+        action: 'Działanie 1.1: Projekty B+R przedsiębiorstw · Poddziałanie 1.1.1',
+        number: 'POIR.01.01.01-00-0178/22',
+        institution: 'Narodowe Centrum Badań i Rozwoju',
+        value: '5 520 888,16 PLN',
+        funding: '4 181 246,47 PLN',
+        fundingKind: 'cofinancing',
+      },
+    ],
+  },
+
+  oss: {
+    metaTitle: 'Open source — Causality',
+    metaDescription:
+      'Open-source software from Causality, including BORSUK — a Rust similarity-search engine that streams vectors from Parquet on disk or S3-compatible storage.',
+    tag: '§ OPEN SOURCE',
+    h1: 'Open-source software',
+    intro:
+      'We build in the open. These are the projects our research and engineering work has spun out — free to use, inspect and build on.',
+    stackLabel: 'STACK',
+    visit: 'Visit project',
+    backHome: 'Back to home',
+    projects: [
+      {
+        name: 'BORSUK',
+        tagline: 'Blob-Oriented Retrieval with Segmental Unified KNN',
+        description:
+          'A similarity-search engine written in Rust that keeps memory use low by reading vector blocks straight from Parquet files — on local disk or S3-compatible object storage (AWS S3, MinIO, SeaweedFS) — instead of loading everything into RAM. It ships native Python (PyO3) and TypeScript (N-API) APIs and a rich set of metrics: dense-vector, histogram, set-like and string similarity.',
+        href: 'https://causality.pl/borsuk/',
+        stack: ['Rust', 'Python', 'TypeScript', 'Parquet', 'S3'],
+      },
+    ],
   },
 };

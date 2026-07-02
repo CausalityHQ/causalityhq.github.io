@@ -24,6 +24,28 @@ export interface ApproachStep {
   body: string;
 }
 
+/** One EU-funded R&D project (funding-disclosure page). Official titles,
+ * programmes, numbers and amounts are locale-invariant; only `summary` is
+ * translated. `fundingKind` selects the label (EU funding vs co-financing). */
+export interface EuProject {
+  title: string;
+  /** Description paragraphs shown before the task list. */
+  paragraphs: string[];
+  /** Optional research-task list, with an intro line. */
+  tasksIntro?: string;
+  tasks?: string[];
+  /** Description paragraphs shown after the task list (outcome, advantage). */
+  paragraphsAfter?: string[];
+  beneficiary: string;
+  programme: string;
+  action: string;
+  number: string;
+  institution?: string;
+  value: string;
+  funding: string;
+  fundingKind: 'eu' | 'cofinancing';
+}
+
 /** SIEVE interactive demo copy (INTERACTIVE.md §B). */
 export interface SieveDemo {
   plateTitle: string;
@@ -34,7 +56,7 @@ export interface SieveDemo {
   clusters: string[];
   /** Visible/announced narration lines: idle, searching, done template. */
   narrateIdle: string;
-  /** 4 plain-language scroll-step captions (business audience). */
+  /** 5 plain-language scroll-step captions (business audience; step 1 = ingest). */
   steps: string[];
   /** 4 query phrases; presets[0] must equal docs[0]. */
   presets: string[];
@@ -95,6 +117,27 @@ export interface StructuraDemo {
   agentLabel: string;
   /** 5 short field names shown during extraction. */
   extractChips: string[];
+  /** Event-driven scenario: an inbox that receives two forwarded emails. */
+  inboxLabel: string;
+  /** 2 forwarded-email subject lines — event 1 (order), event 2 (invoice). */
+  emails: string[];
+  /** "waiting for the matching invoice" note shown while the agent watches. */
+  waitNote: string;
+  /** Agent state chips: watching (step 3) and acting (step 5). */
+  agentWatch: string;
+  agentAct: string;
+}
+
+/** One open-source project (software / OSS page). */
+export interface OssProject {
+  name: string;
+  /** Expanded name / one-line tagline. */
+  tagline: string;
+  description: string;
+  /** External project URL. */
+  href: string;
+  /** Tech chips, e.g. ['Rust', 'Python', 'TypeScript']. */
+  stack: string[];
 }
 
 export interface Content {
@@ -118,6 +161,10 @@ export interface Content {
     about: string;
     contact: string;
     talkToUs: string;
+    /** Header/footer link to the EU-funding disclosure page. */
+    euProjects: string;
+    /** Header/footer link to the open-source / software page. */
+    oss: string;
     /** aria-label for the primary nav landmark. */
     primaryLabel: string;
     /** Skip-link text. */
@@ -168,6 +215,17 @@ export interface Content {
     tag: string;
     h2: string;
     frame: string;
+  };
+
+  /** Shared "data ingestion" scene that opens both product demos. */
+  ingest: {
+    label: string;
+    /** 4 source-type chips: documents, systems/DB, images, recordings. */
+    types: string[];
+    /** Emphasised chip — forward an email straight to the system. */
+    email: string;
+    /** One-line explainer under the chips. */
+    note: string;
   };
 
   sieve: {
@@ -239,5 +297,42 @@ export interface Content {
     companyTitle: string;
     contactTitle: string;
     copyright: string;
+  };
+
+  /** EU-funding disclosure page (/eu-project/). */
+  eu: {
+    metaTitle: string;
+    metaDescription: string;
+    tag: string;
+    h1: string;
+    intro: string;
+    /** EU emblem caption ("Co-funded by the European Union"). */
+    coFunded: string;
+    /** Standard co-funding statement shown per project. */
+    disclosure: string;
+    backHome: string;
+    beneficiaryLabel: string;
+    programmeLabel: string;
+    actionLabel: string;
+    numberLabel: string;
+    institutionLabel: string;
+    valueLabel: string;
+    euFundingLabel: string;
+    cofinancingLabel: string;
+    scopeLabel: string;
+    projects: EuProject[];
+  };
+
+  /** Open-source / software page (/open-source/). */
+  oss: {
+    metaTitle: string;
+    metaDescription: string;
+    tag: string;
+    h1: string;
+    intro: string;
+    stackLabel: string;
+    visit: string;
+    backHome: string;
+    projects: OssProject[];
   };
 }

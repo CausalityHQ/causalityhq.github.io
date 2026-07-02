@@ -1,33 +1,26 @@
 /**
- * Hero "semantic constellation" (INTERACTIVE.md §A, evolved).
- * A lazy Canvas 2D overlay over the server-rendered HeroMotif SVG:
+ * Hero interaction (design.md §08). A lazy Canvas 2D "semantic constellation"
+ * drawn BEHIND the brain-and-gear mark, plus a pointer parallax on the mark
+ * group (the rings/orbits/icon in `.hero-parallax`):
  *   - ambient nodes drift perpetually and gently bounce inside the frame;
  *   - hairline links appear between nearby nodes (a living network);
- *   - four lime "mark" nodes stay fixed and their lime edges draw in once,
- *     evoking the brain-and-gear brand mark (the faint SVG mark shows through);
- *   - the pointer attracts nearby nodes and draws live lime connections to them.
- * Perpetual while on-screen; parks rAF off-screen / tab-hidden. Reduced-motion
- * never mounts → the static SVG (fully resolved) is the whole experience.
+ *   - the pointer attracts nearby nodes and draws live lime links + a cursor node;
+ *   - the mark group eases toward the pointer for depth.
+ * Perpetual while on-screen; parks rAF off-screen / tab-hidden; tears down on
+ * pagehide. Reduced-motion never mounts → the static mark + rings are the whole
+ * experience.
  */
 const VBW = 420;
 const VBH = 380;
 const PAD = 16;
-const N = 30; // ambient nodes
-const LINK = 74; // link distance (VB units)
-const MOUSE_R = 100; // pointer influence radius
+const N = 28; // ambient nodes
+const LINK = 78; // link distance (VB units)
+const MOUSE_R = 104; // pointer influence radius
+const MAXP = 14; // parallax travel (px) at the frame edge
+const EASEP = 0.12;
 
 type Pt = [number, number];
-const A: Pt = [210, 116];
-const B: Pt = [210, 190];
-const C: Pt = [291, 190];
-const D: Pt = [150, 252];
-const MARK: Pt[] = [A, B, C, D];
-const MARK_EDGES: [Pt, Pt, number][] = [
-  [D, B, 0],
-  [A, B, 220],
-  [B, C, 440],
-];
-// deterministic-ish seed positions (some near the mark, rest scattered)
+// deterministic seed positions (scattered around the frame; mark sits centre)
 const SEED: Pt[] = [
   [70, 82],
   [120, 58],
@@ -57,16 +50,14 @@ const SEED: Pt[] = [
   [110, 250],
   [230, 160],
   [360, 60],
-  [90, 60],
-  [200, 90],
 ];
-const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
 
 export function mount(figure: HTMLElement): void {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const canvas = figure.querySelector<HTMLCanvasElement>('canvas.hero-canvas');
   const ctx = canvas?.getContext('2d');
   if (!canvas || !ctx) return;
+  const wrap = figure.querySelector<HTMLElement>('.hero-parallax');
 
   const px = new Float32Array(N);
   const py = new Float32Array(N);
@@ -76,7 +67,6 @@ export function mount(figure: HTMLElement): void {
     const s = SEED[i % SEED.length];
     px[i] = s[0];
     py[i] = s[1];
-    // small varied velocities (deterministic from index)
     vx[i] = Math.cos(i * 1.7) * 0.14;
     vy[i] = Math.sin(i * 2.3) * 0.14;
   }
@@ -93,19 +83,21 @@ export function mount(figure: HTMLElement): void {
     scale = w / VBW;
   };
   resize();
-  figure.classList.add('canvas-active');
 
-  const t0 = performance.now();
   let pointer: Pt | null = null;
   let running = false;
   let visible = true;
   let raf = 0;
+  // parallax easing state (px units, applied to the mark group)
+  let ptx = 0;
+  let pty = 0;
+  let pcx = 0;
+  let pcy = 0;
 
   const step = (elapsed: number) => {
     const mx = pointer ? pointer[0] : 0;
     const my = pointer ? pointer[1] : 0;
     for (let i = 0; i < N; i++) {
-      // pointer attraction (gentle spring toward cursor within radius)
       if (pointer) {
         const dx = mx - px[i];
         const dy = my - py[i];
@@ -116,19 +108,15 @@ export function mount(figure: HTMLElement): void {
           vy[i] += (dy / d) * f;
         }
       }
-      // drift + damping (keeps a calm baseline speed)
       vx[i] *= 0.96;
       vy[i] *= 0.96;
       const sp = Math.hypot(vx[i], vy[i]);
-      const min = 0.09;
-      if (sp < min) {
-        // nudge back toward a gentle wander
+      if (sp < 0.09) {
         vx[i] += Math.cos(elapsed * 0.0004 + i) * 0.02;
         vy[i] += Math.sin(elapsed * 0.0004 + i * 1.4) * 0.02;
       }
       px[i] += vx[i];
       py[i] += vy[i];
-      // bounce inside the frame
       if (px[i] < PAD) {
         px[i] = PAD;
         vx[i] = Math.abs(vx[i]);
@@ -144,9 +132,16 @@ export function mount(figure: HTMLElement): void {
         vy[i] = -Math.abs(vy[i]);
       }
     }
+    // ease the parallax toward its target and apply to the mark group
+    pcx += (ptx - pcx) * EASEP;
+    pcy += (pty - pcy) * EASEP;
+    if (wrap) {
+      wrap.style.setProperty('--px', `${pcx.toFixed(2)}px`);
+      wrap.style.setProperty('--py', `${pcy.toFixed(2)}px`);
+    }
   };
 
-  const draw = (elapsed: number) => {
+  const draw = () => {
     const S = scale;
     ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
 
@@ -158,7 +153,7 @@ export function mount(figure: HTMLElement): void {
         const dy = py[i] - py[j];
         const d2 = dx * dx + dy * dy;
         if (d2 < LINK * LINK) {
-          const a = (1 - Math.sqrt(d2) / LINK) * 0.5;
+          const a = (1 - Math.sqrt(d2) / LINK) * 0.45;
           ctx.strokeStyle = `rgba(180,186,171,${a.toFixed(3)})`;
           ctx.beginPath();
           ctx.moveTo(px[i] * S, py[i] * S);
@@ -168,7 +163,7 @@ export function mount(figure: HTMLElement): void {
       }
     }
 
-    // pointer: live lime links to nearby nodes + cursor node
+    // pointer: live lime links to nearby nodes
     if (pointer) {
       ctx.lineWidth = 1.4;
       for (let i = 0; i < N; i++) {
@@ -176,7 +171,7 @@ export function mount(figure: HTMLElement): void {
         const dy = pointer[1] - py[i];
         const d = Math.hypot(dx, dy);
         if (d < MOUSE_R) {
-          const a = (1 - d / MOUSE_R) * 0.9;
+          const a = (1 - d / MOUSE_R) * 0.85;
           ctx.strokeStyle = `rgba(149,214,0,${a.toFixed(3)})`;
           ctx.beginPath();
           ctx.moveTo(pointer[0] * S, pointer[1] * S);
@@ -186,46 +181,18 @@ export function mount(figure: HTMLElement): void {
       }
     }
 
-    // ambient dots (slightly larger + darker near the pointer)
+    // ambient dots (swell + darken near the pointer)
     for (let i = 0; i < N; i++) {
-      let r = 2.3;
+      let r = 2.2;
       if (pointer) {
         const d = Math.hypot(pointer[0] - px[i], pointer[1] - py[i]);
-        if (d < MOUSE_R) r = 2.3 + (1 - d / MOUSE_R) * 1.8;
+        if (d < MOUSE_R) r = 2.2 + (1 - d / MOUSE_R) * 1.8;
       }
       ctx.fillStyle = '#C9CEC1';
       ctx.beginPath();
       ctx.arc(px[i] * S, py[i] * S, r * S, 0, Math.PI * 2);
       ctx.fill();
     }
-
-    // lime mark edges (draw in once, then persist)
-    ctx.strokeStyle = '#95D600';
-    ctx.lineWidth = 2;
-    ctx.lineCap = 'round';
-    for (const [p, qq, delay] of MARK_EDGES) {
-      const f = easeOut(Math.max(0, Math.min(1, (elapsed - delay) / 700)));
-      if (f <= 0) continue;
-      ctx.beginPath();
-      ctx.moveTo(p[0] * S, p[1] * S);
-      ctx.lineTo((p[0] + (qq[0] - p[0]) * f) * S, (p[1] + (qq[1] - p[1]) * f) * S);
-      ctx.stroke();
-    }
-
-    // fixed lime mark nodes (the brain-and-gear anchors)
-    const cs = 0.85 + 0.15 * easeOut(Math.max(0, Math.min(1, (elapsed - 1140) / 260)));
-    ctx.fillStyle = '#95D600';
-    for (const m of MARK) {
-      const r = m === B ? 4.6 : m === C ? 3.4 * cs : 3.4;
-      ctx.beginPath();
-      ctx.arc(m[0] * S, m[1] * S, r * S, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    ctx.strokeStyle = '#95D600';
-    ctx.lineWidth = 1.2;
-    ctx.beginPath();
-    ctx.arc(B[0] * S, B[1] * S, 8.5 * S, 0, Math.PI * 2);
-    ctx.stroke();
 
     // cursor node
     if (pointer) {
@@ -236,10 +203,10 @@ export function mount(figure: HTMLElement): void {
     }
   };
 
+  const t0 = performance.now();
   const loop = (now: number) => {
-    const elapsed = now - t0;
-    step(elapsed);
-    draw(elapsed);
+    step(now - t0);
+    draw();
     if (visible && !document.hidden) raf = requestAnimationFrame(loop);
     else {
       running = false;
@@ -256,10 +223,17 @@ export function mount(figure: HTMLElement): void {
   figure.addEventListener('pointermove', (e) => {
     const r = canvas.getBoundingClientRect();
     pointer = [(e.clientX - r.left) / scale, (e.clientY - r.top) / scale];
+    const nx = (e.clientX - r.left) / r.width - 0.5;
+    const ny = (e.clientY - r.top) / r.height - 0.5;
+    ptx = nx * MAXP * 2;
+    pty = ny * MAXP * 2;
     ensure();
   });
   figure.addEventListener('pointerleave', () => {
     pointer = null;
+    ptx = 0;
+    pty = 0;
+    ensure();
   });
 
   const io = new IntersectionObserver(
@@ -285,7 +259,7 @@ export function mount(figure: HTMLElement): void {
   });
   const ro = new ResizeObserver(() => {
     resize();
-    if (!running) draw(performance.now() - t0);
+    if (!running) draw();
   });
   ro.observe(canvas);
 

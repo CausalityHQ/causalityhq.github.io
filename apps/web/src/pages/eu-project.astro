@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EuProjects from '../components/EuProjects.astro';
+import { getContent } from '../i18n';
+
+const t = getContent('en');
+---
+
+<BaseLayout
+  locale="en"
+  activeNav="eu"
+  path="eu-project/"
+  title={t.eu.metaTitle}
+  description={t.eu.metaDescription}
+>
+  <EuProjects locale="en" />
+</BaseLayout>

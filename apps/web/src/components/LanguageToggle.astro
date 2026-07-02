@@ -9,8 +9,10 @@ interface Props {
   locale: Locale;
   tone?: 'light' | 'forest';
   class?: string;
+  /** Sub-page path so switching locale stays on the same page (e.g. 'eu-project/'). */
+  path?: string;
 }
-const { locale, tone = 'light', class: className } = Astro.props;
+const { locale, tone = 'light', class: className, path = '' } = Astro.props;
 const t = getContent(locale);
 
 const frame = tone === 'forest' ? 'border-white/25' : 'border-border';
@@ -33,7 +35,7 @@ const idleCls =
       const active = l === locale;
       return (
         <a
-          href={localeHome(l)}
+          href={`${localeHome(l)}${path}`}
           hreflang={l}
           lang={l}
           aria-current={active ? 'true' : undefined}

@@ -2,6 +2,7 @@
 import { getContent, type Locale } from '../i18n';
 import MonoLabel from './MonoLabel.astro';
 import CornerTicks from './CornerTicks.astro';
+import IngestSources from './IngestSources.astro';
 
 /**
  * STRUCTURA — scroll-driven walkthrough (business audience). A pinned visual
@@ -24,12 +25,15 @@ const parts = (label: string) => {
 // strip "Step N of 5." / "Krok N z 5." prefixes for the visible captions
 const steps = d.sr.map((x) => x.replace(/^(Step \d+ of \d+|Krok \d+ z \d+)[.:]\s*/u, ''));
 
+// Reveal timing follows the event-driven scenario: email 1 (step 2) records the
+// order/product/shipment; the agent watches (step 3); email 2 (step 4) adds the
+// invoice + reconciled DUE status; the agent acts on the web (step 5).
 const NODE = {
-  supplier: { i: 0, cx: 100, cy: 58, from: 3 },
-  product: { i: 2, cx: 100, cy: 236, from: 3 },
-  order: { i: 1, cx: 285, cy: 147, from: 3 },
-  invoice: { i: 3, cx: 470, cy: 58, from: 3 },
-  shipment: { i: 4, cx: 470, cy: 236, from: 3 },
+  supplier: { i: 0, cx: 100, cy: 58, from: 2 },
+  product: { i: 2, cx: 100, cy: 236, from: 2 },
+  order: { i: 1, cx: 285, cy: 147, from: 2 },
+  shipment: { i: 4, cx: 470, cy: 236, from: 2 },
+  invoice: { i: 3, cx: 470, cy: 58, from: 4 },
   status: { i: 5, cx: 470, cy: 147, from: 4 },
 } as const;
 type Key = keyof typeof NODE;
@@ -38,10 +42,10 @@ const CW = 150;
 const CH = 42;
 const ctr = (k: Key) => [NODE[k].cx, NODE[k].cy] as const;
 const edges: { a: Key; b: Key; rel: number; from: number; lime?: boolean }[] = [
-  { a: 'supplier', b: 'order', rel: 0, from: 3 },
-  { a: 'order', b: 'product', rel: 1, from: 3 },
-  { a: 'order', b: 'invoice', rel: 2, from: 3 },
-  { a: 'order', b: 'shipment', rel: 3, from: 3 },
+  { a: 'supplier', b: 'order', rel: 0, from: 2 },
+  { a: 'order', b: 'product', rel: 1, from: 2 },
+  { a: 'order', b: 'shipment', rel: 3, from: 2 },
+  { a: 'order', b: 'invoice', rel: 2, from: 4 },
   { a: 'invoice', b: 'status', rel: 4, from: 4, lime: true },
 ];
 const mid = (a: readonly number[], b: readonly number[]) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
@@ -62,48 +66,115 @@ const agent = [285, 250] as const;
   <div class="relative mt-6 gap-10 lg:grid lg:grid-cols-[1.2fr_1fr]">
     {/* Pinned visual */}
     <figure class="top-24 self-start lg:sticky">
-      {/* inputs */}
-      <div class="flex flex-wrap items-center gap-2">
-        <MonoLabel class="mr-1">{d.laneInput}</MonoLabel>
-        {
-          ['PO.pdf', 'pallet.jpg', 'vm.m4a'].map((f, i) => (
-            <span
-              class="st-reveal border-hairline bg-surface inline-flex items-center gap-2 rounded-sm border px-2.5 py-1.5"
-              data-from="1"
-            >
+      {/* ingestion (step 1) — every source flows in, even a forwarded email */}
+      <div class="st-reveal" data-from="1">
+        <IngestSources locale={locale} />
+      </div>
+
+      {/* inbox — forwarded emails arrive over time (steps 2 & 4) */}
+      <div class="mt-4">
+        <MonoLabel class="mb-2 block">{d.inboxLabel}</MonoLabel>
+        <div class="flex flex-col gap-2">
+          {/* Email 1 — order confirmation (step 2): recorded into the KB */}
+          <div class="st-reveal border-hairline bg-surface rounded-md border p-3" data-from="2">
+            <div class="flex items-center gap-2">
               <svg
-                width="14"
-                height="14"
+                width="16"
+                height="16"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="#4A5247"
-                stroke-width="1.7"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
                 aria-hidden="true"
               >
-                {i === 0 && <path d="M7 3h7l4 4v14H7zM14 3v4h4" />}
-                {i === 1 && (
-                  <g>
-                    <rect x="4" y="6" width="16" height="12" rx="1" />
-                    <circle cx="9" cy="11" r="1.4" />
-                    <path d="M5 17l5-4 3 2 4-4 2 2" />
-                  </g>
-                )}
-                {i === 2 && <path d="M6 9v6M10 5v14M14 8v8M18 10v4" stroke-linecap="round" />}
+                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                <path d="M3.5 6.5l8.5 6 8.5-6"></path>
               </svg>
-              <span class="text-ink font-mono text-[0.72rem]">{f}</span>
-            </span>
-          ))
-        }
-        {
-          d.extractChips.map((f) => (
-            <span
-              class="st-reveal mono-label border-hairline bg-surface-sunk rounded-sm border px-2 py-1"
-              data-only="2"
+              <span class="text-ink text-body-sm font-medium">{d.emails[0]}</span>
+            </div>
+            <div class="mt-2 flex flex-wrap items-center gap-1.5">
+              {
+                ['PO.pdf', 'pallet.jpg', 'vm.m4a'].map((f, i) => (
+                  <span class="border-hairline bg-surface-sunk text-ink inline-flex items-center gap-1.5 rounded-sm border px-2 py-1 font-mono text-[0.68rem]">
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#4A5247"
+                      stroke-width="1.8"
+                      aria-hidden="true"
+                    >
+                      {i === 0 && <path d="M7 3h7l4 4v14H7zM14 3v4h4" />}
+                      {i === 1 && (
+                        <g>
+                          <rect x="4" y="6" width="16" height="12" rx="1" />
+                          <circle cx="9" cy="11" r="1.4" />
+                          <path d="M5 17l5-4 3 2 4-4 2 2" />
+                        </g>
+                      )}
+                      {i === 2 && <path d="M6 9v6M10 5v14M14 8v8M18 10v4" stroke-linecap="round" />}
+                    </svg>
+                    {f}
+                  </span>
+                ))
+              }
+              <span aria-hidden="true" class="text-border-strong px-0.5">›</span>
+              {
+                d.extractChips.map((f) => (
+                  <span class="mono-label border-hairline bg-surface rounded-sm border px-2 py-1">
+                    {f}
+                  </span>
+                ))
+              }
+            </div>
+          </div>
+
+          {/* Agent waits (step 3) — nothing to pay yet */}
+          <div
+            class="st-reveal border-border text-muted flex items-center gap-2 rounded-md border border-dashed px-3 py-2"
+            data-from="3"
+          >
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#4A5247"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
             >
-              {f}
-            </span>
-          ))
-        }
+              <path d="M6 3h12M6 21h12M7 3c0 5 4 6 5 9 1-3 5-4 5-9M7 21c0-5 4-6 5-9 1 3 5 4 5 9"
+              ></path>
+            </svg>
+            <span class="text-body-sm">{d.waitNote}</span>
+          </div>
+
+          {/* Email 2 — the matching invoice (step 4) */}
+          <div class="st-reveal border-lime bg-surface rounded-md border-[1.5px] p-3" data-from="4">
+            <div class="flex flex-wrap items-center gap-2">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#4C6E00"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                <path d="M3.5 6.5l8.5 6 8.5-6"></path>
+              </svg>
+              <span class="text-ink text-body-sm font-medium">{d.emails[1]}</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* knowledge graph */}
@@ -116,6 +187,55 @@ const agent = [285, 250] as const;
         >
           <title id="structura-fig-title">{s.diagramTitle}</title>
           <desc id="structura-fig-desc">{s.diagramDesc}</desc>
+
+          {
+            /* step 1 — ingestion: sources stream into STRUCTURA (resolves into the graph at step 2) */
+          }
+          <g class="st-reveal" data-only="1">
+            <g fill="none" stroke-linecap="round">
+              {
+                [
+                  [70, 55],
+                  [70, 245],
+                  [490, 55],
+                  [490, 245],
+                  [280, 26],
+                ].map(([x, y], i) => (
+                  <line
+                    class="ingest-flow"
+                    x1={x}
+                    y1={y}
+                    x2={280}
+                    y2={150}
+                    stroke={i === 4 ? '#95D600' : '#C9CEC1'}
+                    stroke-width={i === 4 ? '2' : '1.6'}
+                    style={`animation-delay:${i * 140}ms`}
+                  />
+                ))
+              }
+            </g>
+            {
+              [
+                [70, 55],
+                [70, 245],
+                [490, 55],
+                [490, 245],
+                [280, 26],
+              ].map(([x, y], i) => (
+                <circle cx={x} cy={y} r={i === 4 ? 5 : 4} fill={i === 4 ? '#95D600' : '#C9CEC1'} />
+              ))
+            }
+            <rect x="232" y="131" width="96" height="38" rx="6" fill="#0B0F0A"></rect>
+            <text
+              x="280"
+              y="154"
+              text-anchor="middle"
+              fill="#FAFAF7"
+              style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.08em"
+              >STRUCTURA</text
+            >
+          </g>
+
           {
             edges.map((e) => {
               const a = ctr(e.a);
@@ -144,7 +264,7 @@ const agent = [285, 250] as const;
               );
             })
           }
-          <g class="st-reveal" data-from="4">
+          <g class="st-reveal" data-from="3">
             <line
               x1={agent[0]}
               y1={agent[1]}
@@ -190,7 +310,7 @@ const agent = [285, 250] as const;
               );
             })
           }
-          <g class="st-reveal" data-from="4">
+          <g class="st-reveal" data-from="3">
             <rect x={agent[0] - 40} y={agent[1] - 14} width="80" height="28" rx="4" fill="#0B0F0A"
             ></rect>
             <text
@@ -202,15 +322,42 @@ const agent = [285, 250] as const;
               >{d.agentLabel}</text
             >
           </g>
+          {/* agent state — watching (step 3), then acting on the web (step 5) */}
+          <g class="st-reveal" data-from="3">
+            <circle cx={agent[0] + 52} cy={agent[1] - 4} r="2.4" fill="#5F6659"></circle>
+            <text
+              x={agent[0] + 60}
+              y={agent[1] - 1}
+              fill="#5F6659"
+              style="font-family:var(--font-mono);font-size:10px">{d.agentWatch}</text
+            >
+          </g>
+          <g class="st-reveal" data-from="5">
+            <circle cx={agent[0] + 52} cy={agent[1] + 12} r="2.4" fill="#95D600"></circle>
+            <text
+              x={agent[0] + 60}
+              y={agent[1] + 15}
+              fill="#4C6E00"
+              style="font-family:var(--font-mono);font-size:10px">{d.agentAct}</text
+            >
+          </g>
         </svg>
       </div>
 
       {/* agent action — browser wireframe */}
       <div class="border-hairline bg-surface mt-3 flex items-center gap-3 rounded-md border p-3">
         <MonoLabel class="shrink-0">{d.laneAction}</MonoLabel>
-        <div class="border-border flex-1 rounded-md border" aria-hidden="true">
-          <div class="border-hairline text-meta border-b px-3 py-1 font-mono text-[0.68rem]">
-            {d.browserUrl}
+        <div
+          class="border-border bg-surface flex-1 overflow-hidden rounded-md border"
+          aria-hidden="true"
+        >
+          <div class="border-hairline bg-surface-sunk flex items-center gap-2 border-b px-3 py-1.5">
+            <span class="flex shrink-0 gap-1">
+              <i class="bg-border-strong h-2 w-2 rounded-full"></i>
+              <i class="bg-border-strong h-2 w-2 rounded-full"></i>
+              <i class="bg-border-strong h-2 w-2 rounded-full"></i>
+            </span>
+            <span class="text-meta truncate font-mono text-[0.68rem]">{d.browserUrl}</span>
           </div>
           <div class="flex flex-wrap items-center gap-2 p-2.5">
             <span class="text-meta font-mono text-[0.68rem]">{d.browserField}</span>

@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import OssProjects from '../../components/OssProjects.astro';
+import { getContent } from '../../i18n';
+
+const t = getContent('pl');
+---
+
+<BaseLayout
+  locale="pl"
+  activeNav="oss"
+  path="open-source/"
+  title={t.oss.metaTitle}
+  description={t.oss.metaDescription}
+>
+  <OssProjects locale="pl" />
+</BaseLayout>

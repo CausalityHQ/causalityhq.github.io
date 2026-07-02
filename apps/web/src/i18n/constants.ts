@@ -4,10 +4,10 @@
 
 export const BRAND = {
   siteUrl: 'https://causality.pl',
-  email: 'hello@causality.pl',
-  emailHref: 'mailto:hello@causality.pl',
-  emailHrefSieve: 'mailto:hello@causality.pl?subject=SIEVE',
-  emailHrefStructura: 'mailto:hello@causality.pl?subject=STRUCTURA',
+  email: 'research@causality.pl',
+  emailHref: 'mailto:research@causality.pl',
+  emailHrefSieve: 'mailto:research@causality.pl?subject=SIEVE',
+  emailHrefStructura: 'mailto:research@causality.pl?subject=STRUCTURA',
   productSieve: 'SIEVE',
   productStructura: 'STRUCTURA',
   docRef: 'DOC REF: CAUSALITY-LP · REV 2026.07',

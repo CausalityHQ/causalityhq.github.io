@@ -11,12 +11,21 @@ interface Props {
   locale: Locale;
   /** Which nav item is active, for aria-current + underline. */
   activeNav?: string;
+  /** Sub-page path relative to the locale root, e.g. 'eu-project/'. */
+  path?: string;
+  /** Per-page <title> / description overrides (default to home meta). */
+  title?: string;
+  description?: string;
 }
-const { locale, activeNav } = Astro.props;
+const { locale, activeNav, path = '', title, description } = Astro.props;
 const t = getContent(locale);
-const canonical = localeUrl(locale);
+const canonical = `${localeUrl(locale)}${path}`;
 const ogImage = `${BRAND.siteUrl}/og/causality-og.png`;
-const alternates = hreflangAlternates();
+const alternates = hreflangAlternates(path);
+const pageTitle = title ?? t.meta.title;
+const pageDescription = description ?? t.meta.description;
+const ogTitle = title ?? t.meta.ogTitle;
+const ogDescription = description ?? t.meta.ogDescription;
 
 const orgSchema = {
   '@context': 'https://schema.org',
@@ -67,8 +76,8 @@ const jsonLd = [orgSchema, sieveSchema, structuraSchema];
     <script is:inline>
       document.documentElement.classList.add('js');
     </script>
-    <title>{t.meta.title}</title>
-    <meta name="description" content={t.meta.description} />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#fafaf7" />
     <meta name="color-scheme" content="light" />
@@ -77,16 +86,16 @@ const jsonLd = [orgSchema, sieveSchema, structuraSchema];
     {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
 
     <!-- Icons -->
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" href="/favicon.svg?v=3" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png?v=3" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3" />
     <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Open Graph / Twitter -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Causality" />
-    <meta property="og:title" content={t.meta.ogTitle} />
-    <meta property="og:description" content={t.meta.ogDescription} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={t.meta.ogLocale} />
     <meta property="og:locale:alternate" content={t.meta.ogLocaleAlternate} />
@@ -95,8 +104,8 @@ const jsonLd = [orgSchema, sieveSchema, structuraSchema];
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Causality — Applied AI, research-grade software" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={t.meta.ogTitle} />
-    <meta name="twitter:description" content={t.meta.ogDescription} />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
     <meta name="twitter:image" content={ogImage} />
 
     <!-- Preload hero-critical font faces (latin subsets) — zero external requests -->
@@ -108,11 +117,11 @@ const jsonLd = [orgSchema, sieveSchema, structuraSchema];
   </head>
   <body>
     <a class="skip-link" href="#main">{t.nav.skipToContent}</a>
-    <Topbar locale={locale} activeNav={activeNav} />
+    <Topbar locale={locale} activeNav={activeNav} path={path} />
     <main id="main">
       <slot />
     </main>
-    <Footer locale={locale} />
+    <Footer locale={locale} path={path} />
     <script>
       import '../scripts/enhance.ts';
     </script>

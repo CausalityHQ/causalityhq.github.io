@@ -2,7 +2,7 @@
 import Logo from './Logo.astro';
 import LanguageToggle from './LanguageToggle.astro';
 import MonoLabel from './MonoLabel.astro';
-import { getContent, BRAND, type Locale } from '../i18n';
+import { getContent, localeHome, BRAND, type Locale } from '../i18n';
 
 /**
  * Footer / colophon (design.md §10). Continuous with the final-CTA forest band
@@ -11,26 +11,31 @@ import { getContent, BRAND, type Locale } from '../i18n';
  */
 interface Props {
   locale: Locale;
+  path?: string;
 }
-const { locale } = Astro.props;
+const { locale, path = '' } = Astro.props;
 const t = getContent(locale);
+// Home-prefixed so the anchors resolve from sub-pages (e.g. /eu-project/) too.
+const home = localeHome(locale);
 
 const columns = [
   {
     id: 'footer-products',
     title: t.footer.productsTitle,
     links: [
-      { label: BRAND.productSieve, href: '#sieve' },
-      { label: BRAND.productStructura, href: '#structura' },
+      { label: BRAND.productSieve, href: `${home}#sieve` },
+      { label: BRAND.productStructura, href: `${home}#structura` },
     ],
   },
   {
     id: 'footer-company',
     title: t.footer.companyTitle,
     links: [
-      { label: t.nav.services, href: '#services' },
-      { label: t.nav.approach, href: '#approach' },
-      { label: t.nav.about, href: '#about' },
+      { label: t.nav.services, href: `${home}#services` },
+      { label: t.nav.approach, href: `${home}#approach` },
+      { label: t.nav.about, href: `${home}#about` },
+      { label: t.nav.oss, href: `${home}open-source/` },
+      { label: t.nav.euProjects, href: `${home}eu-project/` },
     ],
   },
 ];
@@ -46,7 +51,7 @@ const linkCls =
         <Logo locale={locale} variant="onForest" />
         <p class="text-body-sm text-on-forest-muted mt-4 max-w-[30ch]">{t.footer.tagline}</p>
         <div class="mt-6">
-          <LanguageToggle locale={locale} tone="forest" />
+          <LanguageToggle locale={locale} tone="forest" path={path} />
         </div>
       </div>
 

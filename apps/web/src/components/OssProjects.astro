@@ -1,0 +1,65 @@
+---
+import { getContent, localeHome, type Locale } from '../i18n';
+import MonoLabel from './MonoLabel.astro';
+import CornerTicks from './CornerTicks.astro';
+
+/**
+ * Open-source / software page (/open-source/). Datasheet-style cards, one per
+ * project, with name, tagline, description, tech stack and an outbound link.
+ */
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const o = getContent(locale).oss;
+const home = localeHome(locale);
+---
+
+<section class="container-page py-16 md:py-24">
+  <header class="measure">
+    <MonoLabel>{o.tag}</MonoLabel>
+    <h1 class="text-display text-ink mt-4 font-medium">{o.h1}</h1>
+    <p class="text-lead text-ink-700 mt-5">{o.intro}</p>
+  </header>
+
+  <div class="mt-12 flex flex-col gap-6 lg:mt-16">
+    {
+      o.projects.map((p) => (
+        <article class="border-hairline bg-surface relative rounded-md border p-6 md:p-8">
+          <CornerTicks />
+          <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+            <h2 class="text-h3 text-ink font-medium">{p.name}</h2>
+            <p class="text-body-sm text-muted-2 font-mono">{p.tagline}</p>
+          </div>
+
+          <p class="text-body text-muted mt-4 max-w-[75ch]">{p.description}</p>
+
+          <div class="mt-5 flex flex-wrap items-center gap-2">
+            <MonoLabel class="mr-1">{o.stackLabel}</MonoLabel>
+            {p.stack.map((s) => (
+              <span class="border-hairline bg-surface-sunk text-ink rounded-sm border px-2 py-1 font-mono text-[0.72rem]">
+                {s}
+              </span>
+            ))}
+          </div>
+
+          <a
+            href={p.href}
+            class="border-ink bg-ink text-bg hover:bg-ink-700 text-body-sm mt-6 inline-flex min-h-11 items-center gap-2 rounded-md border px-4 font-medium transition-colors"
+          >
+            {o.visit}
+            <span aria-hidden="true">→</span>
+          </a>
+        </article>
+      ))
+    }
+  </div>
+
+  <a
+    href={home}
+    class="text-body-sm text-ink-700 hover:text-ink mt-12 inline-flex min-h-11 items-center gap-2 font-medium"
+  >
+    <span aria-hidden="true">←</span>
+    {o.backHome}
+  </a>
+</section>

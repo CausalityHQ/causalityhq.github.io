@@ -1,0 +1,139 @@
+---
+import { Image } from 'astro:assets';
+import { getContent, localeHome, type Locale } from '../i18n';
+import MonoLabel from './MonoLabel.astro';
+import CornerTicks from './CornerTicks.astro';
+import logosFeng from '../assets/eu/logotypes-feng.png';
+import logosPoir from '../assets/eu/logotypes-poir.png';
+
+// Official EU/programme logotype strips, in the same order as `eu.projects`.
+const logotypes = [logosFeng, logosPoir];
+
+/**
+ * EU-funding disclosure page (/eu-project/). Datasheet-style cards, one per
+ * EU-funded R&D project, listing beneficiary, programme, action, project number,
+ * implementing authority, value and funding. Official titles/programmes/numbers
+ * are locale-invariant; summaries are translated.
+ */
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = getContent(locale);
+const e = t.eu;
+const home = localeHome(locale);
+
+const rowsFor = (p: (typeof e.projects)[number]) => {
+  const rows: { label: string; value: string; emphasis?: boolean }[] = [
+    { label: e.beneficiaryLabel, value: p.beneficiary },
+    { label: e.programmeLabel, value: p.programme },
+    { label: e.actionLabel, value: p.action },
+    { label: e.numberLabel, value: p.number },
+  ];
+  if (p.institution) rows.push({ label: e.institutionLabel, value: p.institution });
+  rows.push({ label: e.valueLabel, value: p.value });
+  rows.push({
+    label: p.fundingKind === 'eu' ? e.euFundingLabel : e.cofinancingLabel,
+    value: p.funding,
+    emphasis: true,
+  });
+  return rows;
+};
+---
+
+<section class="container-page py-16 md:py-24">
+  <header class="measure">
+    <MonoLabel>{e.tag}</MonoLabel>
+    <h1 class="text-display text-ink mt-4 font-medium">{e.h1}</h1>
+    <p class="text-lead text-ink-700 mt-5">{e.intro}</p>
+  </header>
+
+  <div class="mt-12 flex flex-col gap-6 lg:mt-16">
+    {
+      e.projects.map((p, i) => (
+        <article class="border-hairline bg-surface relative rounded-md border p-6 md:p-8">
+          <CornerTicks />
+          {logotypes[i] && (
+            <div class="border-hairline mb-6 flex justify-center rounded-md border bg-white px-4 py-4 md:px-6">
+              <Image
+                src={logotypes[i]}
+                alt={e.coFunded}
+                widths={[560, 900, 1200]}
+                sizes="(min-width: 1024px) 900px, 100vw"
+                class="h-auto w-full max-w-3xl"
+              />
+            </div>
+          )}
+          <MonoLabel>{`${locale === 'pl' ? 'PROJEKT' : 'PROJECT'} ${String(i + 1).padStart(2, '0')}`}</MonoLabel>
+          <h2 class="text-h3 text-ink mt-3 max-w-[70ch] font-medium text-balance">{p.title}</h2>
+
+          <div class="mt-4 flex flex-col gap-3">
+            {p.paragraphs.map((para) => (
+              <p class="text-body text-muted">{para}</p>
+            ))}
+          </div>
+
+          {p.tasks && (
+            <div class="mt-4">
+              {p.tasksIntro && <p class="text-body text-ink-700 font-medium">{p.tasksIntro}</p>}
+              <ol class="mt-3 flex flex-col gap-2.5">
+                {p.tasks.map((task, ti) => (
+                  <li class="text-body-sm text-muted flex gap-3">
+                    <span class="text-lime-text mono-label mt-0.5 shrink-0">
+                      {String(ti + 1).padStart(2, '0')}
+                    </span>
+                    <span>{task}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
+
+          {p.paragraphsAfter && (
+            <div class="mt-4 flex flex-col gap-3">
+              {p.paragraphsAfter.map((para) => (
+                <p class="text-body text-muted">{para}</p>
+              ))}
+            </div>
+          )}
+
+          <dl class="border-hairline mt-6 overflow-hidden rounded-md border">
+            {rowsFor(p).map((r, ri) => (
+              <div
+                class:list={[
+                  'grid sm:grid-cols-[14rem_1fr]',
+                  ri === 0 ? '' : 'border-hairline border-t',
+                ]}
+              >
+                <dt class="mono-label bg-surface-sunk border-hairline flex items-center px-4 py-3 sm:border-r">
+                  {r.label}
+                </dt>
+                <dd
+                  class:list={[
+                    'text-body-sm flex items-center px-4 py-3',
+                    r.emphasis ? 'text-lime-text font-mono font-semibold' : 'text-ink',
+                  ]}
+                >
+                  {r.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+
+          <p class="text-body-sm text-muted-2 mt-5 flex items-center gap-2">
+            <span class="bg-lime inline-block h-3 w-3 shrink-0 rounded-full" aria-hidden="true" />
+            {e.disclosure}
+          </p>
+        </article>
+      ))
+    }
+  </div>
+
+  <a
+    href={home}
+    class="text-body-sm text-ink-700 hover:text-ink mt-12 inline-flex min-h-11 items-center gap-2 font-medium"
+  >
+    <span aria-hidden="true">←</span>
+    {e.backHome}
+  </a>
+</section>

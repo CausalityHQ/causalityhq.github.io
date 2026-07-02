@@ -2,7 +2,8 @@
 import Logo from './Logo.astro';
 import LanguageToggle from './LanguageToggle.astro';
 import Button from './Button.astro';
-import { getContent, BRAND, type Locale } from '../i18n';
+import EuFlag from './EuFlag.astro';
+import { getContent, localeHome, BRAND, type Locale } from '../i18n';
 
 /**
  * Sticky header (design.md §00): 64px, sits flat on --bg, gains only a 1px
@@ -13,16 +14,21 @@ import { getContent, BRAND, type Locale } from '../i18n';
 interface Props {
   locale: Locale;
   activeNav?: string;
+  path?: string;
 }
-const { locale, activeNav } = Astro.props;
+const { locale, activeNav, path = '' } = Astro.props;
 const t = getContent(locale);
+// Anchors are home-prefixed so they also work from sub-pages (e.g. /eu-project/).
+const home = localeHome(locale);
 
 const navItems = [
-  { key: 'services', href: '#services', label: t.nav.services },
-  { key: 'products', href: '#products', label: t.nav.products },
-  { key: 'approach', href: '#approach', label: t.nav.approach },
-  { key: 'about', href: '#about', label: t.nav.about },
-  { key: 'contact', href: '#contact', label: t.nav.contact },
+  { key: 'services', href: `${home}#services`, label: t.nav.services },
+  { key: 'products', href: `${home}#products`, label: t.nav.products },
+  { key: 'approach', href: `${home}#approach`, label: t.nav.approach },
+  { key: 'about', href: `${home}#about`, label: t.nav.about },
+  { key: 'oss', href: `${home}open-source/`, label: t.nav.oss },
+  { key: 'eu', href: `${home}eu-project/`, label: t.nav.euProjects },
+  { key: 'contact', href: `${home}#contact`, label: t.nav.contact },
 ];
 ---
 
@@ -44,14 +50,15 @@ const navItems = [
                   href={n.href}
                   aria-current={active ? 'true' : undefined}
                   class:list={[
-                    'text-body-sm relative inline-flex min-h-11 items-center px-3 font-medium transition-colors',
+                    'text-body-sm relative inline-flex min-h-11 items-center px-2.5 font-medium transition-colors',
                     active ? 'text-ink' : 'text-ink-700 hover:text-ink',
                   ]}
                 >
+                  {n.key === 'eu' && <EuFlag width={30} class="mr-2 shrink-0" />}
                   {n.label}
                   {active && (
                     <span
-                      class="bg-lime absolute inset-x-3 bottom-2.5 h-[3px]"
+                      class="bg-lime absolute inset-x-2.5 bottom-2.5 h-[3px]"
                       aria-hidden="true"
                     />
                   )}
@@ -64,7 +71,7 @@ const navItems = [
     </nav>
 
     <div class="flex items-center gap-3">
-      <LanguageToggle locale={locale} />
+      <LanguageToggle locale={locale} path={path} />
       <div class="hidden sm:block">
         <Button href={BRAND.emailHref} ariaLabel={t.nav.talkToUsAria}>{t.nav.talkToUs}</Button>
       </div>

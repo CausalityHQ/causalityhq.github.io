@@ -328,21 +328,87 @@
    reduced-motion aware; static markup ships the resolved fallback state.
 ============================================================================ */
 
-/* Hero moving-graph canvas — absolutely over the SVG, revealed on .canvas-active */
+/* Hero mark — the real brain-and-gear icon floats above an interactive semantic
+   constellation (hero-canvas); lime nodes orbit; the group parallaxes toward the
+   pointer (--px/--py set by heroField.ts). All motion is perpetual but
+   reduced-motion-safe (gated below). */
 .hero-canvas {
   position: absolute;
   inset: 0;
+  z-index: 0;
   width: 100%;
   height: 100%;
-  opacity: 0;
   pointer-events: none;
 }
-[data-demo='hero'].canvas-active .canvas-layer {
-  opacity: 0;
+.hero-parallax {
+  z-index: 1;
+  transform: translate(var(--px, 0), var(--py, 0));
 }
-[data-demo='hero'].canvas-active .hero-canvas {
-  opacity: 1;
-  pointer-events: auto;
+.hero-mark {
+  width: clamp(8.5rem, 44%, 11.5rem);
+  height: auto;
+}
+.hero-ring,
+.hero-orbit {
+  position: absolute;
+  aspect-ratio: 1;
+  border-radius: 9999px;
+}
+.hero-ring {
+  width: 78%;
+  border: 1px solid var(--color-hairline);
+}
+.hero-ring--inner {
+  width: 56%;
+  border-style: dashed;
+  border-color: color-mix(in oklab, var(--color-hairline) 70%, transparent);
+}
+.hero-orbit {
+  width: 78%;
+}
+.hero-orbit--b {
+  width: 56%;
+}
+.hero-orbit-dot {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  border-radius: 9999px;
+  background: var(--color-lime);
+}
+.hero-orbit-dot--sm {
+  width: 7px;
+  height: 7px;
+  margin-left: -3.5px;
+  top: -3.5px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-demo='hero'] .hero-mark {
+    animation: hero-float 7s ease-in-out infinite;
+  }
+  .js [data-demo='hero'] .hero-orbit {
+    animation: hero-spin 26s linear infinite;
+  }
+  .js [data-demo='hero'] .hero-orbit--b {
+    animation: hero-spin 18s linear infinite reverse;
+  }
+}
+@keyframes hero-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+  50% {
+    transform: translateY(-10px) rotate(-1.5deg);
+  }
+}
+@keyframes hero-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Scrollytelling — a pinned visual advances as `.scrolly-step` captions scroll
@@ -383,5 +449,18 @@
 @media (prefers-reduced-motion: reduce) {
   .js .demo-mounted .scrolly-step {
     opacity: 1;
+  }
+}
+
+/* STRUCTURA step-1 ingestion: dashes march from each source into the hub. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .demo-mounted .ingest-flow {
+    stroke-dasharray: 5 7;
+    animation: ingest-dash 0.9s linear infinite;
+  }
+}
+@keyframes ingest-dash {
+  to {
+    stroke-dashoffset: -12;
   }
 }

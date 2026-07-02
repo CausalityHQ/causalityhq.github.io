@@ -1,0 +1,77 @@
+---
+/**
+ * Data-ingestion scene shared by both product demos (SIEVE + STRUCTURA). Shows
+ * that anything can flow in — documents, systems, images, recordings — and that
+ * a user can simply forward an email to the system. Pure markup; the parent demo
+ * reveals it on scroll (wrap in `.st-reveal`). Icons are decorative (aria-hidden).
+ */
+import { getContent, type Locale } from '../i18n';
+import MonoLabel from './MonoLabel.astro';
+
+interface Props {
+  locale: Locale;
+  class?: string;
+}
+const { locale, class: className } = Astro.props;
+const g = getContent(locale).ingest;
+---
+
+<div class:list={['flex flex-col gap-2.5', className]}>
+  <div class="flex flex-wrap items-center gap-2">
+    <MonoLabel class="mr-0.5">{g.label}</MonoLabel>
+    {
+      g.types.map((label, i) => (
+        <span class="border-hairline bg-surface text-ink inline-flex items-center gap-2 rounded-sm border px-2.5 py-1.5 text-[0.72rem]">
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#4A5247"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            {i === 0 && <path d="M7 3h7l4 4v14H7zM14 3v4h4M9.5 13h5M9.5 16.5h5" />}
+            {i === 1 && (
+              <g>
+                <ellipse cx="12" cy="5.5" rx="7" ry="2.6" />
+                <path d="M5 5.5v13c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6v-13M5 12c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6" />
+              </g>
+            )}
+            {i === 2 && (
+              <g>
+                <rect x="3.5" y="5" width="17" height="14" rx="1.5" />
+                <circle cx="8.5" cy="10" r="1.4" />
+                <path d="M4 17l5-4.5 3.5 2.5 4-4 3.5 3" />
+              </g>
+            )}
+            {i === 3 && <path d="M5 9.5v5M9 6v12M13 8.5v7M17 5v14M21 10v4" />}
+          </svg>
+          {label}
+        </span>
+      ))
+    }
+    <span
+      class="border-lime text-lime-text bg-surface inline-flex items-center gap-2 rounded-sm border-[1.5px] px-2.5 py-1.5 text-[0.72rem] font-semibold"
+    >
+      <svg
+        width="15"
+        height="15"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#4C6E00"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+        <path d="M3.5 6.5l8.5 6 8.5-6"></path>
+      </svg>
+      {g.email}
+    </span>
+  </div>
+  <p class="text-meta text-body-sm">{g.note}</p>
+</div>

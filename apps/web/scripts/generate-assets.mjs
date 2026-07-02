@@ -12,7 +12,7 @@
  * composites the official lime lockup PNG onto a vector datasheet background.
  */
 import sharp from 'sharp';
-import { mkdir } from 'node:fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 
@@ -41,6 +41,31 @@ async function recolorLogo(hex, outPath) {
     .joinChannel(alpha, { raw: { width, height, channels: 1 } })
     .png()
     .toFile(outPath);
+}
+
+/**
+ * Crop the brain-gear mark out of the lockup (it sits at x≈5..162, before the
+ * divider), trim it tight, and recolour to `hex`. Returns the coloured PNG
+ * buffer + its dimensions. Used for the hero icon and the favicons.
+ */
+async function markBuffer(hex) {
+  const cropped = await sharp(logoPath)
+    .extract({ left: 0, top: 0, width: 205, height: 215 })
+    .png()
+    .toBuffer();
+  const buf = await sharp(cropped).trim({ threshold: 10 }).toBuffer();
+  const { width, height } = await sharp(buf).metadata();
+  const alpha = await sharp(buf).ensureAlpha().extractChannel('alpha').raw().toBuffer();
+  const png = await sharp({ create: { width, height, channels: 3, background: hex } })
+    .joinChannel(alpha, { raw: { width, height, channels: 1 } })
+    .png()
+    .toBuffer();
+  return { png, width, height };
+}
+
+async function markIcon(hex, outPath) {
+  const { png } = await markBuffer(hex);
+  await writeFile(outPath, png);
 }
 
 /** L-shaped registration tick at (x,y), `len` long, pointing into `dir`. */
@@ -80,6 +105,8 @@ async function main() {
   const brand = resolve(root, 'src/assets/brand');
   await recolorLogo(INK, resolve(brand, 'causality-wordmark-black.png'));
   await recolorLogo('#FFFFFF', resolve(brand, 'causality-wordmark-white.png'));
+  await markIcon(INK, resolve(brand, 'causality-mark-ink.png'));
+  await markIcon(LIME, resolve(brand, 'causality-mark-lime.png'));
 
   // --- OG card: background + centered official lockup ---
   const W = 1200;
@@ -97,21 +124,11 @@ async function main() {
     .png()
     .toFile(resolve(pub, 'og/causality-og.png'));
 
-  // --- App icons (mark on ink tile) ---
-  const tileSvg = (size) =>
+  // --- App icons: the REAL brain-gear mark (recoloured white) on an ink tile ---
+  const markWhite = await markBuffer('#FFFFFF');
+  const tile = (size) =>
     Buffer.from(
-      `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 48 48">
-         <rect width="48" height="48" rx="10" fill="${INK}"/>
-         <g fill="none" stroke="${LIME}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            transform="translate(24 24) scale(0.82) translate(-24 -24)">
-           <path d="M37 24 41 24 M33.19 33.19 36.02 36.02 M24 37 24 41 M14.81 33.19 11.98 36.02 M11 24 7 24 M14.81 14.81 11.98 11.98 M24 11 24 7 M33.19 14.81 36.02 11.98"/>
-           <circle cx="24" cy="24" r="13"/>
-           <path d="M24 12 C 21 16 27 20 24 24 C 21 28 27 32 24 35"/>
-           <path d="M19 16 C 15.5 19 16.5 24 20 26"/>
-           <path d="M29 16 C 32.5 19 31.5 24 28 26"/>
-         </g>
-         <circle cx="24" cy="24" r="1.9" fill="#ffffff"/>
-       </svg>`,
+      `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}"><rect width="${size}" height="${size}" rx="${Math.round(size * 0.22)}" fill="${INK}"/></svg>`,
     );
 
   for (const [name, size] of [
@@ -120,10 +137,32 @@ async function main() {
     ['icon-512.png', 512],
     ['favicon-32.png', 32],
   ]) {
-    await sharp(tileSvg(size)).resize(size, size).png().toFile(resolve(pub, name));
+    // Fill most of the tile so the fine brain-gear line-art stays legible at
+    // favicon sizes; apple-touch keeps a touch more safe-area padding.
+    const ratio = name === 'apple-touch-icon.png' ? 0.66 : 0.82;
+    const markW = Math.round(size * ratio);
+    const markH = Math.round((markW * markWhite.height) / markWhite.width);
+    const mark = await sharp(markWhite.png).resize(markW, markH).png().toBuffer();
+    await sharp(tile(size))
+      .composite([
+        { input: mark, left: Math.round((size - markW) / 2), top: Math.round((size - markH) / 2) },
+      ])
+      .png()
+      .toFile(resolve(pub, name));
   }
 
-  console.log('✓ generated OG image + app icons in public/');
+  // --- favicon.svg: ink tile + the real mark embedded (crisp tile, raster mark) ---
+  const favMark = await sharp(markWhite.png).resize({ width: 320 }).png().toBuffer();
+  const fmw = 40;
+  const fmh = Math.round((fmw * markWhite.height) / markWhite.width);
+  const faviconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <rect width="48" height="48" rx="10" fill="${INK}"/>
+  <image x="${(48 - fmw) / 2}" y="${(48 - fmh) / 2}" width="${fmw}" height="${fmh}" href="data:image/png;base64,${favMark.toString('base64')}"/>
+</svg>
+`;
+  await writeFile(resolve(pub, 'favicon.svg'), faviconSvg);
+
+  console.log('✓ generated OG image + favicon + app icons in public/');
 }
 
 main().catch((err) => {

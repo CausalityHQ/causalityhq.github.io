@@ -1,0 +1,53 @@
+---
+/**
+ * The European flag, drawn to the official geometry: a Reflex-Blue field (3:2)
+ * with twelve five-pointed gold stars evenly on a circle (radius = 1/3 of the
+ * height), each star inscribed in a circle of 1/18 the height, one point up.
+ * Decorative by default; pass `title` to give it an accessible name.
+ */
+interface Props {
+  width?: number;
+  title?: string;
+  class?: string;
+}
+const { width = 36, title, class: className } = Astro.props;
+const H = 60;
+const W = 90;
+const R = H / 3; // radius of the circle the star centres sit on
+const OUTER = H / 18; // star circumscribed radius
+const INNER = OUTER * 0.381966;
+const cx = W / 2;
+const cy = H / 2;
+
+const star = (sx: number, sy: number) => {
+  const pts: string[] = [];
+  for (let j = 0; j < 5; j++) {
+    const ao = ((90 + j * 72) * Math.PI) / 180;
+    pts.push(`${(sx + OUTER * Math.cos(ao)).toFixed(2)},${(sy - OUTER * Math.sin(ao)).toFixed(2)}`);
+    const ai = ((90 + j * 72 + 36) * Math.PI) / 180;
+    pts.push(`${(sx + INNER * Math.cos(ai)).toFixed(2)},${(sy - INNER * Math.sin(ai)).toFixed(2)}`);
+  }
+  return pts.join(' ');
+};
+
+const stars = Array.from({ length: 12 }, (_, k) => {
+  const a = ((90 - k * 30) * Math.PI) / 180;
+  return star(cx + R * Math.cos(a), cy - R * Math.sin(a));
+});
+---
+
+<svg
+  viewBox={`0 0 ${W} ${H}`}
+  width={width}
+  height={(width * H) / W}
+  role={title ? 'img' : undefined}
+  aria-label={title}
+  aria-hidden={title ? undefined : 'true'}
+  class:list={['block rounded-[2px]', className]}
+>
+  {title && <title>{title}</title>}
+  <rect width={W} height={H} fill="#003399"></rect>
+  <g fill="#FFCC00">
+    {stars.map((pts) => <polygon points={pts} />)}
+  </g>
+</svg>

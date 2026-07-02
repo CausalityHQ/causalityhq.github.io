@@ -2,6 +2,7 @@
 import { getContent, type Locale } from '../i18n';
 import MonoLabel from './MonoLabel.astro';
 import CornerTicks from './CornerTicks.astro';
+import IngestSources from './IngestSources.astro';
 import { CORPUS, PRESETS, toSvg, VBW, VBH, scoreDot } from '../scripts/sieveData';
 
 /**
@@ -52,6 +53,11 @@ const clusterLabels = [
     {/* Pinned visual */}
     <div class="top-24 self-start lg:sticky">
       <figure>
+        {/* ingestion (step 1) — everything flows in, even a forwarded email */}
+        <div class="st-reveal mb-4" data-from="1">
+          <IngestSources locale={locale} />
+        </div>
+
         <div class="border-hairline bg-surface relative overflow-hidden rounded-md border">
           <svg
             viewBox={`0 0 ${VBW} ${VBH}`}
@@ -88,10 +94,10 @@ const clusterLabels = [
               }
             </g>
 
-            {/* leaders: query → nearest matches (step 3) */}
+            {/* leaders: query → nearest matches (step 4) */}
             <g
               class="st-reveal"
-              data-from="3"
+              data-from="4"
               stroke="#95D600"
               stroke-width="1.5"
               stroke-linecap="round"
@@ -107,8 +113,8 @@ const clusterLabels = [
             <g fill="#C9CEC1">
               {CORPUS.map((_c, i) => <circle cx={docPos[i][0]} cy={docPos[i][1]} r="3.5" />)}
             </g>
-            {/* lime highlight over the nearest matches (step 3) */}
-            <g class="st-reveal" data-from="3" fill="#95D600">
+            {/* lime highlight over the nearest matches (step 4) */}
+            <g class="st-reveal" data-from="4" fill="#95D600">
               {
                 P.neighbours.map((n) => (
                   <circle cx={docPos[n.doc][0]} cy={docPos[n.doc][1]} r="4.5" />
@@ -116,8 +122,8 @@ const clusterLabels = [
               }
             </g>
 
-            {/* neighbour halos + score chips (step 3) */}
-            <g class="st-reveal" data-from="3">
+            {/* neighbour halos + score chips (step 4) */}
+            <g class="st-reveal" data-from="4">
               {
                 P.neighbours.map((n) => (
                   <circle
@@ -133,7 +139,7 @@ const clusterLabels = [
             </g>
             <g
               class="st-reveal"
-              data-from="3"
+              data-from="4"
               fill="#0B0F0A"
               style="font-family:var(--font-mono);font-size:11px"
             >
@@ -146,8 +152,8 @@ const clusterLabels = [
               }
             </g>
 
-            {/* query point (step 2) — cx/cy so the reveal slide doesn't fight a transform */}
-            <g class="st-reveal" data-from="2">
+            {/* query point (step 3) — cx/cy so the reveal slide doesn't fight a transform */}
+            <g class="st-reveal" data-from="3">
               <circle cx={q[0]} cy={q[1]} r="9" fill="none" stroke="#95D600" stroke-width="1.2"
               ></circle>
               <circle cx={q[0]} cy={q[1]} r="5" fill="#95D600"></circle>
@@ -155,8 +161,8 @@ const clusterLabels = [
           </svg>
         </div>
 
-        {/* the question (step 1) */}
-        <div class="st-reveal mt-4 flex flex-wrap items-center gap-2" data-from="1">
+        {/* the question (step 2) */}
+        <div class="st-reveal mt-4 flex flex-wrap items-center gap-2" data-from="2">
           <MonoLabel>{d.laneQuery}</MonoLabel>
           <span aria-hidden="true" class="text-border-strong">›</span>
           <ul class="flex flex-wrap gap-1.5">
@@ -170,8 +176,8 @@ const clusterLabels = [
           </ul>
         </div>
 
-        {/* ranked results (step 3) */}
-        <div class="st-reveal mt-4" data-from="3">
+        {/* ranked results (step 5) */}
+        <div class="st-reveal mt-4" data-from="5">
           <MonoLabel as="p" class="mb-2">{d.resultsTitle}</MonoLabel>
           <ol class="border-hairline overflow-hidden rounded-md border">
             {
@@ -199,7 +205,7 @@ const clusterLabels = [
       {
         d.steps.map((step, i) => (
           <li class="scrolly-step flex min-h-[46vh] flex-col justify-center border-l-2 border-transparent pl-5 lg:min-h-[62vh]">
-            <MonoLabel>{String(i + 1).padStart(2, '0')} / 04</MonoLabel>
+            <MonoLabel>{String(i + 1).padStart(2, '0')} / 05</MonoLabel>
             <p class="text-h4 text-ink mt-3 font-medium">{step}</p>
           </li>
         ))
