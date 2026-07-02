@@ -16,7 +16,7 @@ const { item, icon } = Astro.props;
 ---
 
 <div
-  class="group border-hairline relative grid grid-cols-1 gap-y-3 border-t py-6 md:grid-cols-[8rem_1fr_2rem] md:items-baseline md:gap-x-6 md:py-7"
+  class="border-hairline relative grid grid-cols-1 gap-y-3 border-t py-6 md:grid-cols-[8rem_1fr] md:items-baseline md:gap-x-6 md:py-7"
   data-reveal
 >
   {/* Primary accent — a lime bar in the left margin, so it never shifts content */}
@@ -42,8 +42,4 @@ const { item, icon } = Astro.props;
       }
     </ul>
   </div>
-
-  <span class="text-lime-text hidden md:flex md:justify-end" aria-hidden="true">
-    <span class="transition-transform duration-150 group-hover:translate-x-[3px]">→</span>
-  </span>
 </div>
