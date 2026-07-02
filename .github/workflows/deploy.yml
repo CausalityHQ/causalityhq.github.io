@@ -56,3 +56,7 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          # GitHub Pages publishing has been slow/intermittent; wait up to 20 min
+          # (default is 10) so a slow publish doesn't fail an otherwise-good build.
+          timeout: 1200000
