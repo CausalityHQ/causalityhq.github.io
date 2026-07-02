@@ -289,14 +289,14 @@ export const en: Content = {
     team: [
       {
         name: 'Roman Bartusiak',
-        role: 'Founder · ML Research',
+        role: 'Co-founder · ML Research',
         note: 'Published ML/NLP researcher (h-index 5); co-creator of LEPISZCZE, the Polish NLP benchmark.',
         linkedin: 'https://www.linkedin.com/in/romanbartusiak/',
         scholar: 'https://scholar.google.com/citations?user=mk68epwAAAAJ&hl=en',
       },
       {
         name: 'Krzysztof Sobota',
-        role: 'ML Engineering',
+        role: 'Co-founder · ML Engineering',
         note: 'Senior ML engineer, AGH University — delivery across our EU-funded R&D projects.',
         linkedin: 'https://www.linkedin.com/in/sobota',
       },

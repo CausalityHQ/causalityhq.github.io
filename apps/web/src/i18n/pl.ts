@@ -311,14 +311,14 @@ export const pl: Content = {
     team: [
       {
         name: 'Roman Bartusiak',
-        role: 'Założyciel · Badania ML',
+        role: 'Współzałożyciel · Badania ML',
         note: 'Publikujący badacz ML/NLP (indeks h 5); współtwórca LEPISZCZE — polskiego benchmarku NLP.',
         linkedin: 'https://www.linkedin.com/in/romanbartusiak/',
         scholar: 'https://scholar.google.com/citations?user=mk68epwAAAAJ&hl=en',
       },
       {
         name: 'Krzysztof Sobota',
-        role: 'Inżynieria ML',
+        role: 'Współzałożyciel · Inżynieria ML',
         note: 'Senior ML engineer, AGH — realizacja naszych projektów B+R finansowanych z UE.',
         linkedin: 'https://www.linkedin.com/in/sobota',
       },
