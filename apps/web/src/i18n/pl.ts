@@ -4,12 +4,12 @@ import type { Content } from './types';
 export const pl: Content = {
   lang: 'pl',
   meta: {
-    title: 'Causality — Praktyczne AI i oprogramowanie klasy R&D',
+    title: 'Causality · Praktyczne AI i oprogramowanie klasy R&D',
     description:
-      'Jesteśmy badaczami ML i inżynierami oprogramowania. Wdrażamy rozwiązania AI klasy State-of-the-Art w Twojej organizacji. SIEVE — wyszukiwanie semantyczne on-premise; STRUCTURA — ekstrakcja danych i agenci AI.',
-    ogTitle: 'Causality — Praktyczne AI i oprogramowanie klasy R&D',
+      'Jesteśmy badaczami ML i inżynierami oprogramowania. Wdrażamy rozwiązania AI klasy State-of-the-Art w Twojej organizacji. SIEVE to wyszukiwanie semantyczne on-premise, a STRUCTURA to ekstrakcja danych i agenci AI.',
+    ogTitle: 'Causality · Praktyczne AI i oprogramowanie klasy R&D',
     ogDescription:
-      'Badacze ML i inżynierowie oprogramowania wdrażający AI klasy State-of-the-Art — gotowe na infrastrukturę on-premise.',
+      'Badacze ML i inżynierowie oprogramowania wdrażający AI klasy State-of-the-Art, gotowe na infrastrukturę on-premise.',
     ogLocale: 'pl',
     ogLocaleAlternate: 'en',
   },
@@ -25,18 +25,18 @@ export const pl: Content = {
     primaryLabel: 'Nawigacja główna',
     skipToContent: 'Przejdź do treści',
     langLabel: 'Język',
-    talkToUsAria: 'Porozmawiajmy — napisz na research@causality.pl',
+    talkToUsAria: 'Porozmawiajmy: napisz na research@causality.pl',
   },
   hero: {
     eyebrow: 'PRAKTYCZNE AI · OPROGRAMOWANIE KLASY R&D',
     h1: 'Zlikwiduj dystans między Twoim biznesem a nowoczesnym AI.',
-    lead: 'Jesteśmy badaczami machine learningu i inżynierami oprogramowania. Wdrażamy AI klasy State-of-the-Art prosto w Twoje codzienne procesy — abyś mógł skalować biznes bez zaciągania długu technologicznego.',
+    lead: 'Jesteśmy badaczami machine learningu i inżynierami oprogramowania. Wdrażamy AI klasy State-of-the-Art prosto w Twoje codzienne procesy, abyś mógł skalować biznes bez zaciągania długu technologicznego.',
     ctaPrimary: 'Porozmawiajmy',
     ctaSecondary: 'Poznaj produkty',
     motifTitle:
-      'Causality — semantyczne pole wektorowe układające się w sylwetkę mózgu i koła zębatego',
+      'Causality: semantyczne pole wektorowe układające się w sylwetkę mózgu i koła zębatego',
     motifDesc:
-      'Rozproszone węzły wektorowe na delikatnej siatce; połączone limonkowe węzły układają się w logo Causality — mózg z kołem zębatym.',
+      'Rozproszone węzły wektorowe na delikatnej siatce; połączone limonkowe węzły układają się w logo Causality: mózg z kołem zębatym.',
     spec: {
       labelFocus: 'SPECJALIZACJA',
       labelMode: 'MODEL WSPÓŁPRACY',
@@ -83,14 +83,14 @@ export const pl: Content = {
         ref: 'SVC-03',
         title: 'Software Engineering',
         summary:
-          'Niezawodne i skalowalne systemy wokół modeli ML — zamiast jednorazowych prototypów.',
+          'Niezawodne i skalowalne systemy wokół modeli ML, zamiast jednorazowych prototypów.',
         keys: ['API', 'data pipelines', 'MLOps'],
       },
       {
         ref: 'SVC-04',
         title: 'Gotowe produkty',
         summary:
-          'SIEVE i STRUCTURA — narzędzia AI klasy State-of-the-Art w standardzie plug-and-play.',
+          'SIEVE i STRUCTURA: narzędzia AI klasy State-of-the-Art w standardzie plug-and-play.',
         keys: ['SIEVE', 'STRUCTURA', 'on-prem'],
       },
     ],
@@ -99,20 +99,20 @@ export const pl: Content = {
     tag: '§04 / PRODUKTY',
     h2: 'AI w standardzie produkcyjnym, gotowe od pierwszego dnia.',
     frame:
-      'SIEVE i STRUCTURA oddają najnowocześniejsze AI w ręce Twojego zespołu — wyszukiwanie, które naprawdę rozumie kontekst, oraz autonomiczni agenci zmieniający surowe dane w akcje. Wdróż je w chmurze lub w pełni on-premise.',
+      'SIEVE i STRUCTURA oddają najnowocześniejsze AI w ręce Twojego zespołu: wyszukiwanie, które naprawdę rozumie kontekst, oraz autonomiczni agenci zmieniający surowe dane w akcje. Wdróż je w chmurze lub w pełni on-premise.',
   },
   ingest: {
     label: 'ŹRÓDŁA DANYCH',
     types: ['Dokumenty', 'Systemy ERP i bazy danych', 'Obrazy', 'Nagrania audio'],
     email: 'Przekaż e-mail',
-    note: 'Zasilaj system z dowolnego źródła — plików, systemów ERP, zdjęć czy audio. Wystarczy przesłać e-mail na dedykowaną skrzynkę Causality, a w kilka sekund zostanie zindeksowany.',
+    note: 'Zasilaj system z dowolnego źródła: plików, systemów ERP, zdjęć czy audio. Wystarczy przesłać e-mail na dedykowaną skrzynkę Causality, a w kilka sekund zostanie zindeksowany.',
   },
   sieve: {
     ref: 'PRD/SIEVE',
     name: 'SIEVE',
     h3: 'Wyszukiwanie semantyczne i głęboka analiza danych.',
     body: 'SIEVE przeszukuje i analizuje dane na podstawie kontekstu, wykorzystując nasze autorskie przestrzenie wektorowe. Indeksuje pliki tekstowe i multimodalne w przestrzeni semantycznej, w której właściwa odpowiedź jest po prostu najbliższym dopasowaniem (nearest neighbour).',
-    specCaption: 'SIEVE — specyfikacja techniczna',
+    specCaption: 'SIEVE: specyfikacja techniczna',
     specHeadCapability: 'FUNKCJA',
     specHeadDetail: 'SZCZEGÓŁY',
     specs: [
@@ -130,17 +130,17 @@ export const pl: Content = {
       },
       {
         capability: 'Wdrożenie',
-        detail: 'Wdrożenie on-premise — dane nigdy nie opuszczają Twojej infrastruktury',
+        detail: 'Wdrożenie on-premise. Dane nigdy nie opuszczają Twojej infrastruktury',
         highlight: true,
       },
     ],
     cta: 'Porozmawiajmy o SIEVE',
-    ctaAria: 'Porozmawiajmy o SIEVE — napisz na research@causality.pl',
-    diagramTitle: 'Architektura on-premise SIEVE — dane nigdy nie opuszczają środowiska klienta',
+    ctaAria: 'Porozmawiajmy o SIEVE: napisz na research@causality.pl',
+    diagramTitle: 'Architektura on-premise SIEVE: dane nigdy nie opuszczają środowiska klienta',
     diagramDesc:
       'Schemat architektury. Przerywana linia wyznacza środowisko klienta (customer perimeter), zamykając w nim magazyn danych i moduł SIEVE. Wektor zapytania łączy się z nearest neighbour wewnątrz środowiska. Strzałka oznaczająca ruch na zewnątrz zostaje zablokowana statusem NO DATA EGRESS.',
     diagramSummary:
-      'Zasada wdrożenia: SIEVE działa w 100% w Twojej infrastrukturze. Magazyn danych i indeks semantyczny są odizolowane wewnątrz środowiska klienta (perimeter). Zapytania są procesowane lokalnie. Gwarantujemy architekturę zero data egress — żadne dane nie opuszczają systemu.',
+      'Zasada wdrożenia: SIEVE działa w 100% w Twojej infrastrukturze. Magazyn danych i indeks semantyczny są odizolowane wewnątrz środowiska klienta (perimeter). Zapytania są procesowane lokalnie. Gwarantujemy architekturę zero data egress: żadne dane nie opuszczają systemu.',
     perimeterLabel: 'ŚRODOWISKO KLIENTA (PERIMETER)',
     egressLabel: 'ZERO DATA EGRESS (BRAK WYCIEKÓW)',
     perimeterDataStore: 'MAGAZYN DANYCH',
@@ -153,12 +153,12 @@ export const pl: Content = {
       presetsLabel: 'PRZYKŁADOWE ZAPYTANIE',
       clusters: ['INFRASTRUKTURA', 'WYSZUKIWANIE', 'PRYWATNOŚĆ DANYCH', 'MULTIMODALNOŚĆ'],
       narrateIdle:
-        'Wybierz przykładowe zapytanie i kliknij Uruchom — SIEVE znajdzie dokumenty najbardziej zbliżone kontekstowo.',
+        'Wybierz przykładowe zapytanie i kliknij Uruchom, a SIEVE znajdzie dokumenty najbardziej zbliżone kontekstowo.',
       steps: [
-        'Zasil system dowolnymi danymi — dokumentami, eksportami z baz, obrazami czy nagraniami. Przekaż e-mail, a w kilka sekund zindeksuje się w wyszukiwarce.',
-        'Zadawaj pytania naturalnym językiem — bez dobierania słów kluczowych i skomplikowanej składni.',
+        'Zasil system dowolnymi danymi: dokumentami, eksportami z baz, obrazami czy nagraniami. Przekaż e-mail, a w kilka sekund zindeksuje się w wyszukiwarce.',
+        'Zadawaj pytania naturalnym językiem, bez dobierania słów kluczowych i skomplikowanej składni.',
         'SIEVE analizuje zapytanie kontekstowo i mapuje je w tej samej przestrzeni wektorowej co Twoje zbiory danych.',
-        'Najbardziej trafne dokumenty zostają dopasowane — nawet jeśli nie dzielą z zapytaniem ani jednego wspólnego słowa.',
+        'Najbardziej trafne dokumenty zostają dopasowane, nawet jeśli nie dzielą z zapytaniem ani jednego wspólnego słowa.',
         'Otrzymujesz wyselekcjonowaną listę wyników, podczas gdy Twoje dane przez cały czas pozostają bezpieczne na serwerze.',
       ],
       presets: [
@@ -199,7 +199,7 @@ export const pl: Content = {
       liveResult:
         'Najlepsze dopasowanie: {n1}, cosine similarity {s1}. Znaleziono 3 nearest neighbours. Żadne dane nie opuściły infrastruktury.',
       figureTitle:
-        'Wyszukiwanie semantyczne SIEVE — lokalne procesowanie algorytmem nearest neighbour',
+        'Wyszukiwanie semantyczne SIEVE: lokalne procesowanie algorytmem nearest neighbour',
       figureDesc:
         'Dwuwymiarowa przestrzeń semantyczna ze sklastrowanymi dokumentami. Wprowadzone zostaje zapytanie testowe, a trzy najbliższe powiązania są podświetlane wraz z wynikiem cosine similarity. Cała logika wykonywana jest w przeglądarce.',
       figcaptionTpl:
@@ -211,7 +211,7 @@ export const pl: Content = {
     name: 'STRUCTURA',
     h3: 'Ustrukturyzowana ekstrakcja, knowledge graphs i agenci AI.',
     body: 'STRUCTURA przekształca nieustrukturyzowane, multimodalne dane w solidny graf wiedzy (knowledge graph). Na jego bazie uruchamia dedykowanych agentów AI, którzy wchodzą w interakcję z interfejsami webowymi i automatyzują operacyjny workflow.',
-    specCaption: 'STRUCTURA — specyfikacja techniczna',
+    specCaption: 'STRUCTURA: specyfikacja techniczna',
     specHeadCapability: 'FUNKCJA',
     specHeadDetail: 'SZCZEGÓŁY',
     specs: [
@@ -234,8 +234,8 @@ export const pl: Content = {
       },
     ],
     cta: 'Porozmawiajmy o STRUCTURA',
-    ctaAria: 'Porozmawiajmy o STRUCTURA — napisz na research@causality.pl',
-    diagramTitle: 'Pipeline STRUCTURA — od nieustrukturyzowanych danych po działających agentów AI',
+    ctaAria: 'Porozmawiajmy o STRUCTURA: napisz na research@causality.pl',
+    diagramTitle: 'Pipeline STRUCTURA: od nieustrukturyzowanych danych po działających agentów AI',
     diagramDesc:
       "Schemat sekwencyjny pipeline'u. Nieustrukturyzowane pliki graficzne, dokumenty i dźwięki przekształcają się w graf wiedzy (knowledge graph), przekazując kontekst do agenta wykonującego akcje w sieci.",
     diagramSummary:
@@ -261,9 +261,9 @@ export const pl: Content = {
         'AKCJA · portal · wpisano INV-2231 · Harmonogram → ZAPLANOWANO',
       ],
       sr: [
-        "Krok 1 z 5. Dane spływają do pipeline'u z dowolnych źródeł — systemów ERP, plików, zdjęć czy maili. Wszystko jest konsolidowane w centralnym hubie.",
+        "Krok 1 z 5. Dane spływają do pipeline'u z dowolnych źródeł: systemów ERP, plików, zdjęć czy maili. Wszystko jest konsolidowane w centralnym hubie.",
         'Krok 2 z 5. Odbiór pierwszego maila: Acme potwierdza zamówienie PO-4471. STRUCTURA parsuje tekst, mapując zamówienie i produkt bezpośrednio do bazy wiedzy.',
-        'Krok 3 z 5. Płatność nie jest jeszcze wymagana, dlatego agent pozostaje w trybie nasłuchu — czekając na nadejście przypisanej faktury.',
+        'Krok 3 z 5. Płatność nie jest jeszcze wymagana, dlatego agent pozostaje w trybie nasłuchu, czekając na nadejście przypisanej faktury.',
         "Krok 4 z 5. Pojawia się drugi mail z fakturą INV-2231. Agent przypisuje ją do oryginalnego zamówienia, waliduje kwoty i aktualizuje status na 'Do zapłaty'.",
         'Krok 5 z 5. Po poprawnym zrekonsolidowaniu danych, agent nawiguje do bramki płatności, wpisuje numer faktury i ustala harmonogram przelewu. (Symulacja poglądowa).',
       ],
@@ -294,8 +294,8 @@ export const pl: Content = {
       agentLabel: 'AGENT',
       extractChips: ['Dostawca', 'Zamówienie', 'Ilość', 'Kwota', 'Faktura'],
       inboxLabel: 'SKRZYNKA ODBIORCZA',
-      emails: ['Fwd: Potwierdzenie zamówienia — Acme Foods', 'Fwd: Faktura INV-2231 — Acme Foods'],
-      waitNote: 'Monitorowanie — oczekiwanie na przypisaną fakturę',
+      emails: ['Fwd: Potwierdzenie zamówienia (Acme Foods)', 'Fwd: Faktura INV-2231 (Acme Foods)'],
+      waitNote: 'Monitorowanie: oczekiwanie na przypisaną fakturę',
       agentWatch: 'nasłuchuje',
       agentAct: 'egzekwuje w przeglądarce',
       figcaption:
@@ -312,14 +312,14 @@ export const pl: Content = {
       {
         name: 'Roman Bartusiak',
         role: 'Co-founder · AI Research',
-        note: 'Naukowiec ML/NLP z publikacjami (h-index 5); współtwórca LEPISZCZE — polskiego benchmarku NLP.',
+        note: 'Naukowiec ML/NLP z publikacjami (h-index 5); współtwórca LEPISZCZE, polskiego benchmarku NLP.',
         linkedin: 'https://www.linkedin.com/in/romanbartusiak/',
         scholar: 'https://scholar.google.com/citations?user=mk68epwAAAAJ&hl=en',
       },
       {
         name: 'Krzysztof Sobota',
         role: 'Co-founder · ML Engineering',
-        note: 'Senior ML engineer, AGH — techniczny lider naszych projektów R&D dofinansowanych z UE.',
+        note: 'Senior ML engineer, AGH; techniczny lider naszych projektów R&D dofinansowanych z UE.',
         linkedin: 'https://www.linkedin.com/in/sobota',
       },
     ],
@@ -348,7 +348,7 @@ export const pl: Content = {
   finalCta: {
     tag: '§09 / KONTAKT',
     h2: 'Porozmawiajmy o Twoich danych.',
-    sub: 'Opisz nam swój problem. Uczciwie zweryfikujemy, czy sztuczna inteligencja jest tu adekwatnym narzędziem — i doradzimy, jak utrzymać pełną suwerenność danych.',
+    sub: 'Opisz nam swój problem. Uczciwie zweryfikujemy, czy sztuczna inteligencja jest tu adekwatnym narzędziem. Doradzimy też, jak utrzymać pełną suwerenność danych.',
     ctaPrimary: 'Napisz do nas',
     reassurance: 'JEDEN E-MAIL. ODPOWIADA BEZPOŚREDNIO INŻYNIER.',
   },
@@ -360,9 +360,9 @@ export const pl: Content = {
     copyright: '© 2026 Causality. Wszelkie prawa zastrzeżone.',
   },
   eu: {
-    metaTitle: 'Projekty dofinansowane z UE — Causality',
+    metaTitle: 'Projekty dofinansowane z UE · Causality',
     metaDescription:
-      'Projekty badawczo-rozwojowe realizowane przez Causality ze współfinansowaniem Unii Europejskiej — programy, numery projektów i alokacje funduszy.',
+      'Projekty badawczo-rozwojowe realizowane przez Causality ze współfinansowaniem Unii Europejskiej: programy, numery projektów i alokacje funduszy.',
     tag: '§ FUNDUSZE EUROPEJSKIE',
     h1: 'Projekty dofinansowane z UE',
     intro:
@@ -395,7 +395,7 @@ export const pl: Content = {
           'Wdrożenie komponentu syntezy obrazu do jednolitego środowiska mikroserwisowego (prace rozwojowe).',
         ],
         paragraphsAfter: [
-          'Końcowym produktem projektu będzie platforma SaaS ze zintegrowanym API, komercjalizowana bezpośrednio przez Causality. Rozwiązanie to jest dedykowane firmom tworzącym oprogramowanie oparte na AI i pozwoli im znacznie przyspieszyć wdrożenia rozwiązań ML. Ze względu na uniwersalną architekturę, platforma znajdzie zastosowanie w wielu branżach — a w szczególności w sektorach wysokiego ryzyka (np. healthtech, finanse, przemysł 4.0), które zmagają się z deficytem rzetelnych danych treningowych.',
+          'Końcowym produktem projektu będzie platforma SaaS ze zintegrowanym API, komercjalizowana bezpośrednio przez Causality. Rozwiązanie to jest dedykowane firmom tworzącym oprogramowanie oparte na AI i pozwoli im znacznie przyspieszyć wdrożenia rozwiązań ML. Ze względu na uniwersalną architekturę, platforma znajdzie zastosowanie w wielu branżach, a w szczególności w sektorach wysokiego ryzyka (np. healthtech, finanse, przemysł 4.0), które zmagają się z deficytem rzetelnych danych treningowych.',
           'Autorskie podejście do syntezowania danych zapewni użytkownikom przewagę rynkową poprzez drastyczne podniesienie wiarygodności i jakości generowanych zbiorów uczących.',
         ],
         beneficiary: 'CAUSALITY PROSTA SPÓŁKA AKCYJNA',
@@ -410,7 +410,7 @@ export const pl: Content = {
         title: 'Silnik wyszukiwania semantycznego i eksploracji danych zoptymalizowany dla biznesu',
         paragraphs: [
           'Firma CAUSALITY PROSTA SPÓŁKA AKCYJNA zrealizowała projekt „Silnik wyszukiwania semantycznego i eksploracji danych dostępny dla użytkowników biznesowych” w ramach Działania 1.1: Projekty B+R przedsiębiorstw (Poddziałanie 1.1.1 - Badania przemysłowe i prace rozwojowe realizowane przez przedsiębiorstwa) z Programu Operacyjnego Inteligentny Rozwój 2014–2020.',
-          'Projekt został współfinansowany przez Unię Europejską w ramach konkursu 1/1.1.1/2022 — Szybka ścieżka — Innowacje cyfrowe.',
+          'Projekt został współfinansowany przez Unię Europejską w ramach konkursu 1/1.1.1/2022: Szybka ścieżka, Innowacje cyfrowe.',
         ],
         beneficiary: 'CAUSALITY PROSTA SPÓŁKA AKCYJNA',
         programme: 'Program Operacyjny Inteligentny Rozwój 2014–2020',
@@ -424,13 +424,13 @@ export const pl: Content = {
     ],
   },
   oss: {
-    metaTitle: 'Open source — Causality',
+    metaTitle: 'Open source · Causality',
     metaDescription:
-      'Oprogramowanie open source od Causality. Poznaj BORSUK — wydajny silnik wyszukiwania podobieństwa (similarity search) w Rust, streamujący wektory prosto z plików Parquet na dysku lub w magazynie S3.',
+      'Oprogramowanie open source od Causality. Poznaj BORSUK, wydajny silnik wyszukiwania podobieństwa (similarity search) w Rust, streamujący wektory prosto z plików Parquet na dysku lub w magazynie S3.',
     tag: '§ OPEN SOURCE',
     h1: 'Oprogramowanie open source',
     intro:
-      'Wierzymy w open source. To kluczowe projekty, które wyrosły z naszych laboratoriów R&D — otwarte dla społeczności. Możesz z nich swobodnie korzystać i integrować ze swoim stosem technologicznym.',
+      'Wierzymy w open source. To kluczowe projekty, które wyrosły z naszych laboratoriów R&D, otwarte dla społeczności. Możesz z nich swobodnie korzystać i integrować ze swoim stosem technologicznym.',
     stackLabel: 'TECH STACK',
     visit: 'Zobacz projekt na GitHubie',
     backHome: 'Wróć do strony głównej',
@@ -439,7 +439,7 @@ export const pl: Content = {
         name: 'BORSUK',
         tagline: 'Blob-Oriented Retrieval with Segmental Unified KNN',
         description:
-          'Wysoce zoptymalizowany silnik similarity search napisany natywnie w Rust. Drastycznie obniża zużycie pamięci dzięki strumieniowemu czytaniu wektorów prosto z plików Parquet — z dysku lokalnego lub magazynów S3 (AWS S3, MinIO, SeaweedFS) — bez potrzeby ładowania całych zbiorów do RAM-u. Projekt dostarcza natywne API dla Pythona (PyO3) oraz TypeScriptu (N-API) i obsługuje szeroki wachlarz metryk dla wektorów gęstych, histogramów, zbiorów oraz tekstu.',
+          'Wysoce zoptymalizowany silnik similarity search napisany natywnie w Rust. Drastycznie obniża zużycie pamięci dzięki strumieniowemu czytaniu wektorów prosto z plików Parquet (z dysku lokalnego lub magazynów S3: AWS S3, MinIO, SeaweedFS) bez potrzeby ładowania całych zbiorów do RAM-u. Projekt dostarcza natywne API dla Pythona (PyO3) oraz TypeScriptu (N-API) i obsługuje szeroki wachlarz metryk dla wektorów gęstych, histogramów, zbiorów oraz tekstu.',
         href: 'https://causality.pl/borsuk/',
         stack: ['Rust', 'Python', 'TypeScript', 'Parquet', 'S3'],
       },
