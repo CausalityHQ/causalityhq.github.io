@@ -2,12 +2,13 @@
 import { getContent, type Locale } from '../i18n';
 import MonoLabel from './MonoLabel.astro';
 import CornerTicks from './CornerTicks.astro';
-import { CORPUS, PRESETS, toSvg, VBW, VBH, scoreDot, scoreProse } from '../scripts/sieveData';
+import { CORPUS, PRESETS, toSvg, VBW, VBH, scoreDot } from '../scripts/sieveData';
 
 /**
- * SIEVE semantic-search demo (INTERACTIVE.md §B). Server-renders the RESOLVED P1
- * state (the meaningful no-JS / reduced-motion fallback). sieveDemo.ts mounts on
- * scroll-near and drives preset selection + the search choreography.
+ * SIEVE — scroll-driven demo (business audience). A pinned "map of your
+ * documents" (2D semantic space) that animates step-by-step as plain-language
+ * captions scroll past (driven by scrolly.ts via .scrolly-step + .st-reveal).
+ * Server-renders the fully resolved state → the no-JS / reduced-motion fallback.
  */
 interface Props {
   locale: Locale;
@@ -16,35 +17,19 @@ const { locale } = Astro.props;
 const t = getContent(locale);
 const d = t.sieve.demo;
 
-const P1 = PRESETS[0];
-const q1 = toSvg(P1.qx, P1.qy);
+const P = PRESETS[0];
+const q = toSvg(P.qx, P.qy);
 const docPos = CORPUS.map((c) => toSvg(c.x, c.y));
 const nnRank = new Map<number, number>();
-P1.neighbours.forEach((n, i) => nnRank.set(n.doc, i));
-const p1phrase = d.presets[0];
-const tokens = p1phrase.split(' ');
-
-const leaders = P1.neighbours.map((n) => ({ x2: docPos[n.doc][0], y2: docPos[n.doc][1] }));
-const rows = P1.neighbours.map((n, i) => ({
-  rank: i + 1,
-  label: d.docs[n.doc],
-  score: n.score,
-}));
-const fig = d.figcaptionTpl
-  .replace('{q}', p1phrase)
-  .replace('{n1}', d.docs[P1.neighbours[0].doc])
-  .replace('{s1}', scoreProse(P1.neighbours[0].score, locale))
-  .replace('{n2}', d.docs[P1.neighbours[1].doc])
-  .replace('{s2}', scoreProse(P1.neighbours[1].score, locale))
-  .replace('{n3}', d.docs[P1.neighbours[2].doc])
-  .replace('{s3}', scoreProse(P1.neighbours[2].score, locale));
-
-// Topic-cluster zone labels so the 2D space reads as "documents grouped by meaning"
+P.neighbours.forEach((n, i) => nnRank.set(n.doc, i));
+const phrase = d.presets[0];
+const tokens = phrase.split(' ');
+const rows = P.neighbours.map((n, i) => ({ rank: i + 1, label: d.docs[n.doc], score: n.score }));
 const clusterLabels = [
-  { text: d.clusters[0], p: toSvg(23, 10) }, // infrastructure
-  { text: d.clusters[1], p: toSvg(53, 28) }, // search
-  { text: d.clusters[2], p: toSvg(27, 56) }, // data privacy
-  { text: d.clusters[3], p: toSvg(78, 18) }, // multimodal
+  { text: d.clusters[0], p: toSvg(23, 10) },
+  { text: d.clusters[1], p: toSvg(53, 28) },
+  { text: d.clusters[2], p: toSvg(27, 56) },
+  { text: d.clusters[3], p: toSvg(78, 18) },
 ];
 ---
 
@@ -57,245 +42,168 @@ const clusterLabels = [
   {/* Header */}
   <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
     <MonoLabel>{d.plateTitle}</MonoLabel>
-    <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
-      <span class="inline-flex items-center gap-2">
-        <span class="status-dot" aria-hidden="true"></span>
-        <span class="mono-label text-lime-text">{d.badge}</span>
-      </span>
-      <span class="mono-label">{d.meter}</span>
-    </div>
+    <span class="inline-flex items-center gap-2">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span class="mono-label text-lime-text">{d.badge}</span>
+    </span>
   </div>
 
-  {/* Controls */}
-  <div class="mt-5 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-    <div>
-      <MonoLabel as="p" id="sieve-presets-label" class="mb-2">{d.presetsLabel}</MonoLabel>
-      <div
-        role="radiogroup"
-        aria-labelledby="sieve-presets-label"
-        class="flex flex-wrap gap-2"
-        data-sieve-presets
-      >
-        {
-          d.presets.map((phrase, i) => (
-            <button
-              type="button"
-              role="radio"
-              aria-checked={i === 0 ? 'true' : 'false'}
-              tabindex={i === 0 ? 0 : -1}
-              data-preset={i}
-              data-active={i === 0 ? '' : undefined}
-              class="border-border text-body-sm text-ink data-[active]:border-b-lime hover:border-border-strong min-h-11 rounded-md border px-3 font-medium transition-colors data-[active]:border-b-[3px]"
-            >
-              {phrase}
-            </button>
-          ))
-        }
-      </div>
-    </div>
-    <div class="flex gap-2">
-      <button
-        type="button"
-        id="sieve-run"
-        aria-label={d.btnRunAria}
-        class="bg-lime text-ink-on-lime hover:bg-lime-hover min-h-11 rounded-md px-5 text-[0.95rem] font-medium transition-colors active:translate-y-px"
-      >
-        {d.btnRun}
-      </button>
-      <button
-        type="button"
-        id="sieve-reset"
-        aria-label={d.btnResetAria}
-        class="border-border text-ink hover:border-border-strong min-h-11 rounded-md border px-4 text-[0.95rem] font-medium transition-colors"
-      >
-        {d.btnReset}
-      </button>
-    </div>
-  </div>
-
-  {/* Query row */}
-  <div class="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2">
-    <MonoLabel>{d.laneQuery}</MonoLabel>
-    <span aria-hidden="true" class="text-border-strong">›</span>
-    <ul class="flex flex-wrap gap-1.5" data-sieve-tokens>
-      {
-        tokens.map((tok) => (
-          <li class="border-hairline bg-surface text-ink rounded-sm border px-2 py-1 font-mono text-[0.75rem]">
-            {tok}
-          </li>
-        ))
-      }
-    </ul>
-    <MonoLabel class="text-lime-text ml-auto">{d.laneEmbed}</MonoLabel>
-  </div>
-
-  {/* Semantic space */}
-  <figure class="mt-4">
-    <div class="border-hairline bg-surface relative overflow-hidden rounded-md border">
-      <svg
-        viewBox={`0 0 ${VBW} ${VBH}`}
-        role="img"
-        aria-labelledby="sieve-fig-title sieve-fig-desc"
-        class="h-auto w-full"
-        data-sieve-svg
-      >
-        <title id="sieve-fig-title">{d.figureTitle}</title>
-        <desc id="sieve-fig-desc">{d.figureDesc}</desc>
-
-        {/* faint frame */}
-        <rect x="16" y="24" width={VBW - 32} height={VBH - 40} rx="4" fill="none" stroke="#ECEEE6"
-        ></rect>
-        <text x="20" y="18" fill="#5F6659" style="font-family:var(--font-mono);font-size:10px"
-          >{d.laneSpace}</text
-        >
-
-        {/* topic-cluster zone labels */}
-        <g fill="#8A9182" style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.04em">
-          {
-            clusterLabels.map((c) => (
-              <text x={c.p[0]} y={c.p[1]} text-anchor="middle">
-                {c.text}
-              </text>
-            ))
-          }
-        </g>
-
-        {/* leaders (query → nearest neighbours) */}
-        <g
-          stroke="#95D600"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          fill="none"
-          data-sieve-leaders
-        >
-          {
-            leaders.map((l) => (
-              <line
-                x1={q1[0]}
-                y1={q1[1]}
-                x2={l.x2}
-                y2={l.y2}
-                pathLength="1"
-                style="stroke-dasharray:1;stroke-dashoffset:0"
-              />
-            ))
-          }
-        </g>
-
-        {/* documents */}
-        <g data-sieve-docs>
-          {
-            CORPUS.map((_c, i) => {
-              const rank = nnRank.get(i);
-              const isNn = rank !== undefined;
-              return (
-                <circle
-                  data-doc={i}
-                  cx={docPos[i][0]}
-                  cy={docPos[i][1]}
-                  r={isNn ? 4.5 : 3.5}
-                  fill={isNn ? '#95D600' : '#C9CEC1'}
-                />
-              );
-            })
-          }
-        </g>
-
-        {/* neighbour halos + cosine chips */}
-        <g data-sieve-halos>
-          {
-            P1.neighbours.map((n) => (
-              <circle
-                cx={docPos[n.doc][0]}
-                cy={docPos[n.doc][1]}
-                r="8.5"
-                fill="none"
-                stroke="#95D600"
-                stroke-width="1.2"
-              />
-            ))
-          }
-        </g>
-        <g data-sieve-chips fill="#0B0F0A" style="font-family:var(--font-mono);font-size:11px">
-          {
-            P1.neighbours.map((n) => (
-              <text x={docPos[n.doc][0] + 11} y={docPos[n.doc][1] + 4}>
-                {scoreDot(n.score)}
-              </text>
-            ))
-          }
-        </g>
-
-        {/* query point */}
-        <g data-sieve-query transform={`translate(${q1[0]} ${q1[1]})`}>
-          <circle r="9" fill="none" stroke="#95D600" stroke-width="1.2"></circle>
-          <circle r="5" fill="#95D600"></circle>
-        </g>
-      </svg>
-    </div>
-    <figcaption class="measure text-body-sm text-muted mt-3" data-sieve-figcaption>
-      {fig}
-    </figcaption>
-  </figure>
-
-  {/* Ranked results */}
-  <div class="mt-5">
-    <MonoLabel as="p" class="mb-2">{d.resultsTitle}</MonoLabel>
-    <ol class="border-hairline overflow-hidden rounded-md border" data-sieve-results>
-      {
-        rows.map((r, i) => (
-          <li
-            class:list={[
-              'border-hairline bg-surface grid grid-cols-[2rem_1fr_auto] items-center gap-3 border-t px-4 py-2.5 first:border-t-0',
-              i === 0 && 'relative',
-            ]}
+  <div class="relative mt-6 gap-10 lg:grid lg:grid-cols-[1.15fr_1fr]">
+    {/* Pinned visual */}
+    <div class="top-24 self-start lg:sticky">
+      <figure>
+        <div class="border-hairline bg-surface relative overflow-hidden rounded-md border">
+          <svg
+            viewBox={`0 0 ${VBW} ${VBH}`}
+            role="img"
+            aria-labelledby="sieve-fig-title sieve-fig-desc"
+            class="h-auto w-full"
           >
-            {i === 0 && (
-              <span class="bg-lime absolute top-0 left-0 h-full w-[3px]" aria-hidden="true" />
-            )}
-            <span class="mono-label">{String(r.rank).padStart(2, '0')}</span>
-            <span class="text-body-sm text-ink flex items-center gap-2">
-              <span data-cell="doc">{r.label}</span>
-              <span
-                class="mono-label text-lime-text"
-                data-cell="nearest"
-                style={i === 0 ? '' : 'display:none'}
-              >
-                {d.nearest}
-              </span>
-            </span>
-            <span class="text-body-sm tnum text-ink font-mono" data-cell="score">
-              {scoreDot(r.score)}
-            </span>
+            <title id="sieve-fig-title">{d.figureTitle}</title>
+            <desc id="sieve-fig-desc">{d.figureDesc}</desc>
+
+            <rect
+              x="16"
+              y="24"
+              width={VBW - 32}
+              height={VBH - 40}
+              rx="4"
+              fill="none"
+              stroke="#ECEEE6"></rect>
+            <text x="20" y="18" fill="#5F6659" style="font-family:var(--font-mono);font-size:10px"
+              >{d.laneSpace}</text
+            >
+
+            {/* topic-cluster zone labels (always visible — the "map") */}
+            <g
+              fill="#8A9182"
+              style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.04em"
+            >
+              {
+                clusterLabels.map((c) => (
+                  <text x={c.p[0]} y={c.p[1]} text-anchor="middle">
+                    {c.text}
+                  </text>
+                ))
+              }
+            </g>
+
+            {/* leaders: query → nearest matches (step 3) */}
+            <g
+              class="st-reveal"
+              data-from="3"
+              stroke="#95D600"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            >
+              {
+                P.neighbours.map((n) => (
+                  <line x1={q[0]} y1={q[1]} x2={docPos[n.doc][0]} y2={docPos[n.doc][1]} />
+                ))
+              }
+            </g>
+
+            {/* all documents — the "map", always visible as neutral dots */}
+            <g fill="#C9CEC1">
+              {CORPUS.map((_c, i) => <circle cx={docPos[i][0]} cy={docPos[i][1]} r="3.5" />)}
+            </g>
+            {/* lime highlight over the nearest matches (step 3) */}
+            <g class="st-reveal" data-from="3" fill="#95D600">
+              {
+                P.neighbours.map((n) => (
+                  <circle cx={docPos[n.doc][0]} cy={docPos[n.doc][1]} r="4.5" />
+                ))
+              }
+            </g>
+
+            {/* neighbour halos + score chips (step 3) */}
+            <g class="st-reveal" data-from="3">
+              {
+                P.neighbours.map((n) => (
+                  <circle
+                    cx={docPos[n.doc][0]}
+                    cy={docPos[n.doc][1]}
+                    r="8.5"
+                    fill="none"
+                    stroke="#95D600"
+                    stroke-width="1.2"
+                  />
+                ))
+              }
+            </g>
+            <g
+              class="st-reveal"
+              data-from="3"
+              fill="#0B0F0A"
+              style="font-family:var(--font-mono);font-size:11px"
+            >
+              {
+                P.neighbours.map((n) => (
+                  <text x={docPos[n.doc][0] + 11} y={docPos[n.doc][1] + 4}>
+                    {scoreDot(n.score)}
+                  </text>
+                ))
+              }
+            </g>
+
+            {/* query point (step 2) — cx/cy so the reveal slide doesn't fight a transform */}
+            <g class="st-reveal" data-from="2">
+              <circle cx={q[0]} cy={q[1]} r="9" fill="none" stroke="#95D600" stroke-width="1.2"
+              ></circle>
+              <circle cx={q[0]} cy={q[1]} r="5" fill="#95D600"></circle>
+            </g>
+          </svg>
+        </div>
+
+        {/* the question (step 1) */}
+        <div class="st-reveal mt-4 flex flex-wrap items-center gap-2" data-from="1">
+          <MonoLabel>{d.laneQuery}</MonoLabel>
+          <span aria-hidden="true" class="text-border-strong">›</span>
+          <ul class="flex flex-wrap gap-1.5">
+            {
+              tokens.map((tok) => (
+                <li class="border-hairline bg-surface text-ink rounded-sm border px-2 py-1 font-mono text-[0.75rem]">
+                  {tok}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        {/* ranked results (step 3) */}
+        <div class="st-reveal mt-4" data-from="3">
+          <MonoLabel as="p" class="mb-2">{d.resultsTitle}</MonoLabel>
+          <ol class="border-hairline overflow-hidden rounded-md border">
+            {
+              rows.map((r, i) => (
+                <li class="border-hairline bg-surface relative grid grid-cols-[2rem_1fr_auto] items-center gap-3 border-t px-4 py-2.5 first:border-t-0">
+                  {i === 0 && (
+                    <span class="bg-lime absolute top-0 left-0 h-full w-[3px]" aria-hidden="true" />
+                  )}
+                  <span class="mono-label">{String(r.rank).padStart(2, '0')}</span>
+                  <span class="text-body-sm text-ink flex items-center gap-2">
+                    {r.label}
+                    {i === 0 && <span class="mono-label text-lime-text">{d.nearest}</span>}
+                  </span>
+                  <span class="text-body-sm tnum text-ink font-mono">{scoreDot(r.score)}</span>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </figure>
+    </div>
+
+    {/* Scrolling captions */}
+    <ol class="mt-8 flex flex-col lg:mt-0" aria-label={d.plateTitle}>
+      {
+        d.steps.map((step, i) => (
+          <li class="scrolly-step flex min-h-[46vh] flex-col justify-center border-l-2 border-transparent pl-5 lg:min-h-[62vh]">
+            <MonoLabel>{String(i + 1).padStart(2, '0')} / 04</MonoLabel>
+            <p class="text-h4 text-ink mt-3 font-medium">{step}</p>
           </li>
         ))
       }
     </ol>
   </div>
-
-  <p
-    class="text-ink-700 text-body-sm mt-4 min-h-[1.5rem]"
-    aria-live="polite"
-    aria-atomic="true"
-    data-sieve-live
-  >
-    {d.narrateIdle}
-  </p>
-
-  <script
-    type="application/json"
-    data-sieve-copy
-    is:inline
-    set:html={JSON.stringify({
-      locale,
-      presets: d.presets,
-      docs: d.docs,
-      nearest: d.nearest,
-      narrateIdle: d.narrateIdle,
-      liveSet: d.liveSet,
-      liveSearching: d.liveSearching,
-      liveResult: d.liveResult,
-      figcaptionTpl: d.figcaptionTpl,
-    })}
-  />
 </div>

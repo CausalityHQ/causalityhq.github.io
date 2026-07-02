@@ -53,8 +53,8 @@ if (reduceMotion || !('IntersectionObserver' in window)) {
 if ('IntersectionObserver' in window) {
   const demos: Array<[string, () => Promise<{ mount(el: HTMLElement): void }>]> = [
     ['[data-demo="hero"]', () => import('./heroField')],
-    ['[data-demo="sieve"]', () => import('./sieveDemo')],
-    ['[data-demo="structura"]', () => import('./structuraDemo')],
+    ['[data-demo="sieve"]', () => import('./scrolly')],
+    ['[data-demo="structura"]', () => import('./scrolly')],
   ];
   for (const [sel, load] of demos) {
     const el = document.querySelector<HTMLElement>(sel);

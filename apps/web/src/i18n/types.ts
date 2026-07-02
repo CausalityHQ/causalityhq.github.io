@@ -34,6 +34,8 @@ export interface SieveDemo {
   clusters: string[];
   /** Visible/announced narration lines: idle, searching, done template. */
   narrateIdle: string;
+  /** 4 plain-language scroll-step captions (business audience). */
+  steps: string[];
   /** 4 query phrases; presets[0] must equal docs[0]. */
   presets: string[];
   /** 12 corpus labels (D1..D12). */

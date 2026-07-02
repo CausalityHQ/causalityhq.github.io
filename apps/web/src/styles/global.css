@@ -345,41 +345,43 @@
   pointer-events: auto;
 }
 
-/* SIEVE demo — CSS-driven choreography (gated: .js + motion allowed → else snap) */
-@media (prefers-reduced-motion: no-preference) {
-  .js [data-demo='sieve'] [data-sieve-query] {
-    transition: transform 280ms cubic-bezier(0.165, 0.84, 0.44, 1);
-  }
-  .js [data-demo='sieve'] [data-sieve-leaders] line {
-    transition: stroke-dashoffset 340ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .js [data-demo='sieve'] [data-sieve-docs] circle {
-    transition:
-      fill 220ms ease,
-      r 220ms ease;
-  }
-  .js [data-demo='sieve'] [data-sieve-halos] circle,
-  .js [data-demo='sieve'] [data-sieve-chips] text {
-    transition: opacity 260ms ease;
-  }
-}
-
-/* STRUCTURA demo — step reveal. Hiding is gated on `.demo-mounted` so no-JS /
-   no-IntersectionObserver keeps the resolved fallback fully visible. */
-.js [data-demo='structura'].demo-mounted .st-reveal {
+/* Scrollytelling — a pinned visual advances as `.scrolly-step` captions scroll
+   past. `.st-reveal` elements appear once their step is active. Hiding is gated
+   on `.demo-mounted` (added by scrolly.ts) so no-JS / no-IO keeps the resolved
+   fallback fully visible; reduced-motion snaps (transitions gated on no-pref). */
+.js .demo-mounted .st-reveal {
   opacity: 0;
 }
-.js [data-demo='structura'].demo-mounted .st-reveal.is-on {
+.js .demo-mounted .st-reveal.is-on {
   opacity: 1;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .js [data-demo='structura'].demo-mounted .st-reveal {
-    transform: translateY(6px);
+  .js .demo-mounted .st-reveal {
+    transform: translateY(8px);
     transition:
-      opacity 300ms ease,
-      transform 300ms cubic-bezier(0.2, 0.6, 0.2, 1);
+      opacity 420ms ease,
+      transform 420ms cubic-bezier(0.2, 0.6, 0.2, 1);
   }
-  .js [data-demo='structura'].demo-mounted .st-reveal.is-on {
+  .js .demo-mounted .st-reveal.is-on {
     transform: none;
+  }
+}
+
+/* Scroll-step captions: the active one is full-strength, the rest dimmed. */
+.scrolly-step {
+  transition:
+    opacity 300ms ease,
+    border-color 300ms ease;
+}
+.js .demo-mounted .scrolly-step {
+  opacity: 0.4;
+}
+.js .demo-mounted .scrolly-step.is-active {
+  opacity: 1;
+  border-left-color: var(--color-lime);
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .demo-mounted .scrolly-step {
+    opacity: 1;
   }
 }

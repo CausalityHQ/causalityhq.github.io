@@ -142,6 +142,12 @@ export const pl: Content = {
       clusters: ['INFRASTRUKTURA', 'WYSZUKIWANIE', 'PRYWATNOŚĆ DANYCH', 'MULTIMODALNE'],
       narrateIdle:
         'Wybierz przykładowe zapytanie i naciśnij Uruchom — SIEVE znajdzie najbliższe dokumenty według znaczenia.',
+      steps: [
+        'Zadaj pytanie tak, jak powiedziałbyś je na głos — bez słów kluczowych i specjalnej składni.',
+        'SIEVE rozumie jego znaczenie i umieszcza je na tematycznej mapie Twoich dokumentów.',
+        'Natychmiast pokazuje najbliższe dopasowania — nawet gdy dokładne słowa się różnią.',
+        'A wszystko działa wewnątrz Twoich systemów — Twoje dane nigdy nie wychodzą.',
+      ],
       presets: [
         'baza wektorowa on-prem',
         'znajdź dokumenty według znaczenia',

@@ -32,6 +32,10 @@ let totalViolations = 0;
 for (const url of urls) {
   const page = await browser.newPage();
   await page.setViewport({ width: 1280, height: 900 });
+  // Emulate reduced motion: scroll-/motion-gated reveals collapse to their full
+  // resolved state, so axe tests the complete, visible content (not a transient
+  // mid-animation frame). This is the canonical accessible rendering.
+  await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
   await page.goto(url, { waitUntil: 'networkidle0' });
 
   // Scroll the whole page so every reveal/draw reaches its final state.

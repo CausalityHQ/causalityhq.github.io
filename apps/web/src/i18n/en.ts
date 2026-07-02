@@ -133,6 +133,12 @@ export const en: Content = {
       clusters: ['INFRASTRUCTURE', 'SEARCH', 'DATA PRIVACY', 'MULTIMODAL'],
       narrateIdle:
         'Pick a sample query, then press Run — SIEVE finds the closest documents by meaning.',
+      steps: [
+        'Ask a question the way you’d say it out loud — no keywords, no special syntax.',
+        'SIEVE reads it for meaning and places it on a map of your documents by topic.',
+        'It instantly surfaces the closest matches — even when the exact words differ.',
+        'And it all runs inside your own systems — your data never leaves.',
+      ],
       presets: [
         'on-prem vector database',
         'find documents by meaning',
