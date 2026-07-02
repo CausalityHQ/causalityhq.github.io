@@ -8,6 +8,7 @@ import CornerTicks from './CornerTicks.astro';
  * INPUTS → KNOWLEDGE GRAPH → AGENT ACTION — and a 5-step choreography driven by
  * structuraDemo.ts (Prev/Play/Next/Replay). Server-renders the RESOLVED end
  * state (no-JS / reduced-motion fallback); JS gates each step via `.is-on`.
+ * The graph uses readable 2-line node cards; the step sentence is shown visibly.
  */
 interface Props {
   locale: Locale;
@@ -16,26 +17,34 @@ const { locale } = Astro.props;
 const t = getContent(locale);
 const s = t.structura;
 const d = s.demo;
-const short = (label: string) => label.split(' · ')[0];
 
-// graph node positions in a contained 300×240 space
-const N = {
-  supplier: [55, 52],
-  product: [55, 188],
-  order: [150, 120],
-  invoice: [245, 58],
-  shipment: [245, 182],
-  status: [245, 120],
-  agent: [150, 222],
+// node label → { type, value } (labels are "Type · Value" or "Type · V1 · V2")
+const parts = (label: string) => {
+  const p = label.split(' · ');
+  return { type: p[0], value: p.slice(1).join(' · ') };
+};
+// index into d.nodes: 0 supplier, 1 order, 2 product, 3 invoice, 4 shipment, 5 status
+const NODE = {
+  supplier: { i: 0, cx: 100, cy: 58, from: 3 },
+  product: { i: 2, cx: 100, cy: 236, from: 3 },
+  order: { i: 1, cx: 285, cy: 147, from: 3, anchor: true },
+  invoice: { i: 3, cx: 470, cy: 58, from: 3 },
+  shipment: { i: 4, cx: 470, cy: 236, from: 3 },
+  status: { i: 5, cx: 470, cy: 147, from: 4, written: true },
 } as const;
-const mid = (a: readonly number[], b: readonly number[]) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
-// base edges (from=3): from, to, relIndex
-const baseEdges = [
-  { a: N.supplier, b: N.order, rel: 0 },
-  { a: N.order, b: N.product, rel: 1 },
-  { a: N.order, b: N.invoice, rel: 2 },
-  { a: N.order, b: N.shipment, rel: 3 },
+type Key = keyof typeof NODE;
+const CW = 150;
+const CH = 42;
+const ctr = (k: Key) => [NODE[k].cx, NODE[k].cy] as const;
+const edges: { a: Key; b: Key; rel: number; from: number; lime?: boolean }[] = [
+  { a: 'supplier', b: 'order', rel: 0, from: 3 },
+  { a: 'order', b: 'product', rel: 1, from: 3 },
+  { a: 'order', b: 'invoice', rel: 2, from: 3 },
+  { a: 'order', b: 'shipment', rel: 3, from: 3 },
+  { a: 'invoice', b: 'status', rel: 4, from: 4, lime: true },
 ];
+const mid = (a: readonly number[], b: readonly number[]) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+const agent = [285, 250] as const;
 ---
 
 <div
@@ -44,24 +53,30 @@ const baseEdges = [
 >
   <CornerTicks />
 
-  {/* Header */}
+  {/* Header + visible step narration (also the aria-live region) */}
   <div class="flex flex-col gap-2">
     <MonoLabel>{d.label}</MonoLabel>
-    <p class="measure text-ink-700 text-body-sm">{d.intro}</p>
+    <p
+      class="text-ink-700 text-body-sm min-h-[3.25rem] max-w-[70ch] sm:min-h-[2.5rem]"
+      aria-live="polite"
+      aria-atomic="true"
+      data-structura-live
+    >
+      {d.sr[4]}
+    </p>
   </div>
 
-  {/* Stage: three lanes */}
-  <div class="mt-6 grid gap-4 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.5fr)_minmax(0,1fr)]">
+  {/* Stage: three lanes (stack on mobile) */}
+  <div class="mt-5 grid gap-4 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.7fr)_minmax(0,1fr)]">
     {/* Lane 1 — inputs */}
     <div class="border-hairline bg-surface rounded-md border p-4">
-      <MonoLabel>INPUT</MonoLabel>
+      <MonoLabel>{d.laneInput}</MonoLabel>
       <ul class="mt-3 flex flex-col gap-2">
         {
           ['PO.pdf', 'pallet.jpg', 'vm.m4a'].map((f, i) => (
             <li
               class="st-reveal border-hairline flex items-center gap-2 rounded-sm border px-2.5 py-2"
               data-from="1"
-              style={`--st-delay:${i * 80}ms`}
             >
               <svg
                 width="16"
@@ -87,10 +102,9 @@ const baseEdges = [
           ))
         }
       </ul>
-      {/* extracted fields (step 2 only) */}
-      <ul class="mt-3 flex flex-wrap gap-1.5" data-structura-extract>
+      <ul class="mt-3 flex flex-wrap gap-1.5">
         {
-          ['Supplier', 'PO', 'Qty', 'Amount', 'Invoice'].map((f) => (
+          d.extractChips.map((f) => (
             <li
               class="st-reveal mono-label border-hairline bg-surface-sunk rounded-sm border px-2 py-1"
               data-only="2"
@@ -102,11 +116,11 @@ const baseEdges = [
       </ul>
     </div>
 
-    {/* Lane 2 — knowledge graph */}
+    {/* Lane 2 — knowledge graph (readable node cards) */}
     <div class="border-hairline bg-surface rounded-md border p-4">
-      <MonoLabel>KNOWLEDGE GRAPH</MonoLabel>
+      <MonoLabel>{d.laneGraph}</MonoLabel>
       <svg
-        viewBox="0 0 300 250"
+        viewBox="0 0 560 300"
         role="img"
         aria-labelledby="structura-fig-title structura-fig-desc"
         class="mt-2 h-auto w-full"
@@ -114,118 +128,98 @@ const baseEdges = [
         <title id="structura-fig-title">{s.diagramTitle}</title>
         <desc id="structura-fig-desc">{s.diagramDesc}</desc>
 
-        {/* base edges */}
-        <g class="st-reveal" data-from="3" stroke="#D6DACF" stroke-width="1.4">
-          {baseEdges.map((e) => <line x1={e.a[0]} y1={e.a[1]} x2={e.b[0]} y2={e.b[1]} />)}
-        </g>
-        {/* base relation labels */}
-        <g
-          class="st-reveal"
-          data-from="3"
-          fill="#5F6659"
-          style="font-family:var(--font-mono);font-size:8px"
-        >
-          {
-            baseEdges.map((e) => {
-              const m = mid(e.a, e.b);
-              return (
-                <text x={m[0]} y={m[1] - 2} text-anchor="middle">
-                  {d.rels[e.rel]}
-                </text>
-              );
-            })
-          }
-        </g>
-
-        {/* agent read pulse + status edge (step 4) */}
-        <g class="st-reveal" data-from="4">
-          <line
-            x1={N.agent[0]}
-            y1={N.agent[1]}
-            x2={N.order[0]}
-            y2={N.order[1]}
-            stroke="#95D600"
-            stroke-width="1.4"
-            stroke-dasharray="3 3"></line>
-          <line
-            x1={N.invoice[0]}
-            y1={N.invoice[1]}
-            x2={N.status[0]}
-            y2={N.status[1]}
-            stroke="#95D600"
-            stroke-width="1.6"></line>
-          <text
-            x={mid(N.invoice, N.status)[0] + 6}
-            y={mid(N.invoice, N.status)[1]}
-            fill="#4C6E00"
-            style="font-family:var(--font-mono);font-size:8px">{d.rels[4]}</text
-          >
-        </g>
-
-        {/* base nodes (step 3) */}
-        <g class="st-reveal" data-from="3">
-          {
-            (['supplier', 'order', 'product', 'invoice', 'shipment'] as const).map((k, i) => (
-              <g>
-                <circle
-                  cx={N[k][0]}
-                  cy={N[k][1]}
-                  r={k === 'order' ? 6 : 5}
-                  fill={k === 'order' ? '#95D600' : '#C9CEC1'}
+        {/* edges (behind cards) */}
+        {
+          edges.map((e) => {
+            const a = ctr(e.a);
+            const b = ctr(e.b);
+            const m = mid(a, b);
+            return (
+              <g class="st-reveal" data-from={String(e.from)}>
+                <line
+                  x1={a[0]}
+                  y1={a[1]}
+                  x2={b[0]}
+                  y2={b[1]}
+                  stroke={e.lime ? '#95D600' : '#D6DACF'}
+                  stroke-width={e.lime ? '2' : '1.4'}
                 />
                 <text
-                  x={N[k][0]}
-                  y={N[k][1] + (i % 2 === 0 ? -9 : 15)}
+                  x={m[0]}
+                  y={m[1] - 3}
                   text-anchor="middle"
-                  fill="#0B0F0A"
-                  style="font-family:var(--font-mono);font-size:8.5px"
+                  fill={e.lime ? '#4C6E00' : '#5F6659'}
+                  style="font-family:var(--font-mono);font-size:10px"
                 >
-                  {short(
-                    d.nodes[['supplier', 'order', 'product', 'invoice', 'shipment'].indexOf(k)],
-                  )}
+                  {d.rels[e.rel]}
                 </text>
               </g>
-            ))
-          }
-          {/* anchor ring on order */}
-          <circle
-            cx={N.order[0]}
-            cy={N.order[1]}
-            r="10"
-            fill="none"
+            );
+          })
+        }
+
+        {/* agent read line (step 4) */}
+        <g class="st-reveal" data-from="4">
+          <line
+            x1={agent[0]}
+            y1={agent[1]}
+            x2={ctr('order')[0]}
+            y2={ctr('order')[1] + CH / 2}
             stroke="#95D600"
-            stroke-width="1.4"></circle>
+            stroke-width="1.4"
+            stroke-dasharray="4 3"></line>
         </g>
+
+        {/* node cards */}
+        {
+          (Object.keys(NODE) as Key[]).map((k) => {
+            const n = NODE[k];
+            const lbl = parts(d.nodes[n.i]);
+            const lime = 'anchor' in n || 'written' in n;
+            return (
+              <g class="st-reveal" data-from={String(n.from)}>
+                <rect
+                  x={n.cx - CW / 2}
+                  y={n.cy - CH / 2}
+                  width={CW}
+                  height={CH}
+                  rx="4"
+                  fill="#FFFFFF"
+                  stroke={lime ? '#95D600' : '#C9CEC1'}
+                  stroke-width={lime ? '2' : '1.3'}
+                />
+                <text
+                  x={n.cx - CW / 2 + 10}
+                  y={n.cy - 3}
+                  fill="#0B0F0A"
+                  style="font-family:var(--font-mono);font-size:12px;font-weight:600"
+                >
+                  {lbl.type}
+                </text>
+                <text
+                  x={n.cx - CW / 2 + 10}
+                  y={n.cy + 13}
+                  fill="#4A5247"
+                  style="font-family:var(--font-mono);font-size:10px"
+                >
+                  {lbl.value}
+                </text>
+              </g>
+            );
+          })
+        }
 
         {/* agent node (step 4) */}
         <g class="st-reveal" data-from="4">
-          <rect
-            x={N.agent[0] - 24}
-            y={N.agent[1] - 9}
-            width="48"
-            height="18"
-            rx="3"
-            fill="#FFFFFF"
-            stroke="#2A3326"
-            stroke-width="1.2"></rect>
+          <rect x={agent[0] - 40} y={agent[1] - 14} width="80" height="28" rx="4" fill="#0B0F0A"
+          ></rect>
           <text
-            x={N.agent[0]}
-            y={N.agent[1] + 3}
+            x={agent[0]}
+            y={agent[1] + 4}
             text-anchor="middle"
-            fill="#0B0F0A"
-            style="font-family:var(--font-mono);font-size:8.5px">AGENT</text
-          >
-        </g>
-
-        {/* written status node (step 4) */}
-        <g class="st-reveal" data-from="4">
-          <circle cx={N.status[0]} cy={N.status[1]} r="6" fill="#95D600"></circle>
-          <text
-            x={N.status[0]}
-            y={N.status[1] + 16}
-            text-anchor="middle"
-            fill="#4C6E00"
-            style="font-family:var(--font-mono);font-size:8.5px">{short(d.nodes[5])}</text
+            fill="#FAFAF7"
+            style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em"
+            >{d.agentLabel}</text
           >
         </g>
       </svg>
@@ -233,7 +227,7 @@ const baseEdges = [
 
     {/* Lane 3 — agent action (browser wireframe) */}
     <div class="border-hairline bg-surface rounded-md border p-4">
-      <MonoLabel>AGENT ACTION</MonoLabel>
+      <MonoLabel>{d.laneAction}</MonoLabel>
       <div class="border-border mt-3 rounded-md border" aria-hidden="true">
         <div class="border-hairline text-meta border-b px-3 py-1.5 font-mono text-[0.7rem]">
           {d.browserUrl}
@@ -311,8 +305,7 @@ const baseEdges = [
     }
   </ol>
 
-  <p class="measure text-body-sm text-muted mt-4" data-structura-figcaption>{d.figcaption}</p>
-  <p class="visually-hidden" aria-live="polite" aria-atomic="true" data-structura-live></p>
+  <p class="measure text-body-sm text-muted mt-4">{d.figcaption}</p>
 
   <script
     type="application/json"

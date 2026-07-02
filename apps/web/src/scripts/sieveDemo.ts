@@ -12,6 +12,7 @@ interface Copy {
   presets: string[];
   docs: string[];
   nearest: string;
+  narrateIdle: string;
   liveSet: string;
   liveSearching: string;
   liveResult: string;
@@ -95,9 +96,32 @@ export function mount(el: HTMLElement): void {
     snapQuery(QUERY_ORIGIN[0], QUERY_ORIGIN[1]);
   };
 
+  // Idle state (no search yet) — invites the user to press Run.
+  const reset = () => {
+    clearTimers();
+    queryG.style.opacity = '0';
+    for (const L of leaders) L.style.strokeDashoffset = '1';
+    for (const h of halos) h.style.opacity = '0';
+    for (const c of chips) c.style.opacity = '0';
+    dots.forEach((c) => {
+      c.setAttribute('fill', '#C9CEC1');
+      c.setAttribute('r', '3.5');
+    });
+    rows.forEach((row) => {
+      const docCell = row.querySelector('[data-cell="doc"]');
+      const scoreCell = row.querySelector('[data-cell="score"]');
+      const nearCell = row.querySelector<HTMLElement>('[data-cell="nearest"]');
+      if (docCell) docCell.textContent = '—';
+      if (scoreCell) scoreCell.textContent = '';
+      if (nearCell) nearCell.style.display = 'none';
+    });
+    setLive(copy.narrateIdle);
+  };
+
   const resolve = (idx: number) => {
     const preset = PRESETS[idx];
     const q = toSvg(preset.qx, preset.qy);
+    queryG.style.opacity = '1';
     queryG.style.transform = `translate(${q[0]}px, ${q[1]}px)`;
     const nn = preset.neighbours;
     const nnSet = new Set(nn.map((n) => n.doc));
@@ -188,7 +212,12 @@ export function mount(el: HTMLElement): void {
 
   runBtn?.addEventListener('click', () => show(current));
   resetBtn?.addEventListener('click', () => {
-    setLive(copy.liveSet.replace('{q}', copy.presets[0]));
-    show(0);
+    current = 0;
+    setRadios(0);
+    setTokens(0);
+    reset();
   });
+
+  // Start idle on mount (the static/no-JS fallback shows the resolved P1 result).
+  reset();
 }

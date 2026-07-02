@@ -37,6 +37,10 @@ export const en: Content = {
     motifDesc:
       'Scattered vector nodes on a faint grid; a few lime nodes are joined by lime edges that resolve into the Causality brain-and-gear mark.',
     spec: {
+      labelFocus: 'FOCUS',
+      labelMode: 'MODE',
+      labelDeploy: 'DEPLOY',
+      labelBased: 'BASED',
       focus: 'Applied AI',
       mode: 'Bespoke + Products',
       deploy: 'Cloud or On-prem',
@@ -118,11 +122,17 @@ export const en: Content = {
       'How it deploys: SIEVE runs entirely inside your infrastructure. Your data store and the semantic index sit within a customer perimeter; queries resolve to their nearest neighbour in-place. Nothing crosses the boundary — there is no data egress.',
     perimeterLabel: 'CUSTOMER PERIMETER',
     egressLabel: 'NO DATA EGRESS',
+    perimeterDataStore: 'DATA STORE',
+    perimeterQuery: 'QUERY',
+    perimeterBlocked: 'blocked at perimeter',
     demo: {
       plateTitle: 'SIEVE · SEMANTIC SEARCH',
       badge: 'RUNNING LOCALLY · NO DATA LEAVES YOUR BROWSER',
       meter: '0 REQUESTS',
       presetsLabel: 'SAMPLE QUERY',
+      clusters: ['INFRASTRUCTURE', 'SEARCH', 'DATA PRIVACY', 'MULTIMODAL'],
+      narrateIdle:
+        'Pick a sample query, then press Run — SIEVE finds the closest documents by meaning.',
       presets: [
         'on-prem vector database',
         'find documents by meaning',
@@ -239,6 +249,11 @@ export const en: Content = {
       ctrlPause: 'Pause walkthrough',
       ctrlReplay: 'Replay walkthrough from start',
       hintKeyboard: 'Use arrow keys to step; the Play button toggles playback.',
+      laneInput: 'INPUT',
+      laneGraph: 'KNOWLEDGE GRAPH',
+      laneAction: 'AGENT ACTION',
+      agentLabel: 'AGENT',
+      extractChips: ['Supplier', 'Order', 'Quantity', 'Amount', 'Invoice'],
       figcaption:
         'How it flows: unstructured multimodal input is extracted into structured fields and relations, assembled into a queryable knowledge base, and handed to custom agents that read it, update it, and act on the web to automate daily work. The scenario shown is an illustrative example.',
     },

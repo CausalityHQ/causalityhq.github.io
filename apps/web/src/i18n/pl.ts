@@ -38,6 +38,10 @@ export const pl: Content = {
     motifDesc:
       'Rozproszone węzły wektorowe na delikatnej siatce; kilka limonkowych węzłów łączą limonkowe krawędzie, które układają się w znak marki Causality — mózg z kołem zębatym.',
     spec: {
+      labelFocus: 'OBSZAR',
+      labelMode: 'TRYB',
+      labelDeploy: 'WDROŻENIE',
+      labelBased: 'SIEDZIBA',
       focus: 'Stosowana AI',
       mode: 'Usługi + Produkty',
       deploy: 'Chmura lub on-premise',
@@ -127,11 +131,17 @@ export const pl: Content = {
       'Jak przebiega wdrożenie: SIEVE działa w całości wewnątrz Twojej infrastruktury. Magazyn danych i indeks semantyczny znajdują się w perymetrze klienta, a zapytania rozwiązywane są na miejscu. Nic nie przekracza granicy — nie ma eksportu danych.',
     perimeterLabel: 'PERYMETR KLIENTA',
     egressLabel: 'BRAK EKSPORTU DANYCH',
+    perimeterDataStore: 'MAGAZYN DANYCH',
+    perimeterQuery: 'ZAPYTANIE',
+    perimeterBlocked: 'zablokowane na granicy',
     demo: {
       plateTitle: 'SIEVE · WYSZUKIWANIE SEMANTYCZNE',
       badge: 'DZIAŁA LOKALNIE · ŻADNE DANE NIE OPUSZCZAJĄ PRZEGLĄDARKI',
       meter: '0 ŻĄDAŃ',
       presetsLabel: 'PRZYKŁADOWE ZAPYTANIE',
+      clusters: ['INFRASTRUKTURA', 'WYSZUKIWANIE', 'PRYWATNOŚĆ DANYCH', 'MULTIMODALNE'],
+      narrateIdle:
+        'Wybierz przykładowe zapytanie i naciśnij Uruchom — SIEVE znajdzie najbliższe dokumenty według znaczenia.',
       presets: [
         'baza wektorowa on-prem',
         'znajdź dokumenty według znaczenia',
@@ -251,6 +261,11 @@ export const pl: Content = {
       ctrlReplay: 'Odtwórz przewodnik od początku',
       hintKeyboard:
         'Użyj strzałek, aby przechodzić po krokach; przycisk Odtwórz przełącza odtwarzanie.',
+      laneInput: 'WEJŚCIE',
+      laneGraph: 'GRAF WIEDZY',
+      laneAction: 'DZIAŁANIE AGENTA',
+      agentLabel: 'AGENT',
+      extractChips: ['Dostawca', 'Zamówienie', 'Ilość', 'Kwota', 'Faktura'],
       figcaption:
         'Jak to przebiega: nieustrukturyzowane dane multimodalne są wydobywane do ustrukturyzowanych pól i relacji, składane w przeszukiwalną bazę wiedzy i przekazywane niestandardowym agentom, którzy ją czytają, aktualizują i działają w sieci, automatyzując codzienną pracę. Pokazany scenariusz jest przykładem ilustracyjnym.',
     },

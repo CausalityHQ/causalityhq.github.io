@@ -38,6 +38,14 @@ const fig = d.figcaptionTpl
   .replace('{s2}', scoreProse(P1.neighbours[1].score, locale))
   .replace('{n3}', d.docs[P1.neighbours[2].doc])
   .replace('{s3}', scoreProse(P1.neighbours[2].score, locale));
+
+// Topic-cluster zone labels so the 2D space reads as "documents grouped by meaning"
+const clusterLabels = [
+  { text: d.clusters[0], p: toSvg(23, 10) }, // infrastructure
+  { text: d.clusters[1], p: toSvg(53, 28) }, // search
+  { text: d.clusters[2], p: toSvg(27, 56) }, // data privacy
+  { text: d.clusters[3], p: toSvg(78, 18) }, // multimodal
+];
 ---
 
 <div
@@ -140,6 +148,17 @@ const fig = d.figcaptionTpl
         <text x="20" y="18" fill="#5F6659" style="font-family:var(--font-mono);font-size:10px"
           >{d.laneSpace}</text
         >
+
+        {/* topic-cluster zone labels */}
+        <g fill="#8A9182" style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.04em">
+          {
+            clusterLabels.map((c) => (
+              <text x={c.p[0]} y={c.p[1]} text-anchor="middle">
+                {c.text}
+              </text>
+            ))
+          }
+        </g>
 
         {/* leaders (query → nearest neighbours) */}
         <g
@@ -254,7 +273,14 @@ const fig = d.figcaptionTpl
     </ol>
   </div>
 
-  <p class="visually-hidden" aria-live="polite" aria-atomic="true" data-sieve-live></p>
+  <p
+    class="text-ink-700 text-body-sm mt-4 min-h-[1.5rem]"
+    aria-live="polite"
+    aria-atomic="true"
+    data-sieve-live
+  >
+    {d.narrateIdle}
+  </p>
 
   <script
     type="application/json"
@@ -265,6 +291,7 @@ const fig = d.figcaptionTpl
       presets: d.presets,
       docs: d.docs,
       nearest: d.nearest,
+      narrateIdle: d.narrateIdle,
       liveSet: d.liveSet,
       liveSearching: d.liveSearching,
       liveResult: d.liveResult,

@@ -30,6 +30,10 @@ export interface SieveDemo {
   badge: string;
   meter: string;
   presetsLabel: string;
+  /** 4 topic-cluster zone labels (infra, search, privacy, multimodal). */
+  clusters: string[];
+  /** Visible/announced narration lines: idle, searching, done template. */
+  narrateIdle: string;
   /** 4 query phrases; presets[0] must equal docs[0]. */
   presets: string[];
   /** 12 corpus labels (D1..D12). */
@@ -83,6 +87,12 @@ export interface StructuraDemo {
   ctrlReplay: string;
   hintKeyboard: string;
   figcaption: string;
+  laneInput: string;
+  laneGraph: string;
+  laneAction: string;
+  agentLabel: string;
+  /** 5 short field names shown during extraction. */
+  extractChips: string[];
 }
 
 export interface Content {
@@ -126,6 +136,10 @@ export interface Content {
     motifTitle: string;
     motifDesc: string;
     spec: {
+      labelFocus: string;
+      labelMode: string;
+      labelDeploy: string;
+      labelBased: string;
       focus: string;
       mode: string;
       deploy: string;
@@ -171,6 +185,9 @@ export interface Content {
     diagramSummary: string;
     perimeterLabel: string;
     egressLabel: string;
+    perimeterDataStore: string;
+    perimeterQuery: string;
+    perimeterBlocked: string;
     demo: SieveDemo;
   };
 

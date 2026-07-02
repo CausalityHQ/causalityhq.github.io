@@ -13,10 +13,10 @@ const { locale } = Astro.props;
 const t = getContent(locale);
 
 const specRows = [
-  ['FOCUS', t.hero.spec.focus],
-  ['MODE', t.hero.spec.mode],
-  ['DEPLOY', t.hero.spec.deploy],
-  ['BASED', t.hero.spec.based],
+  [t.hero.spec.labelFocus, t.hero.spec.focus],
+  [t.hero.spec.labelMode, t.hero.spec.mode],
+  [t.hero.spec.labelDeploy, t.hero.spec.deploy],
+  [t.hero.spec.labelBased, t.hero.spec.based],
 ];
 ---
 
