@@ -307,6 +307,22 @@ export const pl: Content = {
     h2: 'Zespół inżynierów i badaczy.',
     body: 'Jesteśmy zespołem doświadczonych inżynierów oprogramowania oraz badaczy uczenia maszynowego. Zmniejszamy lukę technologiczną między biznesem a nowoczesnym IT. Z nami zaimplementujesz rozwiązania State-of-the-Art w swoje codzienne procesy i rozwiniesz organizację, unikając długu technologicznego.',
     roster: ['Research', 'ML Engineering', 'Software Engineering', 'Produkt'],
+    teamLabel: 'ZESPÓŁ',
+    team: [
+      {
+        name: 'Roman Bartusiak',
+        role: 'Założyciel · Badania ML',
+        note: 'Publikujący badacz ML/NLP (indeks h 5); współtwórca LEPISZCZE — polskiego benchmarku NLP.',
+        linkedin: 'https://www.linkedin.com/in/romanbartusiak/',
+        scholar: 'https://scholar.google.com/citations?user=mk68epwAAAAJ&hl=en',
+      },
+      {
+        name: 'Krzysztof Sobota',
+        role: 'Inżynieria ML',
+        note: 'Senior ML engineer, AGH — realizacja naszych projektów B+R finansowanych z UE.',
+        linkedin: 'https://www.linkedin.com/in/sobota',
+      },
+    ],
   },
   approach: {
     tag: '§08 / PROCES',

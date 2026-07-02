@@ -2,31 +2,94 @@
 import { getContent, type Locale } from '../../i18n';
 import Section from '../Section.astro';
 import SectionHeader from '../SectionHeader.astro';
+import MonoLabel from '../MonoLabel.astro';
 
 interface Props {
   locale: Locale;
 }
 const { locale } = Astro.props;
-const t = getContent(locale);
+const a = getContent(locale).about;
+
+const linkCls =
+  'border-hairline text-ink-700 hover:border-border-strong hover:text-ink inline-flex items-center gap-1.5 rounded-sm border px-2.5 py-1.5 text-[0.75rem] font-medium transition-colors';
 ---
 
 <Section id="about" labelledby="about-h2">
-  <SectionHeader tag={t.about.tag} title={t.about.h2} id="about-h2" />
-  <div class="mt-6 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-start lg:gap-16">
-    <p class="measure text-lead text-ink-700" data-reveal>{t.about.body}</p>
-    <ul
-      class="flex flex-wrap gap-2 self-start lg:flex-col"
-      data-reveal
-      style="--reveal-delay:100ms"
-    >
-      {
-        t.about.roster.map((r) => (
-          <li class="border-hairline bg-surface text-ink inline-flex items-center gap-2 rounded-sm border px-3 py-2 text-[0.9rem] font-medium">
-            <span class="bg-lime h-1.5 w-1.5 shrink-0 rounded-full" aria-hidden="true" />
-            {r}
-          </li>
-        ))
-      }
-    </ul>
+  <SectionHeader tag={a.tag} title={a.h2} id="about-h2" />
+  <div class="mt-8 grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
+    {/* Story + disciplines */}
+    <div data-reveal>
+      <p class="measure text-lead text-ink-700">{a.body}</p>
+      <ul class="mt-6 flex flex-wrap gap-2">
+        {
+          a.roster.map((r) => (
+            <li class="border-hairline bg-surface text-ink-700 inline-flex items-center gap-2 rounded-sm border px-3 py-1.5 text-[0.8rem] font-medium">
+              <span class="bg-lime h-1.5 w-1.5 shrink-0 rounded-full" aria-hidden="true" />
+              {r}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    {/* Named team */}
+    <div data-reveal style="--reveal-delay:100ms">
+      <MonoLabel class="mb-4 block">{a.teamLabel}</MonoLabel>
+      <div class="grid gap-4 sm:grid-cols-2">
+        {
+          a.team.map((m) => (
+            <article class="border-hairline bg-surface flex flex-col rounded-md border p-5">
+              <MonoLabel>{m.role}</MonoLabel>
+              <h3 class="font-display text-ink mt-2 text-[1.35rem] leading-tight font-semibold">
+                {m.name}
+              </h3>
+              {m.note && <p class="text-body-sm text-muted mt-2 grow">{m.note}</p>}
+              <div class="mt-4 flex flex-wrap gap-2">
+                {m.linkedin && (
+                  <a
+                    href={m.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class={linkCls}
+                    aria-label={`${m.name} on LinkedIn (opens in a new tab)`}
+                  >
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9.5h4v11H3zM10 9.5h3.8v1.5h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1v6.45h-4v-5.72c0-1.36-.02-3.12-1.9-3.12-1.9 0-2.2 1.49-2.2 3.02v5.82h-4z" />
+                    </svg>
+                    LinkedIn
+                  </a>
+                )}
+                {m.scholar && (
+                  <a
+                    href={m.scholar}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class={linkCls}
+                    aria-label={`${m.name} on Google Scholar (opens in a new tab)`}
+                  >
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v3.32C5 17.88 8.13 19 12 19s7-1.12 7-2.5v-3.32l-7 3.82-7-3.82z" />
+                    </svg>
+                    Scholar
+                  </a>
+                )}
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
   </div>
 </Section>

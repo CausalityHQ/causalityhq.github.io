@@ -24,6 +24,16 @@ export interface ApproachStep {
   body: string;
 }
 
+/** A named team member for the About section. Name + profile URLs are
+ * locale-invariant; role and note are translated. */
+export interface TeamMember {
+  name: string;
+  role: string;
+  note?: string;
+  linkedin?: string;
+  scholar?: string;
+}
+
 /** One EU-funded R&D project (funding-disclosure page). Official titles,
  * programmes, numbers and amounts are locale-invariant; only `summary` is
  * translated. `fundingKind` selects the label (EU funding vs co-financing). */
@@ -275,6 +285,8 @@ export interface Content {
     h2: string;
     body: string;
     roster: string[];
+    teamLabel: string;
+    team: TeamMember[];
   };
 
   approach: {

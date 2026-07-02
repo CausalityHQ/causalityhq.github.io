@@ -285,6 +285,22 @@ export const en: Content = {
     h2: 'A team of researchers and engineers.',
     body: 'We are a group of experienced machine-learning researchers and software developers closing the gap between businesses and modern software solutions. Our services let you use state-of-the-art AI in daily work to grow the business — without pain.',
     roster: ['Research', 'ML Engineering', 'Software', 'Product'],
+    teamLabel: 'TEAM',
+    team: [
+      {
+        name: 'Roman Bartusiak',
+        role: 'Founder · ML Research',
+        note: 'Published ML/NLP researcher (h-index 5); co-creator of LEPISZCZE, the Polish NLP benchmark.',
+        linkedin: 'https://www.linkedin.com/in/romanbartusiak/',
+        scholar: 'https://scholar.google.com/citations?user=mk68epwAAAAJ&hl=en',
+      },
+      {
+        name: 'Krzysztof Sobota',
+        role: 'ML Engineering',
+        note: 'Senior ML engineer, AGH University — delivery across our EU-funded R&D projects.',
+        linkedin: 'https://www.linkedin.com/in/sobota',
+      },
+    ],
   },
 
   approach: {
