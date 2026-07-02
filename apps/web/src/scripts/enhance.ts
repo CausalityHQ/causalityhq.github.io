@@ -18,6 +18,20 @@ if (header) {
   window.addEventListener('scroll', onScroll, { passive: true });
 }
 
+// --- Mobile menu: close on link select or outside click -------------------
+const mobileMenu = document.querySelector<HTMLDetailsElement>('details.mobile-menu');
+if (mobileMenu) {
+  mobileMenu.addEventListener('click', (e) => {
+    if ((e.target as HTMLElement).closest('a')) mobileMenu.open = false;
+  });
+  document.addEventListener('click', (e) => {
+    if (mobileMenu.open && !mobileMenu.contains(e.target as Node)) mobileMenu.open = false;
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') mobileMenu.open = false;
+  });
+}
+
 // --- Reveal + draw-in -----------------------------------------------------
 const targets = document.querySelectorAll('[data-reveal], [data-draw]');
 

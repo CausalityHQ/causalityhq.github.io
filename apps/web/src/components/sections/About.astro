@@ -21,7 +21,10 @@ const t = getContent(locale);
     >
       {
         t.about.roster.map((r) => (
-          <li class="mono-label border-hairline bg-surface rounded-sm border px-3 py-2">{r}</li>
+          <li class="border-hairline bg-surface text-ink inline-flex items-center gap-2 rounded-sm border px-3 py-2 text-[0.9rem] font-medium">
+            <span class="bg-lime h-1.5 w-1.5 shrink-0 rounded-full" aria-hidden="true" />
+            {r}
+          </li>
         ))
       }
     </ul>

@@ -21,5 +21,6 @@ const frameColor = tone === 'forest' ? 'text-on-forest-muted' : 'text-muted';
 <div class:list={['flex flex-col', className]} data-reveal>
   <MonoLabel>{tag}</MonoLabel>
   <h2 id={id} class:list={['text-h2 mt-3 font-semibold', titleColor]}>{title}</h2>
-  {frame && <p class:list={['measure text-lead mt-4', frameColor]}>{frame}</p>}
+  <span class="bg-lime mt-4 block h-[3px] w-10" aria-hidden="true"></span>
+  {frame && <p class:list={['measure text-lead mt-5', frameColor]}>{frame}</p>}
 </div>
