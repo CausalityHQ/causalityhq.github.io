@@ -54,7 +54,7 @@ const rowsFor = (p: (typeof e.projects)[number]) => {
         <article class="border-hairline bg-surface relative rounded-md border p-6 md:p-8">
           <CornerTicks />
           {logotypes[i] && (
-            <div class="border-hairline mb-6 flex justify-center rounded-md border bg-white px-4 py-4 md:px-6">
+            <div class="border-hairline mb-6 flex justify-center border-b pb-6">
               <Image
                 src={logotypes[i]}
                 alt={e.coFunded}
@@ -67,14 +67,14 @@ const rowsFor = (p: (typeof e.projects)[number]) => {
           <MonoLabel>{`${locale === 'pl' ? 'PROJEKT' : 'PROJECT'} ${String(i + 1).padStart(2, '0')}`}</MonoLabel>
           <h2 class="text-h3 text-ink mt-3 max-w-[70ch] font-medium text-balance">{p.title}</h2>
 
-          <div class="mt-4 flex flex-col gap-3">
+          <div class="mt-4 flex max-w-[72ch] flex-col gap-3">
             {p.paragraphs.map((para) => (
               <p class="text-body text-muted">{para}</p>
             ))}
           </div>
 
           {p.tasks && (
-            <div class="mt-4">
+            <div class="mt-4 max-w-[72ch]">
               {p.tasksIntro && <p class="text-body text-ink-700 font-medium">{p.tasksIntro}</p>}
               <ol class="mt-3 flex flex-col gap-2.5">
                 {p.tasks.map((task, ti) => (
@@ -90,7 +90,7 @@ const rowsFor = (p: (typeof e.projects)[number]) => {
           )}
 
           {p.paragraphsAfter && (
-            <div class="mt-4 flex flex-col gap-3">
+            <div class="mt-4 flex max-w-[72ch] flex-col gap-3">
               {p.paragraphsAfter.map((para) => (
                 <p class="text-body text-muted">{para}</p>
               ))}

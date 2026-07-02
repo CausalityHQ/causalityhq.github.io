@@ -5,7 +5,7 @@
 export const BRAND = {
   siteUrl: 'https://causality.pl',
   email: 'research@causality.pl',
-  emailHref: 'mailto:research@causality.pl',
+  emailHref: 'mailto:research@causality.pl?subject=Hello%20Causality',
   emailHrefSieve: 'mailto:research@causality.pl?subject=SIEVE',
   emailHrefStructura: 'mailto:research@causality.pl?subject=STRUCTURA',
   productSieve: 'SIEVE',
