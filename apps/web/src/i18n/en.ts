@@ -6,10 +6,10 @@ export const en: Content = {
   meta: {
     title: 'Causality · Applied AI, research-grade software',
     description:
-      'Machine-learning researchers and software engineers who put state-of-the-art AI to work in your business. SIEVE for on-premise semantic search; STRUCTURA for structured extraction and agents.',
+      'Machine-learning researchers and software engineers who put advanced AI to work in your business. SIEVE for on-premise semantic search; STRUCTURA for structured extraction and agents.',
     ogTitle: 'Causality · Applied AI, research-grade software',
     ogDescription:
-      'ML researchers and software engineers putting state-of-the-art AI to work, on-premise capable.',
+      'ML researchers and software engineers putting modern AI to work, on-premise capable.',
     ogLocale: 'en',
     ogLocaleAlternate: 'pl',
   },
@@ -32,7 +32,7 @@ export const en: Content = {
   hero: {
     eyebrow: 'APPLIED AI · RESEARCH-GRADE SOFTWARE',
     h1: 'Close the gap between your business and modern AI.',
-    lead: 'We are machine-learning researchers and software engineers. We put state-of-the-art AI to work in your daily operations, so you grow without the pain.',
+    lead: 'We are machine-learning researchers and software engineers. We put research-grade AI to work in your daily operations, so you grow without the pain.',
     ctaPrimary: 'Talk to us',
     ctaSecondary: 'See the products',
     motifTitle: 'Causality: a semantic vector field forming a brain-and-gear silhouette',
@@ -65,7 +65,7 @@ export const en: Content = {
       {
         ref: 'SVC-01',
         title: 'Bespoke Applied-AI Software',
-        summary: 'State-of-the-art methods, engineered into your product and your workflows.',
+        summary: 'The latest research, engineered into your product and your workflows.',
         keys: ['custom models', 'integration', 'production-grade'],
         primary: true,
       },
@@ -84,7 +84,7 @@ export const en: Content = {
       {
         ref: 'SVC-04',
         title: 'Ready-to-Use Products',
-        summary: 'SIEVE and STRUCTURA: state-of-the-art AI your team can use today.',
+        summary: 'SIEVE and STRUCTURA: production-ready AI your team can use today.',
         keys: ['SIEVE', 'STRUCTURA', 'on-prem'],
       },
     ],
@@ -94,7 +94,7 @@ export const en: Content = {
     tag: '§04 / PRODUCTS',
     h2: 'Production-grade AI, ready on day one.',
     frame:
-      'SIEVE and STRUCTURA put state-of-the-art AI in your team’s hands today: search that understands meaning, and agents that turn your data into action. Deploy in the cloud or fully on your own infrastructure.',
+      'SIEVE and STRUCTURA put powerful AI in your team’s hands today: search that understands meaning, and agents that act on it for you. Deploy in the cloud or fully on your own infrastructure.',
   },
 
   ingest: {
@@ -283,7 +283,7 @@ export const en: Content = {
   about: {
     tag: '§07 / ABOUT',
     h2: 'A team of researchers and engineers.',
-    body: 'We are a group of experienced machine-learning researchers and software developers closing the gap between businesses and modern software solutions. Our services let you use state-of-the-art AI in daily work to grow the business, without pain.',
+    body: 'We are a group of experienced machine-learning researchers and software developers bringing modern AI within reach of the businesses that need it. Our services let you use advanced AI in daily work to grow the business, without the pain.',
     roster: ['Research', 'ML Engineering', 'Software', 'Product'],
     teamLabel: 'Research leaders',
     team: [
