@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MonoLabel from '../components/MonoLabel.astro';
+import Button from '../components/Button.astro';
+
+/**
+ * Branded 404. GitHub Pages serves /404.html for any unknown path, so this
+ * keeps the header/footer/nav and points people back to real destinations.
+ */
+---
+
+<BaseLayout
+  locale="en"
+  title="Page not found · Causality"
+  description="The page you’re looking for doesn’t exist."
+>
+  <section class="container-page flex min-h-[58vh] flex-col justify-center py-20 md:py-28">
+    <MonoLabel class="text-lime-text">ERROR 404</MonoLabel>
+    <h1 class="text-display text-ink mt-4 font-medium">This page isn’t here.</h1>
+    <p class="measure text-lead text-ink-700 mt-5">
+      The link may be broken, or the page may have moved. Let’s get you back on track.
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <Button href="/">Back to home</Button>
+      <Button variant="secondary" href="/products/">
+        See the products
+        <span aria-hidden="true">→</span>
+      </Button>
+    </div>
+  </section>
+</BaseLayout>
