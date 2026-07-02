@@ -98,6 +98,10 @@ export const pl: Content = {
   productsIntro: {
     tag: '§04 / PRODUKTY',
     h2: 'AI w standardzie produkcyjnym, gotowe od pierwszego dnia.',
+    learnMore: 'Dowiedz się więcej',
+    metaTitle: 'Produkty (SIEVE i STRUCTURA) · Causality',
+    metaDescription:
+      'SIEVE: wyszukiwanie semantyczne, które rozumie kontekst, z wdrożeniem w pełni on-premise. STRUCTURA: ekstrakcja danych i agenci działający w sieci. Zobacz, jak działają.',
     frame:
       'SIEVE i STRUCTURA oddają najnowocześniejsze AI w ręce Twojego zespołu: wyszukiwanie, które naprawdę rozumie kontekst, oraz autonomiczni agenci zmieniający surowe dane w akcje. Wdróż je w chmurze lub w pełni on-premise.',
   },

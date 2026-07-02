@@ -1,0 +1,26 @@
+---
+import { getContent, type Locale } from '../i18n';
+import MonoLabel from './MonoLabel.astro';
+import ProductSieve from './sections/ProductSieve.astro';
+import ProductStructura from './sections/ProductStructura.astro';
+
+/**
+ * Dedicated /products/ page: the full product detail (perimeter diagram, spec
+ * tables, and the scroll-through SIEVE + STRUCTURA demos) that used to sit on
+ * the landing page. The landing now carries only a short teaser.
+ */
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = getContent(locale);
+---
+
+<header class="container-page pt-16 pb-6 md:pt-24">
+  <MonoLabel>{t.productsIntro.tag}</MonoLabel>
+  <h1 class="text-display text-ink mt-4 font-medium">{t.productsIntro.h2}</h1>
+  <p class="measure text-lead text-ink-700 mt-5">{t.productsIntro.frame}</p>
+</header>
+
+<ProductSieve locale={locale} />
+<ProductStructura locale={locale} />

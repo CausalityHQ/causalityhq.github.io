@@ -225,6 +225,11 @@ export interface Content {
     tag: string;
     h2: string;
     frame: string;
+    /** Per-card link label on the landing teaser. */
+    learnMore: string;
+    /** Meta for the dedicated /products/ page. */
+    metaTitle: string;
+    metaDescription: string;
   };
 
   /** Shared "data ingestion" scene that opens both product demos. */

@@ -14,7 +14,7 @@
     "lint": "turbo run lint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "a11y": "node scripts/a11y.mjs http://localhost:4321/ http://localhost:4321/pl/ http://localhost:4321/eu-project/ http://localhost:4321/pl/eu-project/ http://localhost:4321/open-source/ http://localhost:4321/pl/open-source/",
+    "a11y": "node scripts/a11y.mjs http://localhost:4321/ http://localhost:4321/pl/ http://localhost:4321/products/ http://localhost:4321/pl/products/ http://localhost:4321/eu-project/ http://localhost:4321/pl/eu-project/ http://localhost:4321/open-source/ http://localhost:4321/pl/open-source/",
     "a11y:ci": "start-server-and-test 'pnpm --filter @causality/web preview --port 4321' http://localhost:4321 'pnpm a11y'",
     "lighthouse": "lhci autorun",
     "verify": "pnpm build && pnpm a11y:ci && pnpm lighthouse",

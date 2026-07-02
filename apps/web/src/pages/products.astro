@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Products from '../components/Products.astro';
+import { getContent } from '../i18n';
+
+const t = getContent('en');
+---
+
+<BaseLayout
+  locale="en"
+  activeNav="products"
+  path="products/"
+  title={t.productsIntro.metaTitle}
+  description={t.productsIntro.metaDescription}
+>
+  <Products locale="en" />
+</BaseLayout>

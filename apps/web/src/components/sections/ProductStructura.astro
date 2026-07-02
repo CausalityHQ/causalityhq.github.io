@@ -13,7 +13,7 @@ const { locale } = Astro.props;
 const t = getContent(locale);
 ---
 
-<Section id="structura" labelledby="structura-h3">
+<Section id="structura" labelledby="structura-h2">
   <div class="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-14">
     {/* Documentation */}
     <div data-reveal>
@@ -21,7 +21,7 @@ const t = getContent(locale);
       <p class="font-display text-ink mt-3 text-[1.25rem] font-bold tracking-[0.06em] uppercase">
         {t.structura.name}
       </p>
-      <h3 id="structura-h3" class="text-h3 text-ink mt-2 font-semibold">{t.structura.h3}</h3>
+      <h2 id="structura-h2" class="text-h3 text-ink mt-2 font-semibold">{t.structura.h3}</h2>
       <p class="measure text-ink-700 mt-4">{t.structura.body}</p>
       <div class="mt-7">
         <Button href={BRAND.emailHrefStructura} ariaLabel={t.structura.ctaAria}>

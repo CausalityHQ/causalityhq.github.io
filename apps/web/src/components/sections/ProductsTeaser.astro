@@ -1,0 +1,68 @@
+---
+import { getContent, localeHome, type Locale } from '../../i18n';
+import Section from '../Section.astro';
+import SectionHeader from '../SectionHeader.astro';
+import MonoLabel from '../MonoLabel.astro';
+import Button from '../Button.astro';
+import CornerTicks from '../CornerTicks.astro';
+
+/**
+ * Short products teaser for the landing page: two cards (SIEVE + STRUCTURA)
+ * with a one-line pitch each, linking to the dedicated /products/ page that
+ * carries the full detail (diagrams, spec tables, scroll-through demos).
+ */
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = getContent(locale);
+const home = localeHome(locale);
+
+const cards = [
+  { ...t.sieve, href: `${home}products/#sieve` },
+  { ...t.structura, href: `${home}products/#structura` },
+];
+---
+
+<Section id="products" labelledby="products-h2">
+  <SectionHeader
+    tag={t.productsIntro.tag}
+    title={t.productsIntro.h2}
+    id="products-h2"
+    frame={t.productsIntro.frame}
+  />
+
+  <div class="mt-10 grid gap-6 md:mt-12 md:grid-cols-2">
+    {
+      cards.map((c) => (
+        <article
+          class="border-hairline bg-surface relative flex flex-col rounded-md border p-6 md:p-8"
+          data-reveal
+        >
+          <CornerTicks />
+          <MonoLabel>{c.ref}</MonoLabel>
+          <p class="font-display text-ink mt-3 text-[1.25rem] font-bold tracking-[0.06em] uppercase">
+            {c.name}
+          </p>
+          <h3 class="text-h3 text-ink mt-1 font-semibold">{c.h3}</h3>
+          <p class="text-ink-700 mt-3 grow">{c.body}</p>
+          <a
+            href={c.href}
+            class="text-lime-text mt-6 inline-flex min-h-11 items-center gap-2 font-medium"
+            aria-label={`${t.productsIntro.learnMore}: ${c.name}`}
+          >
+            {t.productsIntro.learnMore}
+            <span aria-hidden="true">→</span>
+          </a>
+        </article>
+      ))
+    }
+  </div>
+
+  <div class="mt-8">
+    <Button variant="secondary" href={`${home}products/`}>
+      {t.hero.ctaSecondary}
+      <span aria-hidden="true">→</span>
+    </Button>
+  </div>
+</Section>

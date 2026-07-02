@@ -93,6 +93,10 @@ export const en: Content = {
   productsIntro: {
     tag: '§04 / PRODUCTS',
     h2: 'Production-grade AI, ready on day one.',
+    learnMore: 'Learn more',
+    metaTitle: 'Products (SIEVE & STRUCTURA) · Causality',
+    metaDescription:
+      'SIEVE: semantic search that understands meaning, deployable fully on-premise. STRUCTURA: structured extraction plus agents that act on the web. See how each works.',
     frame:
       'SIEVE and STRUCTURA put powerful AI in your team’s hands today: search that understands meaning, and agents that act on it for you. Deploy in the cloud or fully on your own infrastructure.',
   },
