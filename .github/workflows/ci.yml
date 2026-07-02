@@ -35,6 +35,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Install Chrome for Puppeteer (a11y + Lighthouse)
+        run: pnpm exec puppeteer browsers install chrome
+
       - name: Format check (Prettier)
         run: pnpm format:check
 
