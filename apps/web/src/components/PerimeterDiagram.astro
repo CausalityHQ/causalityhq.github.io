@@ -34,7 +34,7 @@ const mono = 'font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em'
 <figure class:list={['flex flex-col gap-4', className]}>
   <div class="border-hairline bg-surface-sunk relative w-full rounded-md border p-3" data-draw>
     <svg
-      viewBox="0 0 460 340"
+      viewBox="0 0 460 300"
       role="img"
       aria-labelledby="sieve-diagram-title sieve-diagram-desc"
       class="h-auto w-full"
@@ -43,15 +43,15 @@ const mono = 'font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em'
       <desc id="sieve-diagram-desc">{desc}</desc>
 
       {/* Perimeter label */}
-      <text x="20" y="30" fill="#4C6E00" style={mono}>{perimeterLabel}</text>
+      <text x="20" y="24" fill="#4C6E00" style={mono}>{perimeterLabel}</text>
 
       {/* Dashed lime customer perimeter (fades in) */}
       <rect
         class="draw-fade"
-        x="20"
-        y="42"
-        width="300"
-        height="278"
+        x="16"
+        y="34"
+        width="428"
+        height="204"
         rx="10"
         fill="none"
         stroke="#95D600"
@@ -59,62 +59,69 @@ const mono = 'font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em'
         stroke-dasharray="7 6"
         style="--fade-delay:200ms"></rect>
 
-      {/* Data store (cylinder) */}
+      {/* SIEVE + query labels */}
+      <text x="40" y="64" fill="#5F6659" style={mono}>SIEVE</text>
+      <text x="40" y="86" fill="#5F6659" style={mono}>{query}</text>
+
+      {/* Data store (cylinder), inside the perimeter */}
       <g fill="none" stroke="#2A3326" stroke-width="1.5">
-        <ellipse cx="92" cy="238" rx="40" ry="11" fill="#FFFFFF"></ellipse>
-        <path d="M52 238 V286 A40 11 0 0 0 132 286 V238"></path>
-        <path d="M52 262 A40 11 0 0 0 132 262" stroke="#C9CEC1"></path>
+        <ellipse cx="88" cy="140" rx="34" ry="10" fill="#FFFFFF"></ellipse>
+        <path d="M54 140 V184 A34 10 0 0 0 122 184 V140"></path>
+        <path d="M54 162 A34 10 0 0 0 122 162" stroke="#C9CEC1"></path>
       </g>
-      <text x="92" y="308" fill="#5F6659" text-anchor="middle" style={mono}>{dataStore}</text>
+      <text x="88" y="204" fill="#5F6659" text-anchor="middle" style={mono}>{dataStore}</text>
 
       {/* Feed from store into the index */}
-      <line x1="118" y1="228" x2="176" y2="170" stroke="#D6DACF" stroke-width="1"></line>
-
-      {/* SIEVE label */}
-      <text x="150" y="86" fill="#5F6659" style={mono}>SIEVE</text>
-      <text x="150" y="118" fill="#5F6659" style={mono}>{query}</text>
+      <line x1="120" y1="150" x2="236" y2="132" stroke="#D6DACF" stroke-width="1"></line>
 
       {/* Ambient index nodes */}
       <g fill="#C9CEC1">
-        <circle cx="258" cy="104" r="3"></circle>
-        <circle cx="205" cy="186" r="3"></circle>
-        <circle cx="278" cy="168" r="3"></circle>
-        <circle cx="232" cy="104" r="3"></circle>
+        <circle cx="300" cy="86" r="3"></circle>
+        <circle cx="356" cy="118" r="3"></circle>
+        <circle cx="330" cy="76" r="3"></circle>
+        <circle cx="320" cy="150" r="3"></circle>
       </g>
       <g stroke="#E3E6DE" stroke-width="1">
-        <line x1="232" y1="104" x2="258" y2="104"></line>
-        <line x1="205" y1="186" x2="238" y2="150"></line>
-        <line x1="278" y1="168" x2="238" y2="150"></line>
+        <line x1="300" y1="86" x2="330" y2="76"></line>
+        <line x1="356" y1="118" x2="300" y2="86"></line>
+        <line x1="320" y1="150" x2="300" y2="86"></line>
       </g>
 
       {/* Query node → nearest-neighbour vector (draws in), then lime node */}
-      <circle cx="158" cy="126" r="3.4" fill="#C9CEC1"></circle>
+      <circle cx="176" cy="108" r="3.4" fill="#C9CEC1"></circle>
       <line
         class="draw-path"
         pathLength="1"
-        x1="158"
-        y1="126"
-        x2="238"
-        y2="150"
+        x1="176"
+        y1="108"
+        x2="252"
+        y2="120"
         stroke="#95D600"
         stroke-width="2"
         stroke-linecap="round"
         style="--draw-delay:400ms"></line>
       <g class="draw-fade" style="--fade-delay:1000ms">
-        <circle cx="238" cy="150" r="5" fill="#95D600"></circle>
-        <circle cx="238" cy="150" r="9" fill="none" stroke="#95D600" stroke-width="1.2"></circle>
+        <circle cx="252" cy="120" r="5" fill="#95D600"></circle>
+        <circle cx="252" cy="120" r="9" fill="none" stroke="#95D600" stroke-width="1.2"></circle>
       </g>
 
-      {/* Blocked egress — ALWAYS visible (the message must not depend on motion) */}
-      <line x1="278" y1="196" x2="316" y2="196" stroke="#2A3326" stroke-width="1.5"></line>
-      <g stroke="#A31414" stroke-width="2.5" stroke-linecap="round">
-        <line x1="315" y1="188" x2="327" y2="204"></line>
-        <line x1="327" y1="188" x2="315" y2="204"></line>
+      {
+        /* Blocked egress — a query attempts to leave the perimeter (bottom edge)
+          and is blocked. ALWAYS visible; labels centred so translations fit. */
+      }
+      <line x1="252" y1="132" x2="252" y2="256" stroke="#2A3326" stroke-width="1.5"></line>
+      <g stroke="#A31414" stroke-width="2.6" stroke-linecap="round">
+        <line x1="244" y1="230" x2="260" y2="246"></line>
+        <line x1="260" y1="230" x2="244" y2="246"></line>
       </g>
-      <text x="336" y="192" fill="#2A3326" style={mono}>{egressLabel}</text>
-      <text x="336" y="207" fill="#5F6659" style="font-family:var(--font-mono);font-size:9.5px">
-        {blocked}
-      </text>
+      <text x="252" y="276" fill="#2A3326" text-anchor="middle" style={mono}>{egressLabel}</text>
+      <text
+        x="252"
+        y="291"
+        fill="#5F6659"
+        text-anchor="middle"
+        style="font-family:var(--font-mono);font-size:9.5px">{blocked}</text
+      >
     </svg>
   </div>
   <figcaption class="measure text-body-sm text-muted">{summary}</figcaption>
