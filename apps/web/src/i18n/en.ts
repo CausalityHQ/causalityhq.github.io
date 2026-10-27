@@ -407,6 +407,30 @@ export const en: Content = {
         funding: '4 181 246,47 PLN',
         fundingKind: 'cofinancing',
       },
+      {
+        title:
+          'Preparing documentation for the Flexsynth project under Horizon Europe (call: HORIZON-WIDERA-2025-02)',
+        paragraphs: [
+          'Causality S.A. is preparing and submitting a funding application for Flexsynth, a flexible method for generating high-quality video and time-series data from a small number of samples, under the EIC pre-accelerator – Widening call (HORIZON-WIDERA-2025-02). The proposed Flexsynth project aims to advance the solution from TRL 4 to TRL 5/6.',
+          'The Eurogrant concerns the development of a flexible, general-purpose method for generating high-quality, reliable video and time-series data for commercial machine-learning solutions.',
+        ],
+        tasksIntro: 'Preparing the application includes:',
+        tasks: [
+          'Producing a feasibility study (Business Plan) and technical, economic and financial analyses.',
+          'Conducting specialist technology analyses and a Freedom to Operate study.',
+        ],
+        paragraphsAfter: [
+          'The expected outcome is an invitation to negotiate a grant agreement or a “Seal of Excellence” certificate.',
+          '#FunduszeUE #FunduszeEuropejskie',
+        ],
+        beneficiary: 'Causality S.A.',
+        programme: 'Fundusze Europejskie dla Nowoczesnej Gospodarki 2021–2027',
+        action: 'Action 2.12: Granty na Eurogranty',
+        institution: 'Polish Agency for Enterprise Development (PARP)',
+        value: '110 852,00 PLN',
+        funding: '110 852,00 PLN',
+        fundingKind: 'eu',
+      },
     ],
   },
 

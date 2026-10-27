@@ -7,7 +7,7 @@ import logosFeng from '../assets/eu/logotypes-feng.png';
 import logosPoir from '../assets/eu/logotypes-poir.png';
 
 // Official EU/programme logotype strips, in the same order as `eu.projects`.
-const logotypes = [logosFeng, logosPoir];
+const logotypes = [logosFeng, logosPoir, logosFeng];
 
 /**
  * EU-funding disclosure page (/eu-project/). Datasheet-style cards, one per
@@ -28,8 +28,8 @@ const rowsFor = (p: (typeof e.projects)[number]) => {
     { label: e.beneficiaryLabel, value: p.beneficiary },
     { label: e.programmeLabel, value: p.programme },
     { label: e.actionLabel, value: p.action },
-    { label: e.numberLabel, value: p.number },
   ];
+  if (p.number) rows.push({ label: e.numberLabel, value: p.number });
   if (p.institution) rows.push({ label: e.institutionLabel, value: p.institution });
   rows.push({ label: e.valueLabel, value: p.value });
   rows.push({

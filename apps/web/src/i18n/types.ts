@@ -49,7 +49,7 @@ export interface EuProject {
   beneficiary: string;
   programme: string;
   action: string;
-  number: string;
+  number?: string;
   institution?: string;
   value: string;
   funding: string;
